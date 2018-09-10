@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E-Commerce</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <style>
+        img:hover{
+            opacity: 0.3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-sm navbar-dark bg-success mb-3">
+        <a class="navbar-brand" href="#">beliin</a>
+        <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
+            aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#" onclick="getCategory('all')">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoryDropdown" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">Category</a>
+                    <div class="dropdown-menu" aria-labelledby="categoryDropdown" id="categoryItems">
+                        <a href="#" class="dropdown-item">Smartphone</a>
+                        <a href="#" class="dropdown-item">Computer</a>
+                    </div>
+                </li>
+            </ul>
+
+            <button class="btn btn-success"> 5 <i class="fas fa-shopping-cart"></i> </button>
+            
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-3">
+                <input class="form-control mb-2" type="text" placeholder="Search">
+                <button class="btn btn-success float-right">Search</button>
+            </div>
+            <div class="col-sm-9">
+                <div class="row">
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4 col-md-4">
+                        <div class="card mb-3">
+                            <a href="https://placeholder.com"><img src="https://via.placeholder.com/250x250" class="card-img-top img-fluid"></a>
+                            <div class="card-body">
+                                <h4 class="card-title">Something Product</h4>
+                                <p class="card-text">Rp. 50.200,-</p>
+                                <button class="btn btn-outline-success" id="cart">Add To Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
