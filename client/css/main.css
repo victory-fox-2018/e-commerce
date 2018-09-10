@@ -203,12 +203,12 @@ nav {
   width: 250px;
   height: auto;
   border: 1px solid #cccccc;
-  cursor: pointer;
 }
 
 .recommend-item img {
   width: 100%;
   height: auto;
+  cursor: pointer;
 }
 
 .recommend-white {
@@ -247,6 +247,7 @@ nav {
   color: #333333;
   z-index: 9;
   position: inherit;
+  cursor: pointer;
 }
 
 .recommend-price {
