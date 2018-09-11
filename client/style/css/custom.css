@@ -122,6 +122,7 @@ header div.container ul li i.menu-horizontal:hover{
     background-color: white;
     color: #C30F42;
     border-radius: 10px;
+    cursor: pointer;
 }
 
 header div.container ul li#mydropdown a#mydropdownaccess{
@@ -151,6 +152,24 @@ header div.container ul li#mydropdown ul li:hover{
 header div.container ul li#mydropdown ul li i{
    font-size: 14px;
    color: #C30F42;
+}
+
+
+/* FOR LOGIN */
+
+header div.container ul#logedin{
+   margin-top: 8px;
+}
+
+header div.container ul li.login{
+    border: none;
+    padding: 10px 8px;
+    float: left;
+}
+
+header div.container ul li.login i{
+    font-size: 14px;
+    font-style: normal;
 }
 
 /*=====================================================
