@@ -26,20 +26,68 @@ class Controller {
         let obj = {
           id: user._id,
           name: user.name,
-          emial: user.email
+          email: user.email
         }
         
         jwt.sign(obj, process.env.JWT_SECRET, (err, token) => {
           if (err) {
             res.status(500).json({error: err.message})
           } else {
-            res.status(200).json({message: 'Login berhasil!', token: token})
+            res.status(200).json({message: 'Login berhasil!', token: token, userId: obj.id})
           }
         })
       })
       .catch(err => {
         res.status(500).json({error: err.message})
       })
+  }
+  
+  static findById(req, res) {
+    if (req.params.id === req.decoded.id) {
+      User.findById(req.params.id)
+        .then(user => {
+          res.status(200).json(user)
+        })
+        .catch(err => {
+          res.status(500).json({error: err.message})
+        })
+    } else {
+      res.status(403).json({error: 'You are not allowed to view this user!'})
+    }
+  }
+  
+  static update(req, res) {
+    if (req.params.id === req.decoded.id) {
+      if (req.body.password.length < 7 || req.body.password.length > 16) {
+        res.status(500).json({error: 'Password should be between 7 and 16 characters'})
+      }
+      
+      req.body.password = encrypt.hashPassword(req.body.password, req.decoded.email)
+
+      User.updateOne({_id: req.params.id}, req.body)
+        .then(() => {
+          res.status(200).json({message: 'User updated!'})
+        })
+        .catch(err => {
+          res.status(500).json({error: err.message})
+        })
+    } else {
+      res.status(403).json({error: 'You are not allowed to view this user!'})
+    }
+  }
+  
+  static remove(req, res) {
+    if (req.params.id === req.decoded.id) {
+      User.deleteOne({_id: req.params.id})
+        .then(() => {
+          res.status(200).json({message: 'User deleted!'})
+        })
+        .catch(err => {
+          res.status(500).json({error: err.message})
+        })
+    } else {
+      res.status(403).json({error: 'You are not allowed to view this user!'})
+    }
   }
   
 }

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/user')
+const {auth} = require('../helpers/auth')
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -10,5 +11,9 @@ router.get('/', function(req, res, next) {
 router.post('/register', userController.register)
 
 router.post('/login', userController.login)
+
+router.get('/:id', auth, userController.findById)
+router.put('/:id', auth, userController.update)
+router.delete('/:id', auth, userController.remove)
 
 module.exports = router;
