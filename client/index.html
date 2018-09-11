@@ -44,7 +44,7 @@
         </form>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item pt-1 pr-2">
-            <i class="nav-link fas fa-shopping-cart" data-toggle="modal" data-target="#exampleModal"></i> <label style="color: #809DB7;">{{ cart.length }}</label>
+            <i class="nav-link fas fa-shopping-cart" data-toggle="modal" data-target="#exampleModal"></i> <label style="color: #809DB7;">{{ quantity() }}</label>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Login</a>
@@ -75,10 +75,13 @@
                 <div class="container">
                   {{ item.name }}
                 </div>
+                <div class="container">
+                  <a href='#'><i class="fas fa-trash text-muted" v-on:click="deleteFromCart(item._id)"></i></a>
+                </div>
               </div>
               <div class="col-sm-4">
                 <p class="text-right" style="color: red;">{{ item.price }}</p>
-                <p class="text-right text-muted">1 Pcs</p>
+                <p class="text-right text-muted">{{ item.quantity }} Pcs</p>
               </div>
             </div>
           </div>
@@ -86,7 +89,7 @@
             <p>Sub-total: <b>Rp {{ totalPrice }}</b></p>
           </div>
           <div class="modal-footer" style="background-color: #003B6F;">
-            <button type="button" class="btn btn-outline-light ">Check Out</button>
+            <button type="button" class="btn btn-outline-light" v-on:click="checkout">Check Out</button>
           </div>
         </div>
       </div>
@@ -136,7 +139,14 @@
         cart: [],
         totalPrice: 0,
         allItems: [],
-        selectedCategory: ''
+        selectedCategory: '',
+        quantity: function() {
+          let total = 0;
+          this.cart.forEach(item => {
+            total += item.quantity
+          })
+          return total
+        }
       },
       methods: {
         addItems: function (itemObj) {
@@ -147,8 +157,26 @@
           this.categories.push(category)
         },
         addToCart: function(item) {
-          this.totalPrice += item.price
-          this.cart.push(item)
+          let inCart = false
+          for (let i = 0; i < this.cart.length; i++) {
+            if(this.cart[i]._id === item._id) {
+              inCart = true
+              this.cart[i].quantity += 1
+              this.totalPrice += item.price
+              break;
+            }
+          }
+
+          if (!inCart) {
+            item.quantity = 1
+            this.totalPrice += item.price
+            this.cart.push(item)
+          } 
+        },
+        deleteFromCart: function(itemId) {
+          var index = this.cart.findIndex(e => e._id === itemId);
+          this.totalPrice -= (this.cart[index].price * this.cart[index].quantity)
+          this.cart.splice(index,1)
         },
         sortCategory: function(category) {
           this.items = []
@@ -167,6 +195,30 @@
           this.items = []
           this.items = this.allItems
           this.selectedCategory = ''
+        },
+        checkout: function() {
+          let self = this
+          let arrCheckout = []
+          this.cart.forEach(item => {
+            arrCheckout.push(item._id)
+          })
+          
+          axios({
+            method: 'post',
+            url: 'http://localhost:3000/transactions',
+            data: {
+              user: '5b9770f65c9b280b867bbd41',
+              totalPrice: this.totalPrice,
+              items: arrCheckout
+            }
+          })
+            .then(transaction => {
+              self.cart = []
+              self.totalPrice = 0
+            })
+            .catch(err => {
+              console.log(err)
+            })
         }
       },
       created() {
@@ -177,12 +229,7 @@
         })
           .then(items => {
             for (let i = 0; i < items.data.data.length; i++) {
-              var obj = {
-                name: items.data.data[i].name,
-                price: items.data.data[i].price,
-                description: items.data.data[i].description
-              }
-              self.addItems(obj)
+              self.addItems(items.data.data[i])
             }
           })
           .catch(err => {
