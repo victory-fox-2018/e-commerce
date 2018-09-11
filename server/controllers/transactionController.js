@@ -20,9 +20,9 @@ module.exports = {
   },
   create: function(req,res) {
     Transaction.create({
-      user: req.body.userId,
+      user: req.body.user,
       items: req.body.items,
-      totalPrice: 0,
+      totalPrice: req.body.totalPrice,
       transactionDate: new Date()
     })
       .then(transaction => {
