@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const itemController = require('../controller/item')
+const itemCatController = require('../controller/itemCat')
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('INI API ITEMS')
-});
+
+router.get('/', itemCatController.getItemCat)
+router.post('/', itemCatController.create)
+router.patch('/')
 
 
 module.exports = router;

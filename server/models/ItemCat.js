@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
 const itemCatSchema = new mongoose.Schema({
-      name: String,
+      name: {
+        type: String,
+        required: true
+      },
       items : [{
           type : mongoose.Schema.Types.ObjectId,
           ref : 'Item'
