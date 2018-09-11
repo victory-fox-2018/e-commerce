@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="styles/index.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+        <div class="container-fluid">
+            <div class="navbar-header ">
+                <a class="navbar-brand" href="#"> <i class="fa fa-shopping-bag"></i> e-Commerce</a>
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-shopping-cart"></i> Cart <span class="badge badge-light">0</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <br><br>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Categories</div>
+                    <ul>
+                        <li><a href="#">Drink</a> </li>
+                        <li><a href="#">Electronic</a> </li>
+                        <li><a href="#">Food</a> </li>
+                        <li><a href="#">Kitchen</a> </li>
+                        <li><a href="#">Shirt</a> </li>
+                        <li><a href="#">Shoes</a> </li>
+                        <li><a href="#">Toys</a> </li>
+                        <li><a href="#">Others</a> </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="panel panel-default" id=items>
+                    <div class="panel-heading">Samsung Galaxy Note 9</div>
+                    <div class="panel-body">
+                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                        <p class="price">$800</p>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-dark btn-sm">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3" id=items>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Apple iPhone X</div>
+                    <div class="panel-body">
+                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                        <p class="price">$900</p>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-dark btn-sm">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3" id=items>
+                <div class="panel panel-default">
+                    <div class="panel-heading">HTC U11</div>
+                    <div class="panel-body">
+                        <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                        <p class="price">$600</p>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="button" class="btn btn-dark btn-sm">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <i class="fa fa-shopping-bag"></i> e-Commerce
+        </div>
+    </footer>
+    
+</body>
+</html>
