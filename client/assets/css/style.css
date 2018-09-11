@@ -42,19 +42,12 @@
   padding-left: 45px;
 }
 
-#items {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+.item {
+  margin-bottom: 30px;
 }
 
-.card-img-top {
-  height: 200px;
-}
-
-#cardItem {
-  padding-left: 0px;
+.btn-sm {
+  background-color: #003B6F;
 }
 
 footer p {
