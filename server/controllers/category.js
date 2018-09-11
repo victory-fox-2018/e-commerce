@@ -22,10 +22,16 @@ module.exports = {
 
     Category.findOne({_id: id})
     .then(category => {
-      res.status(200).json({
-        message: 'success get category by id',
-        category: category
-      });
+      if(!category) {
+        res.status(500).json({
+          message: 'no category data with this id'
+        });
+      } else {
+        res.status(200).json({
+          message: 'success get category by id',
+          category: category
+        });
+      }
     })
     .catch(err => {
       res.status(500).json({
@@ -54,10 +60,51 @@ module.exports = {
   },
 
   update: (req, res) => {
+    let id = objectId(req.params.id);
+    let input = {
+      name: req.body.name
+    }
 
+    Category.findOneAndUpdate({_id: id}, input)
+    .then(oldCategory => {
+      if(!oldCategory) {
+        res.status(500).json({
+          message: 'no category data with this id'
+        });
+      } else {
+        res.status(200).json({
+          message: 'success update category',
+          oldCategory: oldCategory
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
+    });
   },
 
   remove: (req, res) => {
+    let id = objectId(req.params.id);
 
+    Category.findOneAndRemove({_id: id})
+    .then(oldCategory => {
+      if(!oldCategory) {
+        res.status(500).json({
+          message: 'no category data with this id'
+        });
+      } else {
+        res.status(200).json({
+          message: 'success remove category',
+          oldCategory: oldCategory
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
+    });
   }
 }
