@@ -3,11 +3,30 @@ const Category = require('../models/category');
 const objectId = require('../helpers/objectId');
 
 module.exports = {
-  findAll: (req, res) => {
-    Category.find().populate('productId')
+  findAllwithCategory: (req, res) => {
+    let id = objectId(req.params.id);
+
+    Category.findOne({_id: id}).populate({
+      path: 'productId'
+    })
     .then(products => {
       res.status(200).json({
         message: 'success get all categories',
+        products: products
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
+    })
+  },
+
+  findAll: (req, res) => {
+    Product.find()
+    .then(products => {
+      res.status(200).json({
+        message: 'success get all products',
         products: products
       });
     })
