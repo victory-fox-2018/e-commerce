@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+        <link href="https://fonts.googleapis.com/css?family=Concert+One" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+        <title>SuperDuperHyperMarket</title>
+    </head>
+    <body>
+        <div class="container-fluid bg-white">
+            <div class="row">
+                <div class="col-sm-12 col-md-10 align-self-center text-center text-md-left my-sm-2" style="font-size: 30px; padding-left: 2.5vw">SuperDuperHyperMarket</div>
+                <div class="col-sm-12 col-md-2 align-self-center text-center my-sm-2">
+                    <a class="mx-3 logoInHead" data-toggle="tooltip" data-placement="bottom" title="Log In" href="#"><i class="fas fa-sign-in-alt" style="font-size: 30px"></i></a>
+                    <!-- <a class="mx-3 logoInHead" data-toggle="tooltip" data-placement="bottom" title="Your Favorites" href="#"><i class="fas fa-grin-hearts" style="font-size: 30px"></i></a> -->
+                    <a class="mx-3 logoInHead" data-toggle="modal" data-target="#cartModal" href="#"><i class="fas fa-shopping-cart" style="font-size: 30px"></i></a>
+                    
+                    <!-- Modal -->
+                    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="cartModalLabel">Cart</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-4">
+                                <div class="col-12 text-left"><strong>Product 1</strong></div>
+                                <div class="col-6 text-left">2xRp20.000</div>
+                                <div class="col-6 text-right"><strong>Rp40.000</strong></div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-12 text-left"><strong>Product 4</strong></div>
+                                <div class="col-6 text-left">3xRp10.000</div>
+                                <div class="col-6 text-right"><strong>Rp30.000</strong></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer align-self-center">
+                            <button type="button" class="cartBtn" data-dismiss="modal">Continue Shopping</button>
+                            <button type="button" class="cartBtn" data-dismiss="modal">Check Out</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <nav class="navbar navbar-expand navbar-dark bg-danger col-12">
+                    <div class="container-fluid pl-4">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#theNavbar">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+            
+                        <div class="collapse navbar-collapse" id="theNavbar">
+                            <ul class="navbar-nav mx-auto" style="font-size: 20px">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">All Products</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Best Selling Products</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">New Products</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Our Outlets</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="container-fluid" >
+            <div id="carouselExampleSlidesOnly" class="carousel slide mx-auto" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="https://source.unsplash.com/RwjciZ9JEfg/1050x462" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="https://source.unsplash.com/P3pGjjpL5SY/1050x462" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="https://source.unsplash.com/4_jhDO54BYg/1050x462" alt="Third slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleSlidesOnly" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleSlidesOnly" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>  
+        <div class='container-fluid mt-4'>
+            <div class="col-sm-12 col-md-10 align-self-center text-center text-md-left my-sm-2" style="font-size: 20px; padding-left: 2.5vw">All Products</div>
+            <div class="row no-gutters">
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 1</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 2</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 3</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 4</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 5</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 6</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 7</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 8</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 9</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 10</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 11</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 12</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row no-gutters">
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 13</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 14</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 15</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 16</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 17</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+                <div class="card col-6 col-md-4 col-lg-3 col-xl-2">
+                    <img class="card-img-top" src="https://via.placeholder.com/300x300" alt="Product Image">
+                    <div class="card-body">
+                        <h5 class="card-title">Product 18</h5>
+                        <p class="card-text">Some quick example text to build on the Product and make up the bulk of the card's content.</p>
+                        <a href="#" class="btn btn-danger">Add to Cart</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
