@@ -1,7 +1,8 @@
 const router = require('express').Router();
-const { findAll, create } = require('../controllers/product');
+const { findAll, findAllwithCategory, create } = require('../controllers/product');
 
 router.get('/', findAll);
+router.get('/category/:id', findAllwithCategory);
 router.post('/', create);
 // router.get('/:id', findById);
 // router.put('/:id', update);

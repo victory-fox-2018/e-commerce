@@ -14,28 +14,94 @@
     crossorigin="anonymous"></script>
   <!-- vue.js development version -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 <body>
   
   <div id="app">
 
-    <div class="modal-container">
+    <div class="modal-container" id="cart-modal">
       <div class="modal-content">
-        <h3 class="modal-title">Keranjang Belanja <span class="close">&times;</span></h3>
+        <h3 class="modal-title">Keranjang Belanja <span class="close" id="cart-close">&times;</span></h3>
         <hr>
-        <div id="cart-container">
-          <div>
-            <img src="./img/products/Anti_Gores_GoPro_Hero_5_Screen_Protector_Film_GoPro_Hero_5_B.jpg.webp" alt="Go Pro" class="cart-img">
-          </div>
-          <div>
-            <p class="cart-store">Havi Store</p>
-            <p class="cart-product">Go Pro5 Hero Black </p>
-            <input type="number" name="qty" id="cart-qty" value="1">
-          </div>
-          <div class="cart-price">Rp 37.500</div>
+
+        <div class="alert-danger" style="margin-top: 15px" v-if="cartMessage !== ''">
+          {{ cartMessage }}
         </div>
-        <p class="cart-total">Total Harga Barang: <span>Rp 37.500</span></p>
-        <button id="cart-btn">Lanjut ke Pembayaran</button>
+
+        <div id="cart-grid">
+
+          <div class="cart-item" v-for="item in cart">
+            <div>
+              <img src="https://via.placeholder.com/100x100" alt="Go Pro" class="cart-img">
+            </div>
+            <div>
+              <p class="cart-store">{{ item.seller }}</p>
+              <p class="cart-product">{{ item.name }}</p>
+              <input type="number" name="qty" class="cart-qty" value="1" disabled>
+            </div>
+            <div class="cart-price">Rp {{ item.price }}</div>
+          </div>
+
+        </div>
+        <p class="cart-total">Total Harga Barang: <span>Rp {{ totalPrice }}</span></p>
+        <button id="cart-btn" @click="checkout">Lanjut ke Pembayaran</button>
+      </div>
+    </div>
+
+    <div class="modal-container" id="signup-modal">
+      <div class="modal-content">
+        <h3 class="modal-title">Sign Up <span class="close" id="signup-close">&times;</span></h3>
+        <hr>
+        <p class="alert-danger" style="margin-top: 10px" v-if="signupData.message !== ''">
+          {{ signupData.message }}
+        </p>
+        <div>
+
+          <div class="input-group">
+            <label for="">Full Name</label>
+            <input type="text" id="signup-name" class="form-control" v-model="signupData.name">
+          </div>
+      
+          <div class="input-group">
+            <label for="">Email</label>
+            <input type="text" id="signup-email" class="form-control" v-model="signupData.email">
+          </div>
+      
+          <div class="input-group">
+            <label for="">Password</label>
+            <input type="password" id="signup-password" class="form-control" v-model="signupData.password">
+          </div>
+      
+          <div class="input-group">
+            <button type="button" class="button button-green" v-on:click="signupSubmit">Sign Up</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-container" id="signin-modal">
+      <div class="modal-content">
+        <h3 class="modal-title">Sign In <span class="close" id="signin-close">&times;</span></h3>
+        <p class="alert-danger" style="margin-top: 10px" v-if="signinData.message !== ''">
+          {{ signinData.message }}
+        </p>
+        <hr>
+        <div>
+          <div class="input-group">
+            <label for="">Email</label>
+            <input type="text" id="signin-email" class="form-control" v-model="signinData.email">
+          </div>
+    
+          <div class="input-group">
+            <label for="">Password</label>
+            <input type="password" id="signin-password" class="form-control" v-model="signinData.password">
+          </div>
+    
+          <div class="input-group">
+            <button type="button" class="button button-black" v-on:click="signinSubmit">Sign In</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -54,9 +120,10 @@
         <div></div>
 
         <div class="header-btn">
-          <a href="#" id="cart"><span class="fa fa-shopping-cart"></span></a>
-          <a href="#">Sign In</a>
-          <a href="#">Sign Up</a>
+          <a href="javascript:void(0)" id="cart"><span class="fa fa-shopping-cart"></span></a>
+          <a href="javascript:void(0)" id="signin-btn" v-if="!authenticationBtn">Sign In</a>
+          <a href="javascript:void(0)" id="signup-btn" v-if="!authenticationBtn">Sign Up</a>
+          <a href="javascript:void(0)" v-if="authenticationBtn" v-on:click="logout">Logout</a>
         </div>
       </div>
     </header>
@@ -82,40 +149,17 @@
           <h2>Category</h2>
       </div>
       <div class="container" id="category">
-        <category-item 
-          v-for="category in categories"
-          v-bind:category="category"></category-item>
-        
-        <!-- <div class="category-item">
-          <img src="./img/icons/coat.png" alt="Fashion">
+        <div class="loader-container" v-if="categories.length === 0">
+          <div class="loader"></div>
+        </div>
+
+        <div class="category-item" v-else v-for="category in categories" v-on:click="filterByCategory(category._id)">
+          <img src="https://via.placeholder.com/200x200" alt="Fashion">
           <p class="category-name">
-            Fashion
+            {{ category.name }}
           </p>
         </div>
-        <div class="category-item">
-          <img src="./img/icons/shoe.png" alt="Shoes">
-          <p class="category-name">
-            Shoes
-          </p>
-        </div>
-        <div class="category-item">
-          <img src="./img/icons/glasses.png" alt="Glasses">
-          <p class="category-name">
-            Glasses
-          </p>
-        </div>
-        <div class="category-item">
-          <img src="./img/icons/dollar.png" alt="Money Changer">
-          <p class="category-name">
-            Money Changer
-          </p>
-        </div>
-        <div class="category-item">
-          <img src="./img/icons/gift.png" alt="Gifts">
-          <p class="category-name">
-            Gifts
-          </p>
-        </div> -->
+
       </div>
     </section>
 
@@ -123,22 +167,31 @@
       
       <div class="container">
         <h2>Products</h2>
+        <h3 v-if="!loader">No products data</h3>
+        <div class="loader-container" v-if="products.length === 0 && loader">
+          <div class="loader" id="products-loader"></div>
+        </div>
       </div>
 
       <div class="container" id="recommendation-container">
 
-        <!-- <div class="recommend-item" v-for="product in products">
-          <img src="./img/products/Anti_Gores_GoPro_Hero_5_Screen_Protector_Film_GoPro_Hero_5_B.jpg.webp" alt="GoPro Hero5 Black">
+        <div class="recommend-item"
+          v-for="product in products">
+          <img src="https://via.placeholder.com/248x248" alt="GoPro Hero5 Black" 
+          v-on:click="addToCart(product._id, product.name, product.price, product.seller, product.area)">
+
+          <!--product.name,product.price,product.seller,product.area-->
+
           <div class="recommend-white">
-            <h3 class="recommend-name">
+            <h3 class="recommend-name" v-on:click="addToCart(product._id, product.name, product.price, product.seller, product.area)">
               {{ product.name }}
             </h3>
             <p class="recommend-price">
-                {{ product.price }}
+              Rp. {{ product.price }}
             </p>
             <div class="slide-to-top"></div>
           </div>
-
+    
           <div class="recommend-grey">
             <p class="recommend-seller">
               <span class="fa fa-cube"></span>{{ product.seller }}
@@ -147,117 +200,8 @@
               <span class="fa fa-map-marker"></span>{{ product.area }}
             </p>
           </div>
-        </div> -->
-
-        <product-item 
-          v-for="product in products"
-          v-bind:product="product"></product-item>
-
-        <!-- <div class="recommend-item">
-          <img src="./img/products/Anti_Gores_GoPro_Hero_5_Screen_Protector_Film_GoPro_Hero_5_B.jpg.webp" alt="GoPro Hero5 Black">
-          <div class="recommend-white">
-            <h3 class="recommend-name">
-              GoPro Hero5 Black
-            </h3>
-            <p class="recommend-price">
-              Rp. 15000
-            </p>
-            <div class="slide-to-top"></div>
-          </div>
-
-          <div class="recommend-grey">
-            <p class="recommend-seller">
-              <span class="fa fa-cube"></span>TokoGOPRO
-            </p>
-            <p class="recommend-area">
-              <span class="fa fa-map-marker"></span>Singkawang
-            </p>
-          </div>
         </div>
-        <div class="recommend-item">
-          <img src="./img/products/GOON_PANTS_M_32.jpg" alt="GOON Pants M">
-          <div class="recommend-white">
-            <h3 class="recommend-name">
-              GOON Pants M
-            </h3>
-            <p class="recommend-price">
-              Rp. 15000
-            </p>
-            <div class="slide-to-top"></div>
-          </div>
 
-          <div class="recommend-grey">
-            <p class="recommend-seller">
-              <span class="fa fa-cube"></span>TokoBayi
-            </p>
-            <p class="recommend-area">
-              <span class="fa fa-map-marker"></span>Bandung
-            </p>
-          </div>
-        </div>
-        <div class="recommend-item">
-          <img src="./img/products/Hair_Lotion_230_ml_tutup_putih_2.jpg.webp" alt="PURE Hair Lotion">
-          <div class="recommend-white">
-            <h3 class="recommend-name">
-              PURE Hair Lotion
-            </h3>
-            <p class="recommend-price">
-              Rp. 15000
-            </p>
-            <div class="slide-to-top"></div>
-          </div>
-
-          <div class="recommend-grey">
-            <p class="recommend-seller">
-              <span class="fa fa-cube"></span>TokoShampoo
-            </p>
-            <p class="recommend-area">
-              <span class="fa fa-map-marker"></span>Bekasi
-            </p>
-          </div>
-        </div>
-        <div class="recommend-item">
-          <img src="./img/products/image.jpg" alt="Pembatas">
-          <div class="recommend-white">
-            <h3 class="recommend-name">
-              Pembatas
-            </h3>
-            <p class="recommend-price">
-              Rp. 15000
-            </p>
-            <div class="slide-to-top"></div>
-          </div>
-
-          <div class="recommend-grey">
-            <p class="recommend-seller">
-              <span class="fa fa-cube"></span>TokoBayi
-            </p>
-            <p class="recommend-area">
-              <span class="fa fa-map-marker"></span>Jakarta
-            </p>
-          </div>
-        </div>
-        <div class="recommend-item">
-          <img src="./img/products/permainan_gigi_buaya_crocodile_dentist_finger_bite_running_m.jpg.webp" alt="Permainan Gigi Buaya">
-          <div class="recommend-white">
-            <h3 class="recommend-name">
-              Permainan Gigi Buaya
-            </h3>
-            <p class="recommend-price">
-              Rp. 15000
-            </p>
-            <div class="slide-to-top"></div>
-          </div>
-
-          <div class="recommend-grey">
-            <p class="recommend-seller">
-              <span class="fa fa-cube"></span>TokoMainan
-            </p>
-            <p class="recommend-area">
-              <span class="fa fa-map-marker"></span>Jakarta
-            </p>
-          </div>
-        </div> -->
       </div>
     </section>
 
@@ -271,77 +215,225 @@
     </footer>
   </div>
 
+  <div id="snackbar">Added to Cart</div>
+
   <script src="js/main.js"></script>
+  <script src="js/product-item.js"></script>
+  <script src="js/category-item.js"></script>
+  <script src="js/signin.js"></script>
+  <script src="js/signup.js"></script>
   <script>
-    // Component
-    Vue.component('product-item', {
-      props: ['product'],
-      template: `
-        <div class="recommend-item">
-          <img src="./img/products/Anti_Gores_GoPro_Hero_5_Screen_Protector_Film_GoPro_Hero_5_B.jpg.webp" alt="GoPro Hero5 Black">
-          <div class="recommend-white">
-            <h3 class="recommend-name" v-on:click="addToCart">
-              {{ product.name }}
-            </h3>
-            <p class="recommend-price">
-              Rp. {{ product.price }}
-            </p>
-            <div class="slide-to-top"></div>
-          </div>
-
-          <div class="recommend-grey">
-            <p class="recommend-seller">
-              <span class="fa fa-cube"></span>{{ product.seller }}
-            </p>
-            <p class="recommend-area">
-              <span class="fa fa-map-marker"></span>{{ product.area }}
-            </p>
-          </div>
-        </div>
-      `,
-      methods: {
-        addToCart: function() {
-          console.log('add product to cart...');
-        }
-      }
-    })
-
-    Vue.component('category-item', {
-      props: ['category'],
-      template: `
-        <div class="category-item">
-          <img src="./img/icons/coat.png" alt="Fashion">
-          <p class="category-name">
-            {{ category.name }}
-          </p>
-        </div>
-      `,
-      methods: {
-        
-      }
-    });
 
     let app = new Vue({
       el: '#app',
       data: {
-        products: [
-          { id: 1, name: 'Indomie Kuah', price: 9000, seller: 'tutupLapak', area: 'Jakarta' },
-          { id: 2, name: 'Indomie Goreng', price: 9000, seller: 'tutupLapak', area: 'Jakarta' },
-          { id: 3, name: 'Indomie Soto', price: 9000, seller: 'tutupLapak', area: 'Jakarta' },
-          { id: 4, name: 'Indomie Kari', price: 9000, seller: 'tutupLapak', area: 'Jakarta' }
-        ],
-        categories: [
-          { id: 1, name: 'Fashion' },
-          { id: 2, name: 'Shoes' },
-          { id: 3, name: 'Glasses' },
-          { id: 4, name: 'Money Changer'},
-          { id: 5, name: 'Gifts'}
-        ]
+        baseurl: 'http://localhost:3000',
+        products: [],
+        categories: [],
+        signupData: {
+          name: '',
+          email: '',
+          password: '',
+          message: ''
+        },
+        signinData: {
+          email: '',
+          password: '',
+          message: ''
+        },
+        cart: JSON.parse(localStorage.getItem('cart')),
+        cartMessage: '',
+        snackbarMessage: '',
+        loginned: false,
+        loader: true,
+        authenticationBtn: false
       },
       methods: {
-        // test: function() {
-        //   console.log('masuk');
-        // }
+
+        checkLogin: function() {
+          let token = localStorage.getItem('token');
+          let self = this;
+
+          axios({
+            method: 'post',
+            url: `${self.baseurl}/customers/checklogin`,
+            headers: {
+              token: token
+            }
+          })
+          .then(response => {
+            let data = response.data.user;
+
+            localStorage.setItem('id', data.id);
+            localStorage.setItem('email', data.email);
+
+            self.authenticationBtn = true;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        },
+
+        checkout: function() {
+          if(!localStorage.getItem('token')) {
+            this.cartMessage = 'Please login to checkout';
+          } else {
+            let self = this;
+
+            axios({
+              method: 'post',
+              url: `${self.baseurl}/cart/checkout`,
+              data: {
+                customerId: localStorage.getItem('id'),
+                cart: self.cart
+              }
+            })
+            .then(response => {
+              console.log(response.data);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+          }
+        },
+
+        addToCart: function(id, name, price, seller, area) {
+          let product = { id, name, price, seller, area };
+          let cart = JSON.parse(localStorage.getItem('cart'));
+
+          cart.push(product);
+          localStorage.setItem('cart', JSON.stringify(cart));
+          this.cart = cart;
+
+          showSnackbar();
+        },
+
+        filterByCategory: function(id) {
+          let self = this;
+
+          axios({
+            method: 'get',
+            url: `${self.baseurl}/products/category/${id}`
+          })
+          .then(response => {
+            let data = response.data.products.productId;
+
+            this.products = data;
+            this.loader = (data.length === 0) ? false : true;
+
+          })
+          .catch(err => {
+            console.log(err);
+          });
+        },
+
+        logout: function() {
+          localStorage.setItem('token', '');
+          this.authenticationBtn = false;
+        },
+
+        signinSubmit: function() {
+          let self = this;
+
+          self.signinData.message = '';
+
+          axios({
+            method: 'post',
+            url: `${self.baseurl}/customers/signin`,
+            data: {
+              email: self.signinData.email,
+              password: self.signinData.password
+            }
+          })
+          .then(response => {
+            let token = response.data.token;
+
+            localStorage.setItem('token', token);
+
+            self.checkLogin();
+
+            self.signinData.email = '';
+            self.signinData.password = '';
+
+            closeModal('#signin-modal');
+          })
+          .catch(err => {
+            self.signinData.message = err.message;
+          });
+        },
+
+        signupSubmit: function() {
+          let self = this;
+
+          self.signupData.message = '';
+
+          axios({
+            method: 'post',
+            url: `${self.baseurl}/customers/signup`,
+            data: {
+              name: self.signupData.name,
+              email: self.signupData.email,
+              password: self.signupData.password
+            }
+          })
+          .then(response => {
+            self.signupData.name = '';
+            self.signupData.email = '';
+            self.signupData.password = '';
+
+            closeModal('#signup-modal');
+            showModal('#signin-modal');  
+          })
+          .catch(err => {
+            self.signupData.message = err.message;
+          });
+        }
+      },
+      created: function() {
+        let self = this;
+
+        if(!localStorage.getItem('cart')) {
+          localStorage.setItem('cart', JSON.stringify([]));
+        }
+
+        axios({
+          method: 'get',
+          url: `${self.baseurl}/categories`
+        })
+        .then(categories => {
+          let data = categories.data.categories;
+          self.categories = data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+        axios({
+          method: 'get',
+          url: `${self.baseurl}/products`
+        })
+        .then(products => {
+          let data = products.data.products;
+          self.products = data;
+
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      },
+      computed: {
+        totalPrice: function() {
+          let totalPrice = 0;
+
+          if(this.cart.length !== 0) {
+            this.cart.forEach(item => {
+              totalPrice += item.price;
+            });
+            return totalPrice;
+          } else {
+            return totalPrice;
+          }
+        }
       }
     });
   </script>
