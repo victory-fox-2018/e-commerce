@@ -208,10 +208,6 @@
         passwordLogin: '',
       },
       methods: {
-        addItems: function (itemObj) {
-          this.items.push(itemObj)
-          this.allItems.push(itemObj)
-        },
         addCategories: function (category) {
           this.categories.push(category)
         },
@@ -247,7 +243,7 @@
               price: item.price,
               description: item.description
             }
-            this.addItems(obj)
+            this.items.push(obj)
           })
         },
         allCategory: function () {
@@ -342,7 +338,8 @@
         })
           .then(items => {
             for (let i = 0; i < items.data.data.length; i++) {
-              self.addItems(items.data.data[i])
+              this.items.push(items.data.data[i])
+              this.allItems.push(items.data.data[i])
             }
           })
           .catch(err => {
