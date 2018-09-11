@@ -5,6 +5,7 @@ const app = express();
 
 const categoryRoutes = require('./routes/category');
 const customerRoutes = require('./routes/customer');
+const productRoutes = require('./routes/product');
 
 mongoose.connect('mongodb://localhost:27017/shopping-cart', { useNewUrlParser: true });
 const db = mongoose.connection;
@@ -18,5 +19,6 @@ app.use(express.json());
 
 app.use('/categories', categoryRoutes);
 app.use('/customers', customerRoutes);
+app.use('/products', productRoutes);
 
 app.listen(process.env.PORT || '3000', () => console.log('Connected to server...'));
