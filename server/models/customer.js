@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const beautifyUnique = require('mongoose-beautiful-unique-validation');
 const Schema = mongoose.Schema;
 
 const customerSchema = new Schema({
@@ -8,8 +9,8 @@ const customerSchema = new Schema({
   },
   email: {
     type: String,
-    unique: true,
-    required: [true, 'Please fill customer email']
+    required: [true, 'Please fill customer email'],
+    unique: 'This email has been used'
   },
   password: {
     type: String,
@@ -22,6 +23,8 @@ const customerSchema = new Schema({
 }, {
   timestamps: true
 });
+
+customerSchema.plugin(beautifyUnique);
 
 const Customer = mongoose.model('Customer', customerSchema);
 module.exports = Customer;
