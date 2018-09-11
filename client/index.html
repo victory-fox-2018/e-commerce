@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E-Commerce</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="./style/css/custom.css">
+    <link rel="stylesheet" href="./style/css/normalize.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <!-- Start Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <div class="nav-left">
+                    <span><i></i>SagalaAya</span>
+                    <form class="form-inline" id="search">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </div>
+                <ul>
+                    <li><i class="fas fa-shopping-cart menu-horizontal"></i></li>
+                    <li><i class="fas fa-comment menu-horizontal"></i></li>
+                    <li><i class="fas fa-handshake menu-horizontal"></i></li>
+                    <li><i class="fas fa-bell menu-horizontal"></i></li>
+                    <li class="dropdown" id="mydropdown">
+                        <a href="#" class="dropdown-toggle" id="mydropdownaccess" data-toggle="dropdown" role="button"
+                            aria-haspopup="true" aria-expanded="false"><i class="fas fa-user menu-horizontal"></i>
+                            <span class="caret"></span></a>
+                        <ul class="dropdown-menu" id="dropdownMenu">
+                            <li><i class="fas fa-pen"></i> Update Profile</li>
+                            <li><i class="fas fa-sign-out-alt"></i> Logout</li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <div class="clearfix"></div>
+
+    <!-- Start Banner -->
+    <div class="container">
+        <div id="contentItem">
+            <div class="row">
+                <div class="col-3">
+                    <div class="list-group">
+                        <div class="list-group" id="list-tab" role="tablist">
+                            <a class="list-group-item list-group-item-action active" data-toggle="list" role="tab"
+                                aria-controls="home" id="barCategory">Category</a>
+                            <a class="list-group-item list-group-item-action" data-toggle="list" role="tab"
+                                aria-controls="home" id="barCategory">Laptop</a>
+                            <a class="list-group-item list-group-item-action" data-toggle="list" role="tab"
+                                aria-controls="home" id="barCategory">Kamera</a>
+                            <a class="list-group-item list-group-item-action" data-toggle="list" role="tab"
+                                aria-controls="home" id="barCategory">Headshet</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="row">
+                        <div class="col-md-4" id="boxItem">
+                            <div class="card" style="width: 16rem;">
+                                <img class="card-img-top" src="https://via.placeholder.com/350x300" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product Name</h5>
+                                    <p class="card-text">Cat : Mainan</p>
+                                    <p class="card-text">Rp 100.0000</p>
+                                    <a>Buy Item</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" id="boxItem">
+                            <div class="card" style="width: 16rem;">
+                                <img class="card-img-top" src="https://via.placeholder.com/350x300" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product Name</h5>
+                                    <p class="card-text">Cat : Mainan</p>
+                                    <p class="card-text">Rp 100.0000</p>
+                                    <a>Buy Item</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" id="boxItem">
+                            <div class="card" style="width: 16rem;">
+                                <img class="card-img-top" src="https://via.placeholder.com/350x300" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product Name</h5>
+                                    <p class="card-text">Cat : Mainan</p>
+                                    <p class="card-text">Rp 100.0000</p>
+                                    <a>Buy Item</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" id="boxItem">
+                            <div class="card" style="width: 16rem;">
+                                <img class="card-img-top" src="https://via.placeholder.com/350x300" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product Name</h5>
+                                    <p class="card-text">Cat : Mainan</p>
+                                    <p class="card-text">Rp 100.0000</p>
+                                    <a>Buy Item</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" id="boxItem">
+                            <div class="card" style="width: 16rem;">
+                                <img class="card-img-top" src="https://via.placeholder.com/350x300" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title">Product Name</h5>
+                                    <p class="card-text">Cat : Mainan</p>
+                                    <p class="card-text">Rp 100.0000</p>
+                                    <a>Buy Item</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Banner -->
+
+    <div class="clearfix"></div>
+
+
+</body>
+
+</html>
