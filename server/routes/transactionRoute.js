@@ -1,8 +1,9 @@
 const router = require('express').Router();
 const { showAll, create, erase } = require('../controllers/transactionController');
+const { auth } = require('../middlewares/auth');
 
 router.get('/', showAll);
-router.post('/', create);
+router.post('/', auth, create);
 router.delete('/', erase);
 // router.patch('/', edit);
 

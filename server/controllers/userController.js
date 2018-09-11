@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 module.exports = {
   showAll: function(req,res) {
@@ -68,5 +70,45 @@ module.exports = {
         })
       }
     })
+  },
+  login: function(req,res) {
+    User.find({ email: req.body.email }, function (err, user) {
+      if (!err) {
+        if (user.length !== 0) {
+          if (user[0].isRegisterViaFB) {
+            res.status(200).json({
+              message: 'please log in via Facebook'
+            })
+          } else {
+            if (bcrypt.compareSync(req.body.password, user[0].password)) {
+              jwt.sign({id: user[0]._id, name: user[0].name, email:user[0].email}, process.env.JWT_KEY, function(err, token) {
+                if (!err) {
+                  res.status(200).json({
+                    user: user[0].name,
+                    token: token
+                  })
+                } else {
+                  res.status(500).json({
+                    message: 'jwt.sign error'
+                  })
+                }
+              });
+            } else {
+              res.status(500).json({
+                message: 'wrong password!'
+              })
+            }
+          }
+        } else {
+          res.status(500).json({
+            message: 'you have not registered!'
+          })
+        }
+      } else {
+        res.status(500).json({
+          message: err
+        })
+      }
+    });
   }
 }

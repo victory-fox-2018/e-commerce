@@ -3,10 +3,12 @@ const Schema = mongoose.Schema;
 
 var transactionSchema = new Schema({
   user: {
-    type: Schema.Types.ObjectId, ref: 'User' 
+    type: Schema.Types.ObjectId, ref: 'User',
+    required: true
   },
   items: [{    
-    type: Schema.Types.ObjectId, ref: 'Item'   
+    type: Schema.Types.ObjectId, ref: 'Item',
+    required: true 
   }],
   totalPrice: {
     type: Number
