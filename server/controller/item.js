@@ -4,6 +4,7 @@ class Controller {
 
   static getItems(req, res) {
     Item.find()
+      .where('stock').gt(0)
       .then(items => {
         res.status(200).json(items)
       })

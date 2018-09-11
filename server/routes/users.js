@@ -16,4 +16,7 @@ router.get('/:id', auth, userController.findById)
 router.put('/:id', auth, userController.update)
 router.delete('/:id', auth, userController.remove)
 
+router.patch('/cart/:idItem', auth, userController.addCart)
+// router.patch('/checkout/:idUser', auth, userController.checkout)
+
 module.exports = router;

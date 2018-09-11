@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const Item = require('../models/Item')
 const jwt = require('jsonwebtoken')
 const encrypt = require('../helpers/encrypt')
 
@@ -45,6 +46,8 @@ class Controller {
   static findById(req, res) {
     if (req.params.id === req.decoded.id) {
       User.findById(req.params.id)
+        .populate('cart')
+        .populate('purchase')
         .then(user => {
           res.status(200).json(user)
         })
@@ -89,6 +92,31 @@ class Controller {
       res.status(403).json({error: 'You are not allowed to view this user!'})
     }
   }
+  
+  static addCart(req, res) {
+    User.updateOne({_id: req.decoded.id}, {$push: {cart: req.params.idItem}})
+      .then(() => {
+        res.status(200).json({message: 'Item added to cart!'})
+      })
+      .catch(err => {
+        res.status(500).json({error: err.message})
+      })
+  }
+  
+  // static checkout(req, res) {
+  //   User.findById(req.params.idUser)
+  //     .then(user => {
+  //       let carts = user.cart
+  // 
+  //       User.updateOne({_id: req.params.id}, {$pushAll: {purchase: carts}})
+  //         .then(() => {
+  // 
+  //         })
+  //     })
+  //     .catch(err => {
+  //       res.status(500).json({error: err.message})
+  //     })
+  // }
   
 }
 
