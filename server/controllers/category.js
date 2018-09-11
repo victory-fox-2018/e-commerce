@@ -5,7 +5,7 @@ module.exports = {
   findAll: (req, res) => {
     Category.find()
     .then(categories => {
-      res.status(201).json({
+      res.status(200).json({
         message: 'success get all categories',
         categories: categories
       });
@@ -18,9 +18,20 @@ module.exports = {
   },
 
   findById: (req, res) => {
-    let id = req.params.id;
+    let id = objectId(req.params.id);
 
-    Category.findOne({_id: id});
+    Category.findOne({_id: id})
+    .then(category => {
+      res.status(200).json({
+        message: 'success get category by id',
+        category: category
+      });
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
+    });
   },
 
   create: (req, res) => {
