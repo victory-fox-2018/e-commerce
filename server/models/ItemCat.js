@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const itemCatSchema = new mongoose.Schema({
       name: String,
       items : [{
-          type : Schema.Types.ObjectId,
+          type : mongoose.Schema.Types.ObjectId,
           ref : 'Item'
       }]
 })

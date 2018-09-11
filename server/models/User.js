@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validate = require('mongoose-validator');
 const uniqueValidator = require('mongoose-unique-validator');
+const encrypt = require('../helpers/encrypt')
 
 const nameValidator = [
     validate({
@@ -14,7 +15,7 @@ const passValidator = [
     validate({
         validator: 'isLength',
         arguments: [7, 16],
-        message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters',
+        message: 'Password should be between {ARGS[0]} and {ARGS[1]} characters',
       })
 ]
 
@@ -35,16 +36,21 @@ const userSchema = new mongoose.Schema({
         validate: passValidator
     },
     cart : [{
-        type : Schema.Types.ObjectId,
+        type : mongoose.Schema.Types.ObjectId,
         ref : 'Item'
     }],
     purchase : [{
-        type : Schema.Types.ObjectId,
+        type : mongoose.Schema.Types.ObjectId,
         ref : 'Item'
     }]
 }, {timestamps:true})
 
 userSchema.plugin(uniqueValidator)
+
+userSchema.pre('save', function(next) {
+  this.password = encrypt.hashPassword(this.password, this.email)
+  next()
+})
 
 const User = mongoose.model('User', userSchema)
 

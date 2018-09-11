@@ -2,6 +2,7 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+require('dotenv').config()
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -11,7 +12,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-mongoose.connect('mongodb://localhost/e-commerce')
+mongoose.connect('mongodb://localhost/e-commerce', { useNewUrlParser: true })
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
