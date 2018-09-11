@@ -42,6 +42,16 @@ class Controller {
         res.status(500).json({error: err.message})
       })
   }
+  
+  static findItemById(req, res) {
+    item.findOne({_id: req.params.id})
+      .then(item => {
+        res.status(200).json(item)
+      })
+      .catch(err => {
+        res,send(500).json({error: err.message})
+      })
+  }
 
 }
 

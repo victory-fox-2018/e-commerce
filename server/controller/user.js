@@ -1,5 +1,6 @@
 const User = require('../models/User')
 const Item = require('../models/Item')
+const Purchase = require('../models/Purchase')
 const jwt = require('jsonwebtoken')
 const encrypt = require('../helpers/encrypt')
 
@@ -34,7 +35,7 @@ class Controller {
           if (err) {
             res.status(500).json({error: err.message})
           } else {
-            res.status(200).json({message: 'Login berhasil!', token: token, userId: obj.id})
+            res.status(200).json({message: 'Login berhasil!', token: token, userId: obj.id, cart: user.cart, purchase: user.purchase})
           }
         })
       })
@@ -103,20 +104,16 @@ class Controller {
       })
   }
   
-  // static checkout(req, res) {
-  //   User.findById(req.params.idUser)
-  //     .then(user => {
-  //       let carts = user.cart
-  // 
-  //       User.updateOne({_id: req.params.id}, {$pushAll: {purchase: carts}})
-  //         .then(() => {
-  // 
-  //         })
-  //     })
-  //     .catch(err => {
-  //       res.status(500).json({error: err.message})
-  //     })
-  // }
+  static checkout(req, res) {
+    Purchase.insertMany(req.body)
+      .then(() => {
+        res.status(200).json({message: 'Item purchased!'})
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({error: err.message})
+      })
+  }
   
 }
 

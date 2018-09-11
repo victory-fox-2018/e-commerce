@@ -44,6 +44,17 @@ class Controller {
       })
   }
   
+  static findByName(req, res) {
+    ItemCat.findOne({name: req.params.name})
+      .populate('items')
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .cath(err => {
+        res.status(500).json({error: err.message})
+      })
+  }
+  
 }
 
 module.exports = Controller

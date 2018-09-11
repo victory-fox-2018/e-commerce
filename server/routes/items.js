@@ -8,5 +8,6 @@ router.get('/', itemController.getItems)
 router.post('/', auth, itemController.createItem)
 router.put('/:id', auth, itemController.updateItem)
 router.delete('/:id', auth, itemController.deleteItem)
+router.get('/:id', itemController.findItemById)
 
 module.exports = router;
