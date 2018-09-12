@@ -1,11 +1,46 @@
+const jwt = require('jsonwebtoken');
 const Customer = require('../models/Customer');
+const { encrypt } = require('../helpers/encrypt');
 
 module.exports = {
-  create: (req, res) => {
+  signin: (req, res) => {
+    // console.log(req.body);
+    Customer
+      .findOne({
+        email: req.body.email,
+        password: encrypt(req.body.password)
+      })
+      .then(customer => {
+        if(customer) {
+          const id = customer._id;
+          jwt.sign({
+            id,
+            name: customer.name,
+            email: customer.email
+          }, process.env.SECRET, (err, token) => {
+            res.status(200).json({
+              message: `Signin successfully`,
+              token,
+              userId: id,
+              name: customer.name
+            })
+          })
+        } else {
+          res.status(400).json({ message: 'User not found!' });
+        }
+      })
+      .catch(err => {
+        res.status(500).json({ message: err });
+      })
+
+    
+  },
+
+  signup: (req, res) => {
     const newItem = new Customer({
       name: req.body.name,
       email: req.body.email,
-      password: req.body.password,
+      password: encrypt(req.body.password),
       phone: req.body.phone
     });
 

@@ -68,6 +68,7 @@ module.exports = {
   read: (req, res) => {
     Item 
       .find({})
+      .populate('categoryId')
       .then(items => {
         res.status(200).json({ items });
       })

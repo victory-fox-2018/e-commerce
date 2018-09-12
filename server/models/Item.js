@@ -7,6 +7,8 @@ const itemSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category'
   },
+  description: String,
+  img: String,
   price: Number
 }, {timestamps: true});
 
