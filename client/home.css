@@ -1,0 +1,55 @@
+.navbar-link a {
+    font-size: 20px;
+    margin: 5px
+}
+
+a {
+    text-decoration: none;
+}
+
+#dropdownMenuButton {
+    width: 100%
+}
+
+.navbar {
+    max-height: 80px;
+}
+
+.col-md-4 {
+    margin-top: 20px;
+}
+
+.logo {
+    width: 150px;
+    height: 100px;
+    background-image: url("logo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.navbar .logo {
+    width: 90px;
+    height: 40px;
+    background-image: url("logo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+
+.navbar-link a {
+    color: white;
+}
+
+.navbar-link a:hover{
+    color: #0069D9;
+    text-decoration: none;
+
+}
+.navbar-link-right i, .cart{
+    color: white;
+}
+.cart {
+    font-size: 20px;
+}

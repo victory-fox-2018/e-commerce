@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Belanja In</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="home.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+        crossorigin="anonymous">
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+        crossorigin="anonymous"></script>
+    <!-- https://anvanto-auritique.myshopify.com/collections/t-shirts?sort_by=manual -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <span id="app">
+
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-dark bg-dark" style="background-color:#33363C;">
+            <div class="container">
+                <div class="navbar-link">
+                    <a href="/">HOME</a>
+                    <a href="#">ABOUT</a>
+                </div>
+                <div class="navbar-link-right">
+                    <a href="#" data-toggle="modal" data-target=".bd-transaction-modal-sm">
+                        <i class="fas fa-exchange-alt" style="margin:20px;"></i>
+                    </a>
+                    <div class="modal fade bd-transaction-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <div class="text-center" style="margin:20px;">
+                                    <b> YOUR TRANSACTION </b>
+
+                                    <div class="row">
+                                        <div class="col-md-6">Name</div>
+                                        <div class="col-md-6">Price</div>
+                                    </div>
+                                    <div v-for="(belanjaan, index) in transaction">
+                                        Transaction {{ index+1 }}
+                                        <div class="row" v-for="item in belanjaan.itemsId ">
+                                            <div class="col-md-6">{{ item.name }}</div>
+                                            <div class="col-md-6">{{ item.price }}</div>
+                                        </div>
+                                        Total Price: Rp.{{ belanjaan.totalPrice }}
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                    <a href="#" data-toggle="modal" data-target=".bd-cart-modal-sm">
+                        <i class="fa fa-shopping-cart"></i><span class="cart">{{ cart.length }}</span>
+                    </a>
+
+                    <div class="modal fade bd-cart-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <div class="text-center" style="margin:20px;">
+                                    <div class="row">
+                                        <div class="col-md-6">Name</div>
+                                        <div class="col-md-6">Price</div>
+                                    </div>
+                                    <div v-for="trolley in cart">
+                                        <div class="row">
+                                            <div class="col-md-6"> {{ trolley.name }} </div>
+                                            <div class="col-md-6"> {{ trolley.price }} </div>
+                                        </div>
+                                    </div>
+                                    Total Price: Rp.{{ totalPrice }} <br>
+                                    <button class="btn btn-primary" v-if="cart.length !==0" v-on:click="pay">PAY</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <i class="fas fa-user" style="color:white; margin:20px;"></i>
+                    <button id="logout" class="btn btn-primary" style="background-color:#33363C;" v-on:click="logout">Logout</button>
+                    <button type="button" id="login" class="btn btn-primary" data-toggle="modal" data-target=".bd-login-modal-sm">Login</button>
+
+                    <div class="modal fade bd-login-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <div class="text-center" style="margin:20px;">
+                                    <h1>Sign In</h1>
+                                    <div class="alert alert-danger" id="notification">
+                                        Incorrect email or password.
+                                    </div>
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Email address</label>
+                                            <input type="email" v-model="email" class="form-control" id="exampleInputEmail1"
+                                                aria-describedby="emailHelp" placeholder="Enter email">
+                                            <small id="emailHelp" class="form-text text-muted">We'll never share your
+                                                email with anyone else.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="password" v-model="password" class="form-control" id="exampleInputPassword1"
+                                                placeholder="Password">
+                                            <small class="form-text">
+                                                Dont have an account? <a href="/register">Register</a>
+                                            </small>
+                                        </div>
+                                    </form>
+                                    <button class="btn btn-primary" v-on:click="submitButton">Login</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" id="register" class="btn btn-primary" data-toggle="modal" data-target=".bd-register-modal-sm">Register</button>
+
+                    <div class="modal fade bd-register-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-md">
+                            <div class="modal-content">
+                                <div class="text-center" style="margin:20px;">
+                                    <h1>Register</h1>
+                                    <!-- <div class="alert alert-danger" id="notification">
+                                        Incorrect email or password.
+                                    </div> -->
+                                    <form>
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" v-model="name" class="form-control" id="name"
+                                                aria-describedby="emailHelp" placeholder="Enter name">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputEmail1">Email address</label>
+                                            <input type="email" v-model="email" class="form-control" id="exampleInputEmail1"
+                                                aria-describedby="emailHelp" placeholder="Enter email">
+                                            <small id="emailHelp" class="form-text text-muted">We'll never share your
+                                                email with anyone else.</small>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Password</label>
+                                            <input type="password" v-model="password" class="form-control" id="exampleInputPassword1"
+                                                placeholder="Password">
+                                            <small class="form-text">
+                                                Dont have an account? <a href="/register">Register</a>
+                                            </small>
+                                        </div>
+                                    </form>
+                                    <button class="btn btn-primary" v-on:click="submitButton('register')">Register</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <br>
+
+        <!-- SEARCH -->
+        <div class="container">
+            <div class="row">
+                <a href="/">
+                    <img src="logo.png">
+                </a>
+                <form class="form-inline my-2 my-lg-0" style="margin:10px">
+                    <div class="form-group">
+
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </div>
+                </form>
+                <!-- <img src="https://via.placeholder.com/600x200" style="width:600px;height: 200px;" alt=""> -->
+            </div>
+        </div>
+
+        <!-- CONTENT -->
+        <div class="container">
+            <div class="row">
+                <!-- KIRI -->
+                <div class="col-md-3">
+                    <div class="dropdown" style="margin:10px;">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color:#33363C;">
+                            Kategori
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#" v-on:click="getAllItems">All Categories</a>
+                            <a class="dropdown-item" href="#" v-for="category in categories" v-on:click="shortByCategory(category._id)">{{
+                                category.name }}</a>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- KANAN -->
+                <div class="col-md-9">
+                    <h3><b>Lorem Ipsum</b></h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                        labore
+                        et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
+                        ut
+                        aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                        cillum dolore eu fugiat nulla pariatur.
+                    </p>
+                    <hr>
+                    <div class="float-right">
+                        <div class="btn-group">
+                            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                Short By
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#" v-on:click="sortBy()">Featured</a>
+                                <a class="dropdown-item" href="#" v-on:click="sortBy('high')">Price, high to low</a>
+                                <a class="dropdown-item" href="#" v-on:click="sortBy('low')">Price. low to high</a>
+                            </div>
+                        </div>
+                    </div>
+                    <br> <br>
+
+                    <!-- CARD -->
+                    <div class="row">
+                        <div class="col-md-4" v-for="item in items">
+                            <div class="card-deck">
+                                <div class="card">
+                                    <img class="card-img-top" src="https://via.placeholder.com/300x200" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ item.name }}</h5>
+                                        <h6 class="card-title">Price Rp. {{ item.price }}</h6>
+                                        <p class="card-text">{{ item.description }}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <center>
+                                            <button type="button" class="btn btn-secondary" v-if="loginStatus"
+                                                v-on:click="addToCart(item._id, item.name, item.price)">Add To Cart</button>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="page-footer font-small blue pt-4" style="background-color:#33363C; color: white; margin-top: 50px;">
+            <div class="container-fluid text-center text-md-left">
+                <div class="row">
+                    <div class="col-md-6 mt-md-0 mt-3">
+                        <div class="logo"></div>
+                        <p>Belanja In menawarkan banyak barang berkualitas dan original.</p>
+                    </div>
+                    <hr class="clearfix w-100 d-md-none pb-3">
+                    <div class="col-md-3 mb-md-0 mb-3">
+
+                    </div>
+                    <div class="col-md-3 mb-md-0 mb-3">
+                        <h5 class="text-uppercase">Category</h5>
+                        <ul class="list-unstyled">
+                            <li>
+                                <a href="#!">Bicycle</a>
+                            </li>
+                            <li>
+                                <a href="#!">T shirts</a>
+                            </li>
+                            <li>
+                                <a href="#!">Pants</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright text-center py-3">© 2018 Copyright:
+                <a href="https://github.com/minzarddillah" target="_blank"> Minzard Dillah</a>
+            </div>
+
+        </footer>
+    </span>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="asset/index.js"></script>
+</body>
+
+</html>
