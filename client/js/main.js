@@ -19,6 +19,13 @@ function showSnackbar() {
   setTimeout(function(){ x.removeClass('show') }, 2000);
 }
 
+function showCheckoutSuccess() {
+  let x = $('#checkoutSuccess');
+  x.addClass('show');
+
+  setTimeout(function(){ x.removeClass('show') }, 2000);
+}
+
 $(document).ready(function() {
   $('#cart').click(function() {
     showModal('#cart-modal');
