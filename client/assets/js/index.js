@@ -1,4 +1,4 @@
-const base_url = 'http://localhost:3000'
+const base_url = 'http://api.ecommerce.skinborderevent.ml'
 const data = []
 const dataLocal = JSON.parse(localStorage.getItem('data'))
 
