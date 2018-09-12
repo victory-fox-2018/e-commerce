@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E-Commerce</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+    <link rel="stylesheet" href="./style/css/custom.css">
+    <link rel="stylesheet" href="./style/css/normalize.css">
+
+    <!-- Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://unpkg.com/sweetalert2@7.8.2/dist/sweetalert2.all.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- Start Header -->
+        <header>
+            <div class="container">
+                <nav>
+                    <div class="nav-left">
+                        <span><i></i>SagalaAya</span>
+                        <form class="form-inline" id="search">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <ul id="haveLogin" v-if="cekLogin">
+                        <li><i class="fas fa-shopping-cart menu-horizontal" data-toggle="modal" data-target="#checkoutModal"></i></li>
+                        <li><i class="fas fa-comment menu-horizontal"></i></li>
+                        <li><i class="fas fa-handshake menu-horizontal"></i></li>
+                        <li><i class="fas fa-bell menu-horizontal"></i></li>
+                        <li class="dropdown" id="mydropdown">
+                            <a href="#" class="dropdown-toggle" id="mydropdownaccess" data-toggle="dropdown" role="button"
+                                aria-haspopup="true" aria-expanded="false"><i class="fas fa-user menu-horizontal"></i>
+                                <span class="caret"></span></a>
+                            <ul class="dropdown-menu" id="dropdownMenu">
+                                <li><i class="fas fa-pen"></i> Update Profile</li>
+                                <li v-on:click="logoutUser()"><i v-on:click="logoutUser()" class="fas fa-sign-out-alt"></i> Logout</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul id="logedin" v-else>
+                        <li class="login"><i class="menu-horizontal" data-toggle="modal" data-target="#signinModal">Login</i></li>
+                        <li class="login"><i class="menu-horizontal" data-toggle="modal" data-target="#signupModal">Register</i></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <!-- End Header -->
+
+        <div class="clearfix"></div>
+
+        <!-- Start Banner -->
+        <div class="container">
+            <div id="contentItem">
+                <div class="row">
+                    <div class="col-3">
+                        <div class="list-group">
+                            <div class="list-group" id="list-tab" role="tablist">
+                                <a class="list-group-item list-group-item-action active" data-toggle="list" role="tab"
+                                    aria-controls="home" id="barCategory" v-on:click="getAllItems()">All Categories</a>
+                                <a class="list-group-item list-group-item-action" data-toggle="list" role="tab"
+                                    aria-controls="home" id="barCategory" v-on:click="getItemByCategory(category._id)"
+                                    v-for="category in categories"> {{ category.name }}</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-9">
+                        <div class="row">
+                            <div class="col-md-4" id="boxItem" v-for="(item, index) in items" :key="index">
+                                <div class="card" style="width: 16rem;">
+                                    <img class="card-img-top" src="https://via.placeholder.com/350x300" alt="Card image cap">
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ item.name }}</h5>
+                                        <p class="card-text">{{ item.category.name }}</p>
+                                        <p class="card-text">Rp {{ item.price }}</p>
+                                        <a v-on:click="getDataItemToCart(index)" v-if="cekLogin">Add To Chart</a>
+                                        <a data-toggle="modal" data-target="#signinModal" v-else>Login First</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- End Banner -->
+
+        <div class="clearfix"></div>
+
+        <!-- Modal Register-->
+        <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="signupModal"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Name</label>
+                            <div class="col-sm-10">
+                            <input v-model="name" type="text" class="form-control" placeholder="name">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Picture</label>
+                            <div class="col-sm-10">
+                            <input v-model="picture" type="text" class="form-control" placeholder="picture">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group  row">
+                            <legend class="col-form-label col-sm-2 pt-0">Gender</legend>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input v-model="gender" class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="male" checked>
+                                    <label class="form-check-label" for="gridRadios1">
+                                        Male
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input v-model="gender" class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="female">
+                                    <label class="form-check-label" for="gridRadios2">
+                                        Female
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+            
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                            <input v-model="address" type="text" class="form-control" placeholder="address">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Phone</label>
+                            <div class="col-sm-10">
+                            <input v-model="phoneNumber" type="text" class="form-control" placeholder="phone number">
+                            </div>
+                        </div>
+            
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                            <input v-model="email" type="email" class="form-control" placeholder="email">
+                            </div>
+                        </div>
+            
+                        <div class="form-group row">
+                            <label for="inputEmail3" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-10">
+                            <input v-model="password" type="password" class="form-control" placeholder="password">
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" v-on:click="signupUser()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+         <!-- Modal Login-->
+        <div class="modal fade" id="signinModal" tabindex="-1" role="dialog" aria-labelledby="signinModal"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+                        <div class="col-sm-10">
+                        <input v-model="email" type="email" class="form-control" placeholder="email">
+                        </div>
+                    </div>
+        
+                    <div class="form-group row">
+                        <label for="inputEmail3" class="col-sm-2 col-form-label">Password</label>
+                        <div class="col-sm-10">
+                        <input v-model="password" type="password" class="form-control" placeholder="password">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" v-on:click="signinUser()">Submit</button>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- Modal Checkout-->
+        <div class="modal fade" id="checkoutModal" tabindex="-1" role="dialog" aria-labelledby="checkoutModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Checkout</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Total Item</th>
+                                <th scope="col">Total Price</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(cart, index) in carts" :key="index">
+                                <tr>
+                                    <th scope="row">{{ index += 1 }}</th>
+                                    <td>{{ cart.name }}</td>
+                                    <td>Rp {{ cart.price }}</td>
+                                    <td>{{ cart.totalItem }}</td>
+                                    <td>Rp {{ cart.totalPrice }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" v-on:click="checkoutItem()">Checkout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./style/js/customvue.js"></script>
+    <script src="./style/js/customjquery.js"></script>
+
+
+</body>
+</html>
