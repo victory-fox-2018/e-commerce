@@ -50,10 +50,11 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal" v-if="!getToken()">Login</a>
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal" v-if="getToken()">Profile</a>
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#profileModal" v-if="getToken()">Profile</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#registerModal">Register</a>
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#registerModal" v-if="!getToken()">Register</a>
+            <a class="nav-link" href="#" v-if="getToken()" v-on:click="logout()">Logout</a>
           </li>
         </ul>
       </div>
@@ -150,6 +151,22 @@
       </div>
     </div>
 
+    <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Profile</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h3>{{ activeUser() }}'s Profile</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
     <div id="belowNavBar">
       <ul class="legend" id="indexAtas">
         <li><a href="#" style="color: #003B6F;" v-if="selectedCategory !== ''" v-on:click="allCategory">All Category</a></li>
@@ -207,6 +224,9 @@
         emailRegister: '',
         emailLogin: '',
         passwordLogin: '',
+        activeUser : function() {
+          return localStorage.getItem('user')
+        }
       },
       methods: {
         addCategories: function (category) {
@@ -291,6 +311,7 @@
           
         },
         register: function() {
+          let self = this
           axios({
             method: 'post',
             url: 'http://localhost:3000/users',
@@ -304,12 +325,14 @@
               self.nameRegister = ''
               self.emailRegister = ''
               self.passwordRegister = ''
+              window.location.reload()
             })
             .catch(err => {
               console.log(err)
             })
         },
         login: function() {
+          let self = this;
           axios({
             method: 'post',
             url: 'http://localhost:3000/users/login',
@@ -324,6 +347,8 @@
 
               localStorage.setItem('user', data.data.user)
               localStorage.setItem('token', data.data.token)
+
+              window.location.reload()
             })
             .catch(err => {
               console.log(err)
@@ -331,6 +356,11 @@
         },
         getToken: function() {
           return localStorage.getItem('token')
+        },
+        logout: function() {
+          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          window.location.reload()
         }
       },
       created() {
