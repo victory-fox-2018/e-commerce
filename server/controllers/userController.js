@@ -36,19 +36,14 @@ module.exports = {
     },
 
     signin: function(req,res){
+        // console.log(req.body)
         let user = null
         User.findOne({
             email : req.body.email
         })
         .then(function(dataUser){
             user = dataUser
-            if(dataUser){
-                return checkPassword(dataUser.password, req.body.password, req.body.email)
-            } else {
-                res.status(404).json({
-                    message : `Email and password didn't match`
-                })
-            }
+            return checkPassword(dataUser.password, req.body.password, req.body.email)
         })
         .then(function(){
             jwt.sign({
@@ -63,13 +58,13 @@ module.exports = {
                     })
                 } else {
                     res.status(500).json({
-                        error : err.message
+                        message : `Email and password didn't match`
                     })
                 }
             })
         })
         .catch(function(){
-            res.status(404).json({
+            res.status(500).json({
                 message : `Email and password didn't match`
             })
         })

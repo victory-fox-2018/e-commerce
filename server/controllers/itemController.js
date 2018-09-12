@@ -68,6 +68,16 @@ module.exports = {
             })
         })
 
+    },
+
+    filterByCategory: function(req,res){
+        Item.find({category : req.params.id})
+        .populate('category')
+        .then(function(items){
+            res.status(200).json({
+                items
+            })
+        })
     }
 
 }
