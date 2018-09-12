@@ -1,5 +1,5 @@
 const Item = require('./../models/item')
-//const objId= require('mongodb').ObjectID
+const objId= require('mongodb').ObjectID
 
 
 module.exports = {
@@ -27,6 +27,24 @@ module.exports = {
 
     findAll: function (req, res) {
         Item.find(function (err, data) {
+            if (!err) {
+                res.status(200).json({
+                    data: data
+                })
+            } else {
+                res.status(500).json({
+                    msg: err.message
+                })
+            }
+        })
+    },
+
+    filterAll: function (req, res) {
+        let input= {
+            categoryId: req.params.categoryId
+        }
+
+        Item.find(input, function (err, data) {
             if (!err) {
                 res.status(200).json({
                     data: data

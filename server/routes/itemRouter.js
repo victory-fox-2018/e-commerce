@@ -7,6 +7,7 @@ const itemController = require('./../controllers/itemController')
 
 router.post('/createOne', itemController.createOne)
 router.get('/findAll', itemController.findAll)
+router.get('/filterAll/:categoryId', itemController.filterAll)
 router.post('/updateOne/:id', itemController.updateOne)
 router.post('/deleteOne/:id', itemController.deleteOne)
 
