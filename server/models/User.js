@@ -35,7 +35,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required : true,
         validate: passValidator
-    }
+    },
+    purchase : [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Purchase'
+    }]
 }, {timestamps:true})
 
 userSchema.plugin(uniqueValidator)

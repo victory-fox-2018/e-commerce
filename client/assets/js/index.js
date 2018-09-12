@@ -160,38 +160,42 @@ var app = new Vue({
       let itemId = [] 
       let purchase = []
       let self = this
-      
-      this.Cart.forEach(cart => {
-        let obj = {
-          userId: userId,
-          itemId: cart._id,
-          qty: cart.qty,
-          totalPrice: cart.totalPrice
-        }
-        
-        itemId.push(cart._id)
-        purchase.push(obj)
-      })      
 
-      axios({
-        method: 'PATCH',
-        url: `${base_url}/api/users/checkout/${userId}`,
-        data: {
-          purchase,
-          itemId
-        },
-        headers: {
-          token: token
-        }
-      })
-        .then(() => {
-          self.totalPrice = 0
-          self.Cart = []
-          location.reload()
+      if (this.Cart.length === 0) {
+        alert('Cart anda kosong!')
+      } else {
+        this.Cart.forEach(cart => {
+          let obj = {
+            userId: userId,
+            itemId: cart._id,
+            qty: cart.qty,
+            totalPrice: cart.totalPrice
+          }
+          
+          itemId.push(cart._id)
+          purchase.push(obj)
+        })      
+
+        axios({
+          method: 'PATCH',
+          url: `${base_url}/api/users/checkout/${userId}`,
+          data: {
+            purchase,
+            itemId
+          },
+          headers: {
+            token: token
+          }
         })
-        .catch(error => {
-          console.log(error);
-        })
+          .then(() => {
+            self.totalPrice = 0
+            self.Cart = []
+            location.reload()
+          })
+          .catch(error => {
+            console.log(error);
+          })
+      }
     }
   },
   created() {
