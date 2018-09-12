@@ -130,8 +130,6 @@ var app = new Vue({
         }
       })
 
-      this.Item[itemIndex].stock -= 1
-
       let cartObj = {
         _id: this.Item[itemIndex]._id,
         name: this.Item[itemIndex].name,
@@ -158,7 +156,8 @@ var app = new Vue({
         this.Cart = this.Cart.slice(0)
       }
     },
-    checkout: function() {    
+    checkout: function() {   
+      let itemId = [] 
       let purchase = []
       let self = this
       
@@ -170,18 +169,23 @@ var app = new Vue({
           totalPrice: cart.totalPrice
         }
         
+        itemId.push(cart._id)
         purchase.push(obj)
       })      
 
       axios({
         method: 'PATCH',
         url: `${base_url}/api/users/checkout/${userId}`,
-        data: purchase,
+        data: {
+          purchase,
+          itemId
+        },
         headers: {
           token: token
         }
       })
         .then(() => {
+          self.totalPrice = 0
           self.Cart = []
           location.reload()
         })

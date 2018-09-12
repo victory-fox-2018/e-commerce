@@ -105,7 +105,19 @@ class Controller {
   }
   
   static checkout(req, res) {
-    Purchase.insertMany(req.body)
+    // console.log(req.body);
+    // req.body.itemId.forEach((id, index) => {
+    //   let beli = req.body.purchase[index].qty
+    // 
+    //   Item.updateOne({_id: id}, {$set: {stock: }})
+    //     .then(item => {
+    // 
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     })
+    // })
+    Purchase.insertMany(req.body.purchase)
       .then(() => {
         res.status(200).json({message: 'Item purchased!'})
       })
