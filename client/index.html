@@ -226,7 +226,7 @@
                     showByCategory: function(category) {
                         $.ajax({
                             type: 'POST',
-                            url: 'http://localhost:3000/products/sbc',
+                            url: 'http://e-commerce.ismailnagib.xyz/products/sbc',
                             data: {category: category}
                         })
                         .then(result => {
@@ -302,7 +302,7 @@
 
             function showNav() {
                 $.ajax({
-                    url: 'http://localhost:3000/categories'
+                    url: 'http://e-commerce.ismailnagib.xyz/categories'
                 })
                 .then(result => {
                     app2.categories = result.data
@@ -314,7 +314,7 @@
 
             function showAll() {
                 $.ajax({
-                    url: 'http://localhost:3000/products'
+                    url: 'http://e-commerce.ismailnagib.xyz/products'
                 })
                 .then(result => {
                     app1.title = 'All Products'
@@ -335,7 +335,7 @@
                 let token = response.authResponse.accessToken
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:3000/users/loginfb',
+                    url: 'http://e-commerce.ismailnagib.xyz/users/loginfb',
                     data: {accessToken: token}
                 })
                 .then(data => {
@@ -350,7 +350,7 @@
             function logIn() {
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:3000/users/login',
+                    url: 'http://e-commerce.ismailnagib.xyz/users/login',
                     data: {email: $('#email').val(), password: $('#password').val()}
                 })
                 .then(data => {
@@ -366,7 +366,7 @@
             function register() {
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:3000/users/register',
+                    url: 'http://e-commerce.ismailnagib.xyz/users/register',
                     data: {email: $('#email').val(), password: $('#password').val()}
                 })
                 .then(data => {
@@ -382,7 +382,7 @@
             if (localStorage.getItem('jwtToken')) {
                 $.ajax({
                     type: 'POST',
-                    url: 'http://localhost:3000/users/checklocalstorage',
+                    url: 'http://e-commerce.ismailnagib.xyz/users/checklocalstorage',
                     data: {jwtToken: localStorage.getItem('jwtToken')}
                 })
                 .then(data => {
