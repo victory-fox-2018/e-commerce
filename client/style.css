@@ -3,7 +3,7 @@
 }
 
 .logoInHead:hover {
-    color: red;
+    color: red !important;
 }
 
 .modalBtn {
