@@ -75,6 +75,20 @@ module.exports = {
       .catch(err => {
         res.status(500).json({ message: err });
       })
+  },
+
+  filter: (req, res) => {
+    Item
+    .find({ categoryId: req.params.categoryId })
+    .then(items => {
+      console.log(items);
+      
+      res.status(200).json({items});
+    })
+    .catch(err => {
+      res.status(500).json({message: err.message});
+    })
+    
   }
 
 };

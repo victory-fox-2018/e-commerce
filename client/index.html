@@ -5,16 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
+  <title>Borong-borong</title>
   <!-- bootstrap cdn -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
     crossorigin="anonymous">
 
-
   <!-- Bootstrap core CSS -->
-  <!-- <link href="boostraps/boostrap.min.css" rel="stylesheet"> -->
   <script src="jquery/jquery.min.js"></script>
-  <!-- <script src="boostraps/boostrap.min.css"></script> -->
 
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
@@ -24,15 +21,14 @@
   <!-- Custom styles for this template -->
   <link href="styles/custom.css" rel="stylesheet">
 
-
   <!-- font-awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
     crossorigin="anonymous">
 
   <!-- vue -->
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script> -->
 
+  <!-- axios -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.js"></script>
 
 </head>
@@ -42,7 +38,7 @@
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
-        <a class="navbar-brand" href="#">Letmesee</a>
+        <a class="navbar-brand" href="#">Borong-borong</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
           aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -50,30 +46,71 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
-              <a class="nav-link" href="#">Signin</a>
+              <a class="nav-link" v-if="!isLogin" @click="displayFormSignin()" href="JavaScript:Void(0)" data-toggle="modal" data-target="#signModal">Signin</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Signup</a>
+              <a class="nav-link" v-if="isLogin" @click="signout()" href="JavaScript:Void(0)">Signout</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="JavaScript:Void(0)" @click="displayFormSignup()" data-toggle="modal" data-target="#signModal">Signup</a>
             </li>
           </ul>
         </div>
       </div>
     </nav>
 
+    <div class="modal fade" id="signModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <!-- <i class="fas fa-user"></i> -->
+            <h4><i class="fas fa-user"></i></h4>
+            <h5 v-if="fSignin" class="modal-title" id="exampleModalLabel">Sign In</h5>
+            <h5 v-if="fSignup" class="modal-title" id="exampleModalLabel">Sign Up</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div v-if="fSignup" class="form-group">
+                <label for="name" class="col-form-label">Name:</label>
+                <input v-model="name" type="text" class="form-control" id="name">
+              </div>
+              <div class="form-group">
+                <label for="email" class="col-form-label">Email:</label>
+                <input v-model="email" type="text" class="form-control" id="email">
+              </div>
+              <div class="form-group">
+                <label for="password" class="col-form-label">Password:</label>
+                <input v-model="password" type="password" class="form-control" id="password"></input>
+              </div>
+              <div v-if="fSignup" class="form-group">
+                <label for="phone" class="col-form-label">Phone:</label>
+                <input v-model="phone" type="text" class="form-control" id="phone">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" @click="signin(email, password)">Signin</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Page Content -->
     <div class="container">
       <nav aria-label="breadcrumb" id="breadcrumb-nav">
         <ol class="breadcrumb">
-
-
           <form class="form-inline my-2 my-lg-0" style="float: right; position: relative; left: 600px;">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+            <div class="search">
+              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+            </div>
             <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target=".bd-example-modal-lg">
               <i class="fas fa-shopping-cart"></i>
             </button>
-            <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">Large modal
-            </button> -->
 
             <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-md">
@@ -88,21 +125,17 @@
                         <th scope="col">No</th>
                         <th scope="col">Item</th>
                         <th scope="col">Price</th>
-                        <th scope="col">Amount</th>
                         <th scope="col">Sub Total</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr v-for="item in wishlist">
-                        <th scope="row">1</th>
+                      <tr v-for="(item, index) in wishlist">
+                        <th scope="row">{{ index+1 }}</th>
                         <td>{{ item.name }}</td>
                         <td>{{ item.price }}</td>
-                        <td>{{ item.name.length }}</td>
-                        <td>{{ item.price * item.name.length }}</td>
-                        <!-- <td>@mdo</td> -->
+                        <td>{{ item.price }}</td>
                       </tr>
                       <tr>
-                        <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                         <th scope="col">Total Price</th>
@@ -110,18 +143,10 @@
                       </tr>
                     </tbody>
                   </table>
-
-                  <!-- <div>
-                      <button type="button" class="btn btn-primary">Checkout</button>
-                    <button type="button" class="btn btn-primary">Checkout</button>
-
-                  </div> -->
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Checkout</button>
-                    </div>
-
-                  
+                    <button type="button" class="btn btn-primary" @click="checkout(wishlist, totalPrice)">Checkout</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -143,8 +168,9 @@
           <div class="category">
 
             <div class="list-group">
-              <a href="#" class="list-group-item">All Category</a>
-              <a href="#" class="list-group-item" v-for="category in categories">{{ category.name }}</a>
+              <a href="http://localhost:8080/" class="list-group-item">All Category</a>
+              <a href="#" class="list-group-item" v-for="category in categories" @click="filterByCategory(category._id)">{{
+                category.name }}</a>
             </div>
           </div>
 
@@ -163,13 +189,10 @@
                   <h5>Rp. {{ item.price }} </h5>
                   <p class="card-text">{{ Object.values(item)[2].name }}</p>
                   <p class="card-text">{{ item.description }}</p>
-                  
-                  <button type="button" v-on:click="addCart(item)" class="btn-sm btn-primary"><i class="fas fa-cart-plus"></i></button>
-
+                  <button type="button" v-if="isLogin" v-on:click="addCart(item)" class="btn-sm btn-primary"><i class="fas fa-cart-plus"></i></button>
                 </div>
               </div>
             </div>
-
           </div>
           <!-- /.row -->
         </div>
@@ -184,7 +207,7 @@
     <!-- Footer -->
     <footer class="py-5 bg-dark">
       <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; Letmesee 2018</p>
+        <p class="m-0 text-center text-white">Copyright &copy; borong-borong 2018</p>
       </div>
       <!-- /.container -->
     </footer>
@@ -197,12 +220,19 @@
     var app = new Vue({
       el: '#app',
       data: {
+        name: '',
+        email: '',
+        password: '',
+        phone: '',
         categories: '',
-        items: '',
+        items: [],
         wishlist: [],
-        amount: 0,
-        subTotal: 0,
         totalPrice: 0,
+        idx: 0,
+        itemPerCategory: [],
+        isLogin: false,
+        fSignin: false,
+        fSignup: false,
       },
       created: function () {
         let self = this;
@@ -211,6 +241,10 @@
           url: 'http://localhost:3014/items'
         })
           .then(result => {
+            let token = localStorage.getItem('token');
+            if(token ){
+              this.isLogin = true;
+            }
             self.items = result.data.items;
           })
           .catch(err => {
@@ -229,10 +263,56 @@
           })
       },
       methods: {
+        signin: function(email, password) {
+          console.log(email, password);
+          axios.post('http://localhost:3014/customers/signin', { email, password })
+          .then(response => {
+            window.location.replace('/')
+            localStorage.setItem('token', response.data.token);
+          })
+          .catch(err => {
+            console.log(err);
+            
+          })
+
+        },
+
+        displayFormSignin: function () {
+          this.fSignin = true;
+          this.fSignup = false;
+        },
+
+        displayFormSignup: function() {
+          this.fSignup = true;
+          this.fSignin = false
+        },
+
+        signout() {
+          localStorage.removeItem('token');
+          window.location.replace('/')
+        },
+
+        filterByCategory: function (id) {
+          let self = this;
+          axios({
+            method: 'get',
+            url: `http://localhost:3014/items/${id}`
+          })
+            .then(result => {
+              // console.log('====>', result.data.items);
+              this.itemPerCategory = result.data.items;
+              this.items = result.data.items;
+              
+              // self.items = result.data.items;
+            })
+            .catch(err => {
+
+            });
+        },
+
         addCart: function (item) {
           this.wishlist.push(item)
-          let price = 0;
-
+          let price = item.price;
           for (let i = 0; i < this.wishlist.length - 1; i++) {
             if (this.wishlist[i]._id > this.wishlist[i + 1]._id) {
               let temp = this.wishlist[i];
@@ -243,18 +323,38 @@
           }
 
           for (let i = 0; i < this.wishlist.length - 1; i++) {
-            if (this.wishlist[i] === this.wishlist[i + 1]) {
-              this.amount++;
-            } else {
-              this.amount += i;
-            }
             price += this.wishlist[i].price
           }
           this.totalPrice = price;
 
-        }
-      }
+        },
 
+        checkout: function (wishlist, totalPrice) {
+          let itemsId = [];
+          wishlist.forEach(item => {
+            // console.log(item._id);
+            itemsId.push(item._id);
+
+          })
+          console.log(totalPrice);
+
+          axios({
+            method: 'post',
+            url: `http://localhost:3014/carts`,
+            data: { itemsId, totalPrice }
+          })
+            .then(result => {
+
+            })
+            .catch(err => {
+
+            })
+
+
+        }
+
+
+      }
 
     })
 

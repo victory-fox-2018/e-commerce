@@ -4,7 +4,7 @@ const { encrypt } = require('../helpers/encrypt');
 
 module.exports = {
   signin: (req, res) => {
-    // console.log(req.body);
+    console.log(req.body);
     Customer
       .findOne({
         email: req.body.email,
@@ -18,11 +18,10 @@ module.exports = {
             name: customer.name,
             email: customer.email
           }, process.env.SECRET, (err, token) => {
+            // console.log(token);
             res.status(200).json({
               message: `Signin successfully`,
               token,
-              userId: id,
-              name: customer.name
             })
           })
         } else {

@@ -8,7 +8,9 @@
   padding-top: 54px;
 }
 
-
+i.fas {
+  margin-right: 10px;
+}
 
 #breadcrumb-nav {
   margin-top: 20px;
