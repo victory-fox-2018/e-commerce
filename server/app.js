@@ -21,7 +21,7 @@ app.use('/users', usersRouter);
 app.use('/categories', categoriesRouter);
 app.use('/products', productsRouter);
 
-mongoose.connect(`mongodb://e-commerce-user:${process.env.MLAB_PASSWORD}@ds149672.mlab.com:49672/e-commerce-db`);
+mongoose.connect(`mongodb://e-commerce-user:${process.env.MLAB_PASSWORD}@ds149672.mlab.com:49672/e-commerce-db`, { useNewUrlParser: true });
 
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
