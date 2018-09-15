@@ -2,24 +2,26 @@ const Item = require('../models/items')
 
 const createItem = function (req, res) {
     let { name, description, price, category } = req.body
+    let image = req.file.originalname
     Item.create({
         name: name,
         description: description,
         price: price,
-        category: category
+        category: category,
+        image:req.file.originalname 
     })
-        .then(function (newItem) {
-            res.status(200).json({
-                message: "create item success",
-                data: newItem
-            })
+    .then(function (newItem) {
+        res.status(200).json({
+            message: "create item success",
+            data: newItem
         })
-        .catch(function (err) {
-            res.status(400).json({
-                message: "create item failed",
-                error: err.message
-            })
+    })
+    .catch(function (err) {
+        res.status(400).json({
+            message: "create item failed",
+            error: err.message
         })
+    })
 }
 
 const deleteItem = function (req, res) {
@@ -44,10 +46,6 @@ const deleteItem = function (req, res) {
                 error: err.message
             })
         })
-}
-
-const updateItem = function (req, res) {
-    
 }
 
 
