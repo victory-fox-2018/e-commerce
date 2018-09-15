@@ -1,0 +1,32 @@
+.brand-font {
+  font-family: 'Baloo Tammudu', cursive;
+}
+
+.quote-font {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 2.3em;
+  font-weight: 400;
+  text-align: center;
+  color: #666666;
+}
+
+.card {
+  margin: 15px;
+}
+
+.loader-container {
+  width: 100%;
+  height: 100%;
+  padding: 20px 0;
+}
+
+.loader {
+  margin: auto;
+  border: 7px solid #f3f3f3; /* Light grey */
+  border-top: 10px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-in-out;
+}
