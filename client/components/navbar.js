@@ -167,8 +167,8 @@ Vue.component('nav-bar', {
             </div>
         </nav>
     `,
+    // props:["token"],
     data: function(){
-
         return{
             token:false,
             loginName: '',
@@ -256,8 +256,9 @@ Vue.component('nav-bar', {
             if(newLogin){
                 this.token = true
                 this.$emit('check-token',this.token)
+            }else if(oldLogin){
+                this.token = false
             }
-
         }
     }
 })

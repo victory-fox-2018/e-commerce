@@ -1,9 +1,4 @@
 Vue.component('list-item', {
-    data: function () {
-        return {
-            count: 0
-        }
-    },
     template: `
     <div class="col-lg-4 col-md-4 mb-4" v-for="(item, index) in items" :key="index">
         <div class="card h-100">
@@ -21,6 +16,12 @@ Vue.component('list-item', {
         </div>
     </div>
     `,
+    props:["listItem"],
+    data: function () {
+        return {
+            count: 0
+        }
+    },
     methods: {
         getAllItem() {
             let self = this

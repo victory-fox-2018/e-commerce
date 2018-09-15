@@ -33,12 +33,10 @@
                 <div class="col-lg-3">
 
                     <h1 class="my-4">Shop Name</h1>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">Category 1</a>
-                        <a href="#" class="list-group-item">Category 2</a>
-                        <a href="#" class="list-group-item">Category 3</a>
-                        <a href="#" class="list-group-item">Create Item</a>
-                    </div>
+
+                    <!-- list-category -->
+                    <list-category v-on:items-category="items=$event"></list-category>
+                    <!-- list-category -->
 
                 </div>
                 <!-- /.col-lg-3 -->
@@ -72,26 +70,9 @@
                         </a>
                     </div>
 
-                    <div class="row">
                         <!-- list-item -->
-                        <div class="col-lg-4 col-md-4 mb-4" v-for="(item, index) in items" :key="index">
-                            <div class="card h-100">
-                                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        <a href="#">{{item.name}}</a>
-                                    </h4>
-                                    <h5>Rp.{{item.price.toLocaleString()}}</h5>
-                                    <p class="card-text">{{item.description}}</p>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="btn">Add to Cart</small>
-                                </div>
-                            </div>
-                        </div>
+                        <item-card :items="items" :token="token"></item-card>
                         <!-- list-item -->
-                    </div>
-                    <!-- /.row -->
 
                 </div>
                 <!-- /.col-lg-9 -->
@@ -104,16 +85,8 @@
         <footer-comp></footer-comp>
     </div>
 
-
-    <!-- Footer -->
-    <!-- <footer class="py-5 footer bg-info">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; Your Website 2017</p>
-        </div> -->
-        <!-- /.container -->
-    <!-- </footer> -->
-
-
+    <script src="./components//listCategory.js"></script>
+    <script src="./components/cardItem.js"></script>
     <script src="./components/navbar.js"></script>
     <script src="./components/footer.js"></script>
     <script src="index.js"></script>
