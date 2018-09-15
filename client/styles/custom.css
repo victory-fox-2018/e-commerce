@@ -1,0 +1,63 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+
+ body {
+  padding-top: 54px;
+}
+
+.top-nav {
+  background-color: #0084C6;
+}
+
+#logo {
+  width: 150px
+}
+
+#navbarResponsive ul li a {
+  color: white;
+}
+
+i.fas {
+  margin-right: 10px;
+}
+
+#breadcrumb-nav {
+  margin-top: 35px;
+}
+
+breadcrumb {
+  z-index: 10;
+  position: relative;
+}
+
+#breadcrumb-nav button {
+  color: #0084C6;
+  border: 1px solid #0084C6;
+  margin-right: 5px;
+  width: 44px;
+}
+
+
+li.breadcrumb-item {
+  font-weight: bold;
+}
+
+.category {
+  margin-top: -16px;
+}
+
+#slider img {
+  height: 300px;
+}
+
+@media (min-width: 992px) {
+  body {
+    padding-top: 56px;
+  }
+}
+
+/* randhania93@gmail.com */
+/* 083831784624 */
