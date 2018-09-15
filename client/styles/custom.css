@@ -8,6 +8,10 @@
   padding-top: 54px;
 }
 
+.top-nav {
+  background-color: #0084C6;
+}
+
 i.fas {
   margin-right: 10px;
 }
@@ -21,8 +25,16 @@ breadcrumb {
   position: relative;
 }
 
+li.breadcrumb-item {
+  font-weight: bold;
+}
+
 .category {
   margin-top: -16px;
+}
+
+#slider img {
+  height: 300px;
 }
 
 @media (min-width: 992px) {

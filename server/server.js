@@ -1,19 +1,15 @@
 require('dotenv').config();
 const express = require('express');
+const server = express();
 const cors = require('cors');
 const mongoose = require('mongoose');
-
-const server = express();
-const port = 3014;
 
 const categoryRoute = require('./routes/categories');
 const itemRoute = require('./routes/items');
 const customerRoute = require('./routes/customers');
 const cartRoute = require('./routes/carts');
 
-mongoose.connect('mongodb://imam:imam82@ds151382.mlab.com:51382/shopping-cart', {
-  useNewUrlParser: true
-});
+mongoose.connect(process.env.DB, { useNewUrlParser: true });
 
 server
   .use(cors())
@@ -27,6 +23,6 @@ server
   .use('/customers/', customerRoute)
   .use('/carts', cartRoute)
   
-server.listen(port, () => {
-  console.log(`Server running on ${port}`)
+server.listen(process.env.PORT || 3000, () => {
+  console.log(`Server running on ${process.env.PORT || 3000}`)
 });
