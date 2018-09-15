@@ -1,7 +1,7 @@
 Vue.component('navbar', {
   data() {
     return {
-      
+
     }
   },
   template: `
@@ -56,6 +56,88 @@ Vue.component('navbar', {
           </div>
         </div>
       </div>
+      
+      <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Sign In</p>
+            <button class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="field">
+              <p class="control has-icons-left has-icons-right">
+                <input class="input is-medium" type="email" placeholder="Email">
+                <span class="icon is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <!-- <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span> -->
+              </p>
+            </div>
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input is-medium" type="password" placeholder="Password">
+                <span class="icon is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </p>
+            </div>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-medium is-success">Sign In</button>
+            <button class="button is-medium">Cancel</button>
+          </footer>
+        </div>
+      </div>
+
+      <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Sign Up</p>
+            <button class="delete" aria-label="close"></button>
+          </header>
+          <section class="modal-card-body">
+            <div class="field">
+              <p class="control has-icons-left has-icons-right">
+                <input class="input is-medium" type="text" placeholder="Name">
+                <span class="icon is-left">
+                  <i class="fas fa-user"></i>
+                </span>
+                <!-- <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span> -->
+              </p>
+            </div>
+            <div class="field">
+              <p class="control has-icons-left has-icons-right">
+                <input class="input is-medium" type="email" placeholder="Email">
+                <span class="icon is-left">
+                  <i class="fas fa-envelope"></i>
+                </span>
+                <!-- <span class="icon is-small is-right">
+                  <i class="fas fa-check"></i>
+                </span> -->
+              </p>
+            </div>
+            <div class="field">
+              <p class="control has-icons-left">
+                <input class="input is-medium" type="password" placeholder="Password">
+                <span class="icon is-left">
+                  <i class="fas fa-lock"></i>
+                </span>
+              </p>
+            </div>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-medium is-success">Sign Up</button>
+            <button class="button is-medium">Cancel</button>
+          </footer>
+        </div>
+      </div>
+
     </nav>
   `
 });
