@@ -33,7 +33,7 @@ breadcrumb {
   position: relative;
 }
 
-#breadcrumb-nav button {
+#breadcrumb-nav #bc-list button {
   color: #0084C6;
   border: 1px solid #0084C6;
   margin-right: 5px;

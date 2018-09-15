@@ -9,14 +9,14 @@ module.exports = {
     jwt.verify(token, process.env.SECRET, (err, decode) => {
       console.log(decode);
       let totalPrice = 0;
-      if (typeof req.body == 'object') {
-        Item
-          .find({ _id: req.body.itemsId })
-          .then(datas => {
-            console.log(datas);
+      if (typeof req.body.data == 'object') {
+        // Item
+        //   .find({ _id: req.body.itemsId })
+        //   .then(datas => {
+        //     console.log(datas);
   
-            totalPrice += datas.price
-            if (i === itemsId.length - 1) {
+        //     totalPrice += datas.price
+        //     if (i === itemsId.length - 1) {
               Cart.create({
                 customerId: req.body.customerId,
                 listItem: itemsId,
@@ -30,21 +30,22 @@ module.exports = {
               .catch(err => {
                 res.status(500).json({ message: err });
               })
-            }
-          })
-          .catch(err => {
-            console.log(err);
+            // }
+          // })
+          // .catch(err => {
+          //   console.log(err);
   
-          })
+          // })
       } else {
-        Item
-          .findById(req.body.item)
-          .then(item => {
-            return Cart.create({
+        // Item
+        //   .findById(req.body.item)
+        //   .then(item => {
+        //     return 
+            Cart.create({
               customerId: req.body.customerId,
               listItem: req.body.item,
               totalPrice: item.price
-            })
+            // })
           })
           .then(result => {
             res.status(200).json({ message: `Success bought an item` });

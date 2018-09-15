@@ -112,10 +112,10 @@
               <input class="form-control mr-sm-2" type="search" placeholder="Pencarian" aria-label="Search">
             </div>
             <div id="bc-list">
-              <button class="btn  btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+              <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
             </div>
             <div id="bc-list">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target=".bd-example-modal-lg">
+              <button v-if="isLogin" class="btn btn-outline-success my-2 my-sm-0" type="button" data-toggle="modal" data-target=".bd-example-modal-lg">
                 <i class="fas fa-shopping-cart"></i>
               </button>
             </div>
@@ -372,8 +372,8 @@
             itemsId.push(item._id);
 
           })
-          // console.log(itemsId);
-          // console.log(totalPrice);
+          console.log(itemsId);
+          console.log(totalPrice);
 
           axios({
             method: 'post',
