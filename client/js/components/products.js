@@ -11,7 +11,7 @@ Vue.component('products', {
 
   },
   created() {
-    console.log(this.products);
+    
   },
   watch: {
     products(newVal) {
@@ -31,7 +31,7 @@ Vue.component('products', {
       <div class="container is-fullhd">
         <h2 class="title has-text-grey-dark">Products</h2>
         <div class="loader-container" v-if="parentProducts.length === 0 && showLoader">
-          <div class="loader" id="products-loader"></div>
+          <div class="loader"></div>
         </div>
         <p v-else-if="showEmptyMsg && !loader">No Products Data</p>
         <br>
