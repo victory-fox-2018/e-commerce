@@ -4,48 +4,43 @@ Vue.component('product-item', {
   data() {
     return {
       loader: true,
-      productsParent: []
+      empty: false,
+      productsParent: null
     }
   },
 
   watch: {
     products(newVal) {
-      console.log('prodict')
       this.productsParent = newVal
+      
+      console.log(this.productsParent, '<==== DATA');
+
+      if(this.productsParent.empty) {
+        this.loader = false;
+        this.empty = true;
+      } else {
+        loader = false;
+        empty = false;
+      }
     }
   },
 
   created() {
-    // console.log(productsParent, '<======= #1');
-    // console.log(this.products, '<================= #2');
-    // console.log($props.products, '<=============== #3');
-    // console.log(this.$props.products, '<=========== #4');
-
-    // if(products.length === 0) {
-    //   loader = true;
-    // } else {
-    //   loader = false;
-    // }
-
-    
-    
     this.productsParent = this.products;
-    console.log(this.productsParent)
-    console.log(this.products)
   },
   template: `
     <section id="recommendation">  
       <div class="container">
         <h2>Products</h2>
-        <h3>No products data</h3>
-        <div class="loader-container" v-if="loader">
+        <h3 v-if="empty && !loader">No products data</h3>
+        <div class="loader-container" v-if="loader && !empty">
           <div class="loader" id="products-loader"></div>
         </div>
       </div>
 
-      <div class="container" id="recommendation-container" v-else>
+      <div class="container" id="recommendation-container" v-if="!loader && !empty">
 
-        <div class="recommend-item" v-for="product in products">
+        <div class="recommend-item" v-for="product in products.data">
           <img src="https://via.placeholder.com/248x248" alt="Sample Image">
 
           <div class="recommend-white">

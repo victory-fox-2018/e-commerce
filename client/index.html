@@ -47,86 +47,10 @@
         <button id="cart-btn">Lanjut ke Pembayaran</button>
       </div>
     </div>
-    
-    <div class="modal-container" id="signup-modal">
-      <div class="modal-content">
-        <h3 class="modal-title">Sign Up <span class="close" id="signup-close">&times;</span></h3>
-        <hr>
-        <p class="alert-danger" style="margin-top: 10px">
-          <!-- {{ signupData.message }} -->
-        </p>
-        <div>
 
-          <div class="input-group">
-            <label for="">Full Name</label>
-            <input type="text" id="signup-name" class="form-control">
-          </div>
-      
-          <div class="input-group">
-            <label for="">Email</label>
-            <input type="text" id="signup-email" class="form-control">
-          </div>
-      
-          <div class="input-group">
-            <label for="">Password</label>
-            <input type="password" id="signup-password" class="form-control">
-          </div>
-      
-          <div class="input-group">
-            <button type="button" class="button button-green">Sign Up</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-container" id="signin-modal">
-      <div class="modal-content">
-        <h3 class="modal-title">Sign In <span class="close" id="signin-close">&times;</span></h3>
-        <p class="alert-danger" style="margin-top: 10px">
-          <!-- {{ signinData.message }} -->
-        </p>
-        <hr>
-        <div>
-          <div class="input-group">
-            <label for="">Email</label>
-            <input type="text" id="signin-email" class="form-control">
-          </div>
-    
-          <div class="input-group">
-            <label for="">Password</label>
-            <input type="password" id="signin-password" class="form-control">
-          </div>
-    
-          <div class="input-group">
-            <button type="button" class="button button-black">Sign In</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <header>
-      <div class="container" id="header">
-        
-        <div>
-          <a href="#" class="brand">TutupLapak</a>
-        </div>
-
-        <div class="search-container">
-          <input type="text" name="keyword">
-          <button type="submit"><span class="fa fa-search"></span></button>
-        </div>
-
-        <div></div>
-
-        <div class="header-btn">
-          <a href="javascript:void(0)" id="cart"><span class="fa fa-shopping-cart"></span></a>
-          <a href="javascript:void(0)" id="signin-btn">Sign In</a>
-          <a href="javascript:void(0)" id="signup-btn">Sign Up</a>
-          <a href="javascript:void(0)">Logout</a>
-        </div>
-      </div>
-    </header>
-
+    <signup :opensigninmodal="openSignInModalStat"></signup>
+    <signin></signin>
+    <main-header @open-sign-in-modal="openSignInModal"></main-header>
     <navbar></navbar>
 
     <div class="bg-white" id="main-quote">
@@ -143,6 +67,7 @@
   <div id="checkoutSuccess">Checkout Success !</div>
 
   <script src="js/main.js"></script>
+  <script src="js/header.js"></script>
   <script src="js/navbar.js"></script>
   <script src="js/product-item.js"></script>
   <script src="js/category-item.js"></script>
@@ -151,13 +76,19 @@
   <script src="js/footer.js"></script>
   <script>
 
-  const baseurl = 'http://localhost:3000';
+  const baseurl = 'http://localhost:3001';
 
   let app = new Vue({
     el: '#app',
     data: {
-      products: [],
-      categories: []
+      products: null,
+      categories: [],
+      openSignInModalStat: false
+    },
+    methods: {
+      openSignInModal() {
+        console.log('hello')
+      }
     },
     created: function() {
       let self = this;
@@ -168,7 +99,21 @@
       })
       .then(response => {
         let products = response.data.products;
-        self.products = products;
+        let send = {
+          data: products,
+          empty: false,
+          err: {
+            message: ''
+          } 
+        }
+
+        if(products.length === 0) {
+          send.empty = true;
+        } else {
+          send.empty = false;
+        }
+
+        self.products = send;
       })
       .catch(err => {
         console.log(err.response.data);
@@ -185,6 +130,11 @@
       .catch(err => {
         console.log(err.response.data);
       });
+    },
+    methods: {
+      openSignInModal() {
+        this.openSignInModalStat = true;
+      }
     }
   });
 
