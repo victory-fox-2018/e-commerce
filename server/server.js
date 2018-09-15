@@ -2,14 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const server = express();
 const cors = require('cors');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 
 const categoryRoute = require('./routes/categories');
 const itemRoute = require('./routes/items');
 const customerRoute = require('./routes/customers');
 const cartRoute = require('./routes/carts');
 
-mongoose.connect(process.env.DB, { useNewUrlParser: true });
+// mongoose.Promise = global.Promise;
+mongoose.connect(process.env.DB, { useNewUrlParser: true }); 
+// mongoose.connect('mongodb://imam:imam82@ds151382.mlab.com:51382/shopping-cart', {useNewUrlParser: true});
 
 server
   .use(cors())
