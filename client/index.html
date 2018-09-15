@@ -1,144 +1,242 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TutupLapak - Cepat Laku, Cepat Tutup</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Tutup Lapak - Cepat Laku Cepat Tutup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu" rel="stylesheet">
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
   
-  <div id="app">
+  <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
+    <div class="container is-fullhd">
+      <div class="navbar-brand">
+        <a href="javascript:void(0)" class="navbar-item title">TutupLapak</a>
+      </div>
+      <a href="javascript:void(0)" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
 
-    <div class="modal-container" id="cart-modal">
-      <div class="modal-content">
-        <h3 class="modal-title">Keranjang Belanja <span class="close" id="cart-close">&times;</span></h3>
-        <hr>
-
-        <div class="alert-danger" style="margin-top: 15px">
-          <!-- {{ cartMessage }} -->
-        </div>
-
-        <div id="cart-grid">
-
-          <div class="cart-item">
-            <div>
-              <img src="https://via.placeholder.com/100x100" alt="Go Pro" class="cart-img">
-            </div>
-            <div>
-              <p class="cart-store"><!--{{ item.seller }}--></p>
-              <p class="cart-product"><!--{{ item.name }}--></p>
-              <input type="number" name="qty" class="cart-qty" value="1" disabled>
-            </div>
-            <div class="cart-price">Rp <!--{{ item.price }}--></div>
+      <div class="navbar-start">
+        <div class="navbar-item">
+          <div class="field has-addons">
+            <p class="control">
+              <input class="input" type="text" placeholder="Search something...">
+            </p>
+            <p class="control">
+              <button class="button">
+                <span class="fa fa-search"></span>
+              </button>
+            </p>
           </div>
-
         </div>
-        <p class="cart-total">Total Harga Barang: <span>Rp <!--{{ totalPrice }}--></span></p>
-        <button id="cart-btn">Lanjut ke Pembayaran</button>
+      </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="field is-grouped">
+            <div class="control">
+              <a class="button is-primary" href="javascript:void(0)">
+                <span class="icon">
+                  <i class="fas fa-shopping-cart"></i>
+                </span>
+                <span>Cart</span>
+              </a>
+            </div>
+            <div class="control">
+              <a href="javascript:void(0)" class="button is-info is-inverted">
+                <span class="icon fa fa-sign-in-alt"></span> <span>Sign In</span>
+              </a>
+            </div>
+            <div class="control">
+              <a class="button is-info" href="javascript:void(0)">
+                <span class="icon fa fa-plus"></span> <span>Sign Up</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+  </nav>
 
-    <signup :opensigninmodal="openSignInModalStat"></signup>
-    <signin></signin>
-    <main-header @open-sign-in-modal="openSignInModal"></main-header>
-    <navbar></navbar>
-
-    <div class="bg-white" id="main-quote">
-      <p>" Cepat Laku, Cepat Tutup "</p>
+  <!-- SIGN IN -->
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Sign In</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input class="input is-medium" type="email" placeholder="Email">
+            <span class="icon is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <!-- <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span> -->
+          </p>
+        </div>
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input is-medium" type="password" placeholder="Password">
+            <span class="icon is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+          </p>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-medium is-success">Sign In</button>
+        <button class="button is-medium">Cancel</button>
+      </footer>
     </div>
-
-    <category-item :categories="categories"></category-item>
-    <product-item :products="products"></product-item>
-
-    <main-footer></main-footer>
   </div>
 
-  <div id="snackbar">Added to Cart</div>
-  <div id="checkoutSuccess">Checkout Success !</div>
+  <!-- SIGN UP -->
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Sign Up</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input class="input is-medium" type="text" placeholder="Name">
+            <span class="icon is-left">
+              <i class="fas fa-user"></i>
+            </span>
+            <!-- <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span> -->
+          </p>
+        </div>
+        <div class="field">
+          <p class="control has-icons-left has-icons-right">
+            <input class="input is-medium" type="email" placeholder="Email">
+            <span class="icon is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <!-- <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span> -->
+          </p>
+        </div>
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input is-medium" type="password" placeholder="Password">
+            <span class="icon is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+          </p>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-medium is-success">Sign Up</button>
+        <button class="button is-medium">Cancel</button>
+      </footer>
+    </div>
+  </div>
 
-  <script src="js/main.js"></script>
-  <script src="js/header.js"></script>
-  <script src="js/navbar.js"></script>
-  <script src="js/product-item.js"></script>
-  <script src="js/category-item.js"></script>
-  <script src="js/signin.js"></script>
-  <script src="js/signup.js"></script>
-  <script src="js/footer.js"></script>
-  <script>
+  <section class="hero">
+    <div class="hero-body" style="padding: 150px 0 100px 0">
+      <div class="container has-text-centered">
+        <h1 class="title quote-font">
+          " Cepat Laku Cepat Tutup "
+        </h1>
+      </div>
+    </div>
+  </section>
 
-  const baseurl = 'http://localhost:3001';
+  <section class="section has-background-white-ter">
+    <div class="container is-fullhd">
+      <h2 class="title has-text-grey-dark">Categories</h2>
+      <br>
+      <div class="columns">
+        <div class="column">
+          <a class="button is-primary is-outlined is-rounded is-large" href="javascript:void(0)">Fashion</a>
+          <a class="button is-primary is-outlined is-rounded is-large" href="javascript:void(0)">Mainan anak-anak</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-  let app = new Vue({
-    el: '#app',
-    data: {
-      products: null,
-      categories: [],
-      openSignInModalStat: false
-    },
-    methods: {
-      openSignInModal() {
-        console.log('hello')
-      }
-    },
-    created: function() {
-      let self = this;
+  <section class="section has-background-white">
+    <div class="container is-fullhd">
+      <h2 class="title has-text-grey-dark">Products</h2>
+      <div class="loader-container">
+        <div class="loader" id="products-loader"></div>
+      </div>
+      <br>
+      <div class="columns" style="flex-wrap: wrap; justify-content: left;">
+        <div class="card">
+          <div class="card-image">
+            <img src="https://via.placeholder.com/300x250" alt="sample image">
+          </div>
+          <div class="card-content">
+            <p class="is-size-5"><strong>Mainan anak-anak</strong></p>
+            <p class="has-text-danger">Rp. 15000</p>
+            <br>
+            <p><span class="fa fa-building"></span> <span>tutupLapak</span></p>
+            <p><span class="fa fa-map-marker-alt"></span> <span>Jakarta</span></p>
+          </div>
+          <div class="card-footer">
+            <a href="javascript:void(0)" class="button is-primary is-fullwidth">Add to Cart</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-image">
+            <img src="https://via.placeholder.com/300x250" alt="sample image">
+          </div>
+          <div class="card-content">
+            <p class="is-size-5"><strong>Mainan anak-anak</strong></p>
+            <p class="has-text-danger">Rp. 15000</p>
+            <br>
+            <p><span class="fa fa-building"></span> <span>tutupLapak</span></p>
+            <p><span class="fa fa-map-marker-alt"></span> <span>Jakarta</span></p>
+          </div>
+          <div class="card-footer">
+            <a href="javascript:void(0)" class="button is-primary is-fullwidth">Add to Cart</a>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-image">
+            <img src="https://via.placeholder.com/300x250" alt="sample image">
+          </div>
+          <div class="card-content">
+            <p class="is-size-5"><strong>Mainan anak-anak</strong></p>
+            <p class="has-text-danger">Rp. 15000</p>
+            <br>
+            <p><span class="fa fa-building"></span> <span>tutupLapak</span></p>
+            <p><span class="fa fa-map-marker-alt"></span> <span>Jakarta</span></p>
+          </div>
+          <div class="card-footer">
+            <a href="javascript:void(0)" class="button is-primary is-fullwidth">Add to Cart</a>
+          </div>
+        </div>        
+      </div>
+      
+    </div>
+  </section>
 
-      axios({
-        method: 'get',
-        url: `${baseurl}/products`
-      })
-      .then(response => {
-        let products = response.data.products;
-        let send = {
-          data: products,
-          empty: false,
-          err: {
-            message: ''
-          } 
-        }
-
-        if(products.length === 0) {
-          send.empty = true;
-        } else {
-          send.empty = false;
-        }
-
-        self.products = send;
-      })
-      .catch(err => {
-        console.log(err.response.data);
-      });
-
-      axios({
-        method: 'get',
-        url: `${baseurl}/categories`
-      })
-      .then(response => {
-        let categories = response.data.categories;
-        self.categories = categories;
-      })
-      .catch(err => {
-        console.log(err.response.data);
-      });
-    },
-    methods: {
-      openSignInModal() {
-        this.openSignInModalStat = true;
-      }
-    }
-  });
-
-  </script>
+  <footer class="section has-background-grey">
+    <div class="container has-text-centered has-text-light">
+      <p>
+        Copyright &copy; 2018 - TutupLapak.COM
+      </p>
+    </div>
+  </footer>
 
 </body>
 </html>
