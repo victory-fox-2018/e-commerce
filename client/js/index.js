@@ -3,7 +3,8 @@ const baseurl = 'http://localhost:3000';
 let app = new Vue({
   el: '#app',
   data: {
-    products: null
+    products: [],
+    categories: []
   },
   methods: {
 
@@ -24,6 +25,31 @@ let app = new Vue({
       if(products.length === 0) send.empty = true;
 
       self.products = send;
+    })
+    .catch(err => {
+      let message = err.response.data;
+      let send = {
+        message,
+        empty: true,
+        data: [],
+      }
+
+      self.products = send;
+    });
+
+    axios({
+      method: 'GET',
+      url: `${baseurl}/categories`
+    })
+    .then(response => {
+      let categories = response.data.categories;
+      let send = {
+        empty: false,
+        data: categories
+      }
+      if(categories.length === 0) send.empty = true;
+
+      self.categories = send;
     })
     .catch(err => {
       let message = err.response.data;
