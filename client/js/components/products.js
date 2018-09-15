@@ -16,7 +16,7 @@ Vue.component('products', {
   watch: {
     products(newVal) {
       this.parentProducts = newVal.data;
-      
+
       if(newVal.empty) {
         this.showLoader = false;
         this.showEmptyMsg = true;
