@@ -1,447 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TutupLapak - Cepat Laku, Cepat Tutup</title>
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Tutup Lapak - Cepat Laku Cepat Tutup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
   <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu" rel="stylesheet">
-  <script
-    src="https://code.jquery.com/jquery-3.3.1.min.js"
-    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-    crossorigin="anonymous"></script>
-  <!-- vue.js development version -->
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.1/css/bulma.min.css"> -->
+  <link rel="stylesheet" href="./css/custom.css">
+  
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
 </head>
 <body>
-  
+
   <div id="app">
-
-    <div class="modal-container" id="cart-modal">
-      <div class="modal-content">
-        <h3 class="modal-title">Keranjang Belanja <span class="close" id="cart-close">&times;</span></h3>
-        <hr>
-
-        <div class="alert-danger" style="margin-top: 15px" v-if="cartMessage !== ''">
-          {{ cartMessage }}
-        </div>
-
-        <div id="cart-grid">
-
-          <div class="cart-item" v-for="item in cart">
-            <div>
-              <img src="https://via.placeholder.com/100x100" alt="Go Pro" class="cart-img">
-            </div>
-            <div>
-              <p class="cart-store">{{ item.seller }}</p>
-              <p class="cart-product">{{ item.name }}</p>
-              <input type="number" name="qty" class="cart-qty" value="1" disabled>
-            </div>
-            <div class="cart-price">Rp {{ item.price }}</div>
-          </div>
-
-        </div>
-        <p class="cart-total">Total Harga Barang: <span>Rp {{ totalPrice }}</span></p>
-        <button id="cart-btn" @click="checkout">Lanjut ke Pembayaran</button>
-      </div>
-    </div>
-
-    <div class="modal-container" id="signup-modal">
-      <div class="modal-content">
-        <h3 class="modal-title">Sign Up <span class="close" id="signup-close">&times;</span></h3>
-        <hr>
-        <p class="alert-danger" style="margin-top: 10px" v-if="signupData.message !== ''">
-          {{ signupData.message }}
-        </p>
-        <div>
-
-          <div class="input-group">
-            <label for="">Full Name</label>
-            <input type="text" id="signup-name" class="form-control" v-model="signupData.name">
-          </div>
-      
-          <div class="input-group">
-            <label for="">Email</label>
-            <input type="text" id="signup-email" class="form-control" v-model="signupData.email">
-          </div>
-      
-          <div class="input-group">
-            <label for="">Password</label>
-            <input type="password" id="signup-password" class="form-control" v-model="signupData.password">
-          </div>
-      
-          <div class="input-group">
-            <button type="button" class="button button-green" v-on:click="signupSubmit">Sign Up</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="modal-container" id="signin-modal">
-      <div class="modal-content">
-        <h3 class="modal-title">Sign In <span class="close" id="signin-close">&times;</span></h3>
-        <p class="alert-danger" style="margin-top: 10px" v-if="signinData.message !== ''">
-          {{ signinData.message }}
-        </p>
-        <hr>
-        <div>
-          <div class="input-group">
-            <label for="">Email</label>
-            <input type="text" id="signin-email" class="form-control" v-model="signinData.email">
-          </div>
     
-          <div class="input-group">
-            <label for="">Password</label>
-            <input type="password" id="signin-password" class="form-control" v-model="signinData.password">
-          </div>
-    
-          <div class="input-group">
-            <button type="button" class="button button-black" v-on:click="signinSubmit">Sign In</button>
-          </div>
+    <navbar></navbar>
+
+    <section class="hero">
+      <div class="hero-body" style="padding: 150px 0 100px 0">
+        <div class="container has-text-centered">
+          <h1 class="title quote-font">
+            " Cepat Laku Cepat Tutup "
+          </h1>
         </div>
-      </div>
-    </div>
-
-    <header>
-      <div class="container" id="header">
-        
-        <div>
-          <a href="#" class="brand">TutupLapak</a>
-        </div>
-
-        <div class="search-container">
-          <input type="text" name="keyword">
-          <button type="submit"><span class="fa fa-search"></span></button>
-        </div>
-
-        <div></div>
-
-        <div class="header-btn">
-          <a href="javascript:void(0)" id="cart"><span class="fa fa-shopping-cart"></span></a>
-          <a href="javascript:void(0)" id="signin-btn" v-if="!authenticationBtn">Sign In</a>
-          <a href="javascript:void(0)" id="signup-btn" v-if="!authenticationBtn">Sign Up</a>
-          <a href="javascript:void(0)" v-if="authenticationBtn" v-on:click="logout">Logout</a>
-        </div>
-      </div>
-    </header>
-
-    <nav>
-      <div class="container">
-        <ul id="nav">
-          <li><a href="#" class="active">Home</a></li>
-          <li><a href="#">FAQ</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="#">Help</a></li>
-          <li><a href="#">Sitemap</a></li>
-        </ul>
-      </div>
-    </nav>
-
-    <div class="bg-white" id="main-quote">
-      <p>" Cepat Laku, Cepat Tutup "</p>
-    </div>
-
-    <section class="bg-white" style="padding-bottom: 50px">
-      <div class="container" id="category-heading">
-          <h2>Category</h2>
-      </div>
-      <div class="container" id="category">
-        <div class="loader-container" v-if="categories.length === 0">
-          <div class="loader"></div>
-        </div>
-
-        <div class="category-item" v-else v-for="category in categories" v-on:click="filterByCategory(category._id)">
-          <img src="https://via.placeholder.com/200x200" alt="Fashion">
-          <p class="category-name">
-            {{ category.name }}
-          </p>
-        </div>
-
       </div>
     </section>
 
-    <section id="recommendation">
-      
-      <div class="container">
-        <h2>Products</h2>
-        <h3 v-if="!loader">No products data</h3>
-        <div class="loader-container" v-if="products.length === 0 && loader">
-          <div class="loader" id="products-loader"></div>
-        </div>
-      </div>
+    <categories :categories="categories"></categories>
+    <products :products="products"></products>
 
-      <div class="container" id="recommendation-container">
-
-        <div class="recommend-item"
-          v-for="product in products">
-          <img src="https://via.placeholder.com/248x248" alt="GoPro Hero5 Black" 
-          v-on:click="addToCart(product._id, product.name, product.price, product.seller, product.area)">
-
-          <!--product.name,product.price,product.seller,product.area-->
-
-          <div class="recommend-white">
-            <h3 class="recommend-name" v-on:click="addToCart(product._id, product.name, product.price, product.seller, product.area)">
-              {{ product.name }}
-            </h3>
-            <p class="recommend-price">
-              Rp. {{ product.price }}
-            </p>
-            <div class="slide-to-top"></div>
-          </div>
-    
-          <div class="recommend-grey">
-            <p class="recommend-seller">
-              <span class="fa fa-cube"></span>{{ product.seller }}
-            </p>
-            <p class="recommend-area">
-              <span class="fa fa-map-marker"></span>{{ product.area }}
-            </p>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <footer>
-      <div class="container">
-        <p class="footer-info">&copy; <span class="font-brand">TutupLapak</span> - 2018</p>
-        <div class="footer-socmed">
-          
-        </div>
+    <footer class="section has-background-grey">
+      <div class="container has-text-centered has-text-light">
+        <p>
+          Copyright &copy; 2018 - TutupLapak.COM
+        </p>
       </div>
     </footer>
   </div>
 
-  <div id="snackbar">Added to Cart</div>
-  <div id="checkoutSuccess">Checkout Success !</div>
-
-  <script src="js/main.js"></script>
-  <script src="js/product-item.js"></script>
-  <script src="js/category-item.js"></script>
-  <script src="js/signin.js"></script>
-  <script src="js/signup.js"></script>
-  <script>
-
-    let app = new Vue({
-      el: '#app',
-      data: {
-        baseurl: 'http://localhost:3000',
-        products: [],
-        categories: [],
-        signupData: {
-          name: '',
-          email: '',
-          password: '',
-          message: ''
-        },
-        signinData: {
-          email: '',
-          password: '',
-          message: ''
-        },
-        cart: JSON.parse(localStorage.getItem('cart')),
-        cartMessage: '',
-        snackbarMessage: '',
-        loginned: false,
-        loader: true,
-        authenticationBtn: false
-      },
-      methods: {
-
-        checkLogin: function() {
-          let token = localStorage.getItem('token');
-          let self = this;
-
-          axios({
-            method: 'post',
-            url: `${self.baseurl}/customers/checklogin`,
-            headers: {
-              token: token
-            }
-          })
-          .then(response => {
-            let data = response.data.user;
-
-            localStorage.setItem('id', data.id);
-            localStorage.setItem('email', data.email);
-
-            self.authenticationBtn = true;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        },
-
-        checkout: function() {
-          if(!localStorage.getItem('token')) {
-            this.cartMessage = 'Please login to checkout';
-          } else {
-            let self = this;
-
-            axios({
-              method: 'post',
-              url: `${self.baseurl}/cart/checkout`,
-              data: {
-                customerId: localStorage.getItem('id'),
-                cart: self.cart
-              }
-            })
-            .then(response => {
-              localStorage.setItem('cart', JSON.stringify([]));
-              this.cart = [];
-              closeModal('#cart-modal');
-              showCheckoutSuccess();
-            })
-            .catch(err => {
-              console.log(err);
-            });
-          }
-        },
-
-        addToCart: function(id, name, price, seller, area) {
-          let product = { id, name, price, seller, area };
-          let cart = JSON.parse(localStorage.getItem('cart'));
-
-          cart.push(product);
-          localStorage.setItem('cart', JSON.stringify(cart));
-          this.cart = cart;
-
-          showSnackbar();
-        },
-
-        filterByCategory: function(id) {
-          let self = this;
-
-          axios({
-            method: 'get',
-            url: `${self.baseurl}/products/category/${id}`
-          })
-          .then(response => {
-            let data = response.data.products.productId;
-
-            this.products = data;
-            this.loader = (data.length === 0) ? false : true;
-
-          })
-          .catch(err => {
-            console.log(err);
-          });
-        },
-
-        logout: function() {
-          localStorage.setItem('token', '');
-          this.authenticationBtn = false;
-        },
-
-        signinSubmit: function() {
-          let self = this;
-
-          self.signinData.message = '';
-
-          axios({
-            method: 'post',
-            url: `${self.baseurl}/customers/signin`,
-            data: {
-              email: self.signinData.email,
-              password: self.signinData.password
-            }
-          })
-          .then(response => {
-            let token = response.data.token;
-
-            localStorage.setItem('token', token);
-
-            self.checkLogin();
-
-            self.signinData.email = '';
-            self.signinData.password = '';
-
-            closeModal('#signin-modal');
-          })
-          .catch(err => {
-            self.signinData.message = err.message;
-          });
-        },
-
-        signupSubmit: function() {
-          let self = this;
-
-          self.signupData.message = '';
-
-          axios({
-            method: 'post',
-            url: `${self.baseurl}/customers/signup`,
-            data: {
-              name: self.signupData.name,
-              email: self.signupData.email,
-              password: self.signupData.password
-            }
-          })
-          .then(response => {
-            self.signupData.name = '';
-            self.signupData.email = '';
-            self.signupData.password = '';
-
-            closeModal('#signup-modal');
-            showModal('#signin-modal');  
-          })
-          .catch(err => {
-            self.signupData.message = err.message;
-          });
-        }
-      },
-      created: function() {
-        let self = this;
-
-        if(!localStorage.getItem('cart')) {
-          localStorage.setItem('cart', JSON.stringify([]));
-          this.cart = [];
-        }
-
-        axios({
-          method: 'get',
-          url: `${self.baseurl}/categories`
-        })
-        .then(categories => {
-          let data = categories.data.categories;
-          self.categories = data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-
-        axios({
-          method: 'get',
-          url: `${self.baseurl}/products`
-        })
-        .then(products => {
-          let data = products.data.products;
-          self.products = data;
-
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      },
-      computed: {
-        totalPrice: function() {
-          let totalPrice = 0;
-
-          if(this.cart.length !== 0) {
-            this.cart.forEach(item => {
-              totalPrice += item.price;
-            });
-            return totalPrice;
-          } else {
-            return totalPrice;
-          }
-        }
-      }
-    });
-  </script>
+  <script src="./js/components/navbar.js"></script>
+  <script src="./js/components/categories.js"></script>
+  <script src="./js/components/products.js"></script>
+  <script src="./js/index.js"></script>
 
 </body>
 </html>
