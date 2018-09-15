@@ -8,20 +8,20 @@ const createItem = function (req, res) {
         description: description,
         price: price,
         category: category,
-        image:req.file.originalname 
+        image: req.file.originalname
     })
-    .then(function (newItem) {
-        res.status(200).json({
-            message: "create item success",
-            data: newItem
+        .then(function (newItem) {
+            res.status(200).json({
+                message: "create item success",
+                data: newItem
+            })
         })
-    })
-    .catch(function (err) {
-        res.status(400).json({
-            message: "create item failed",
-            error: err.message
+        .catch(function (err) {
+            res.status(400).json({
+                message: "create item failed",
+                error: err.message
+            })
         })
-    })
 }
 
 const deleteItem = function (req, res) {
@@ -83,4 +83,24 @@ const getOneItem = function (req, res) {
         })
 }
 
-module.exports = { createItem, deleteItem, getAllItem, getOneItem }
+const getCategoryItem = function (req, res) {
+    console.log('masuuk');
+    
+    console.log(req.params.category);
+    
+    Item.find({ category: req.params.category })
+        .then(function (items) {
+            res.status(200).json({
+                message: "data category found",
+                data: items
+            })
+        })
+        .catch(function (err) {
+            res.status(400).json({
+                message:"data category not found",
+                error:err.message
+            })
+        })
+}
+
+module.exports = { createItem, deleteItem, getAllItem, getOneItem, getCategoryItem  }
