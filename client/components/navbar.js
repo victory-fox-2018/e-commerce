@@ -60,7 +60,7 @@ Vue.component('nav-bar', {
                                 <button class="btn btn-transaparent dropdown-toggle bg-transparent" type="button" id="dropdownMenuButton"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Cart
-                                    <i class="fas fa-shopping-cart"></i>
+                                    <i class="fas fa-shopping-cart"></i>: {{cartvalue.countCart}}
                                 </button>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <div class="card-fluid">
@@ -72,29 +72,21 @@ Vue.component('nav-bar', {
                                                         <th scope="col">No</th>
                                                         <th scope="col">Name</th>
                                                         <th scope="col">Price</th>
-                                                        <th scope="col">Quantity</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">2</th>
-                                                        <td>Jacob</td>
-                                                        <td>Thornton</td>
-                                                        <td>@fat</td>
+                                                    <tr v-for="(item, index) in cartvalue.cart" :key="index">
+                                                        <td>{{index+1}}</td>
+                                                        <td>{{item.name}}</td>
+                                                        <td> Rp.{{item.price.toLocaleString()}}</td>
                                                     </tr>
 
                                                 </tbody>
                                             </table>
-                                            <div>
-                                                Total Price : asdaddsa
-                                            </div>
-                                            <button type="button" class="btn btn-info">Checkout</button>
+                                            <h4 style="text-align:center">
+                                                Total Price : Rp.{{cartvalue.countPrice}}
+                                            </h4>
+                                            <button type="button" class="btn btn-info" v-on:click="createTransaction">Checkout</button>
                                         </div>
                                     </div>
                                 </div>
@@ -167,7 +159,7 @@ Vue.component('nav-bar', {
             </div>
         </nav>
     `,
-    // props:["token"],
+    props:["cartvalue"],
     data: function(){
         return{
             token:false,
@@ -243,6 +235,30 @@ Vue.component('nav-bar', {
             localStorage.clear()
             this.token = false,
             this.isLogin = ''
+        },
+        createTransaction(){
+            console.log('---', this.cartvalue.countPrice);
+            console.log(typeof this.cartvalue.countPrice);
+            
+            let self = this
+            axios({
+                method:"POST",
+                url:"http://localhost:3000/transactions",
+                headers:{
+                    token:localStorage.getItem("token")
+                },
+                data:{
+                    itemList:this.cartvalue.cart,
+                    totalPrice:this.cartvalue.countPrice
+                }
+            })
+            .then(function(result){
+                console.log(result);
+                self.cartvalue.countCart = ''
+            })
+            .catch(function(err){
+                console.log(err.response)
+            })
         }
     },
     created() {

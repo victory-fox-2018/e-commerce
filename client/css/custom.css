@@ -7,3 +7,8 @@ body {
     margin-top: 56px;
   }
 }
+
+.dropdown-menu{
+  overflow-y:auto;
+}
+

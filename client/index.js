@@ -2,7 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
         items: '',
-        cart: [],
+        cartvalue: '',
         total: 0,
         token: false,
         errorMessage: [],
