@@ -72,6 +72,21 @@
                         })
                     },
 
+                    checkLogin: function (jwtToken) {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://e-commerce-server.ismailnagib.xyz/users/checklogin',
+                            data: {jwtToken: jwtToken}
+                        })
+                        .then(data => {
+                            this.showLogOut()
+                        })
+                        .catch(err => {
+                            this.showLogIn()
+                            console.log(err)
+                        })
+                    },
+
                     showLogOut: function () {
                         $('#logLaterBtn').click()
 
@@ -109,21 +124,7 @@
             app.showNav()
             
             if (localStorage.getItem('jwtToken')) {
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://e-commerce-server.ismailnagib.xyz/users/checklocalstorage',
-                    data: {jwtToken: localStorage.getItem('jwtToken')}
-                })
-                .then(data => {
-                    if (data.isLogin) {
-                        app.showLogOut()
-                    } else {
-                        app.showLogIn()
-                    }
-                    })
-                .catch(err => {
-                    console.log(err)
-                })
+                app.checkLogin(localStorage.getItem('jwtToken'))
             } else {
                 app.showLogIn()
             }

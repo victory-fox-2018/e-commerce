@@ -72,9 +72,7 @@ module.exports = {
         User.findOne({email: req.body.email})
         .then(data => {
             if(data) {
-                if (data.isUsingFacebook === 1) {
-                    res.status(400).json({message: 'You should log in using Facebook.'})
-                } else if (data.password === encrypt(req.body.password)) {
+                if (data.password === encrypt(req.body.password)) {
                     jwt.sign({
                         email: data.email,
                     }, process.env.JWT_KEY, (err, token) => {
@@ -148,19 +146,16 @@ module.exports = {
         })
     },
 
-    checkLocalStorage: function (req, res) {
-        jwt.verify(req.body.jwtToken, process.env.JWT_KEY, (err, decoded) => {
-            if (err) {
-                res.status(500).json({message: err.message})
-            } else {
-                User.findOne({email: decoded.email}, (err, findResult) => {
-                    if (err) {
-                        res.status(500).json({message: err.message})
-                    } else {
-                        res.status(200).json({isLogin: true})
-                    }
-                })
-            }
+    checkout: function (req, res) {
+        User.findOne({
+            email: req.userEmail
         })
-    } 
+        .then(data => {
+            data.transaction.push(req.body.cart)
+            res.status(200)
+        })
+        .catch(err => {
+            res.status(500).json({message: err.message})
+        })
+    }
 }
