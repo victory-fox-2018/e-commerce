@@ -9,11 +9,17 @@ module.exports = {
 
   checklogin: (req, res) => {
 
-    let user = jwt.verify(req.headers.token, process.env.JWT_SECRET_KEY);
-
-    res.status(200).json({
-      message: 'ada token nya',
-      user: user
+    let user = jwt.verify(req.headers.token, process.env.JWT_SECRET_KEY, (err, decoded) => {
+      if(err) {
+        res.status(401).json({
+          message: 'invalid authentication'
+        });
+      } else {
+        res.status(200).json({
+          message: 'valid authentication',
+          user: decoded
+        });
+      }
     });
   },
 
@@ -64,7 +70,7 @@ module.exports = {
     .then(customer => {
       if(!customer) {
         res.status(500).json({
-          message: 'username or password wrong'
+          message: 'Username or Password wrong'
         });
       } else {
         let token = jwt.sign({
@@ -75,6 +81,7 @@ module.exports = {
 
         res.status(200).json({
           message: 'sign in success',
+          userId: customer._id,
           token: token
         });
       }
