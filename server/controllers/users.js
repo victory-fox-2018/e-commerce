@@ -1,6 +1,7 @@
 const ObjectId = require('mongodb').ObjectId
 const User = require('../models/userModel')
 const jwt = require('jsonwebtoken')
+const { encrypt } = require('../helpers/encryption')
 
 module.exports = {
     
@@ -22,7 +23,7 @@ module.exports = {
             } else {
                 User.create({
                     email: req.body.email,
-                    password: req.body.password
+                    password: encrypt(req.body.password)
                 })
                 .then(() => {
                     res.status(201).json({message: 'New user added. Run live-server on the client directory to see the changes.'})
@@ -42,7 +43,7 @@ module.exports = {
             _id: ObjectId(req.body.id)
         }, {
             email: req.body.email,
-            password: req.body.password
+            password: encrypt(req.body.password)
         })
         .then(() => {
             res.status(200).json({message: 'User data updated. Run live-server on the client directory to see the changes.'})
@@ -73,7 +74,7 @@ module.exports = {
             if(data) {
                 if (data.isUsingFacebook === 1) {
                     res.status(400).json({message: 'You should log in using Facebook.'})
-                } else if (data.password === req.body.password) {
+                } else if (data.password === encrypt(req.body.password)) {
                     jwt.sign({
                         email: data.email,
                     }, process.env.JWT_KEY, (err, token) => {
@@ -124,7 +125,7 @@ module.exports = {
             } else {
                 User.create({
                     email: req.body.email,
-                    password: req.body.password
+                    password: encrypt(req.body.password)
                 })
                 .then(() => {
                     jwt.sign({
