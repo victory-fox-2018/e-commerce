@@ -16,7 +16,7 @@ Vue.component('navbar', {
       },
       cart: {
         modal: false,
-        message: 'sample message',
+        message: '',
         data: []
       },
       showLogout: false
@@ -90,6 +90,10 @@ Vue.component('navbar', {
     },
 
     openCart() {
+      let cart = JSON.parse(localStorage.getItem('cart'));
+
+      this.cart.message = '';
+      this.cart.data = cart;
       this.cart.modal = true;
     },
 
@@ -97,8 +101,26 @@ Vue.component('navbar', {
       this.cart.modal = false;
     },
 
-    doTransaction() {
-       
+    checkout() {
+      let userId = localStorage.getItem('userId');
+
+      if(!userId) {
+        this.cart.message = 'you must login to checkout'
+      }
+
+      let productId = this.cart.data.reduce((acc, product) => {
+        acc.push(product.id);
+        return acc;
+      }, []);
+
+      console.log(userId);
+      console.log(productId);
+    },
+
+    logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      this.showLogout = false;
     }
   },
   created() {
@@ -174,7 +196,7 @@ Vue.component('navbar', {
                 </a>
               </div>
               <div class="control" v-if="showLogout">
-                <a class="button is-danger" href="javascript:void(0)">
+                <a class="button is-danger" href="javascript:void(0)" @click="logout">
                   <span class="icon fa fa-sign-out-alt"></span> <span>Sign Out</span>
                 </a>
               </div>
@@ -183,7 +205,7 @@ Vue.component('navbar', {
         </div>
       </div>
       
-      <div class="modal is-active">
+      <div class="modal is-active" v-if="cart.modal">
         <div class="modal-background"></div>
         <div class="modal-card">
           <header class="modal-card-head">
@@ -196,7 +218,8 @@ Vue.component('navbar', {
                 {{ cart.message }}
               </div>
             </article>
-            <article class="media">
+
+            <article class="media" v-for="product in cart.data">
               <figure class="media-left">
                 <p class="image is-100x100">
                   <img src="https://via.placeholder.com/100x100" alt="product image">
@@ -206,13 +229,13 @@ Vue.component('navbar', {
                 <div class="content">
                   <div>
                     <p class="has-text-grey-dark">
-                      Mainan anak-anak
+                      {{ product.name }}
                       <br>
-                      <span class="has-text-red">Rp. 1000</span>
+                      <span class="has-text-red">Rp. {{ product.price }}</span>
                       <br>
-                      <span class="has-text-red">TutupLapak</span>
+                      <span class="has-text-red">{{ product.seller }}</span>
                       <br>
-                      <span class="has-text-red">Jakarta</span>
+                      <span class="has-text-red">{{ product.area }}</span>
                     </p>
                     <div class="field">
                       <p class="control">
@@ -220,30 +243,13 @@ Vue.component('navbar', {
                       </p>
                     </div>
                   </div>
-                  <br/>
-                  <div>
-                    <p class="has-text-grey-dark">
-                      Mainan anak-anak
-                      <br>
-                      <span class="has-text-red">Rp. 1000</span>
-                      <br>
-                      <span class="has-text-red">TutupLapak</span>
-                      <br>
-                      <span class="has-text-red">Jakarta</span>
-                    </p>
-                    <div class="field">
-                      <p class="control">
-                        <input type="number" class="input" value="1" style="max-width: 50px">
-                      </p>
-                    </div>
-                  </div>
-                  <br/>
                 </div>
               </div>
             </article>
+          
           </section>
           <footer class="modal-card-foot">
-            <button class="button is-medium is-fullwidth is-primary is-outlined" @click="doTransaction">Finish Transaction</button>
+            <button class="button is-medium is-fullwidth is-primary is-outlined" @click="checkout">Checkout</button>
           </footer>
         </div>
       </div>
