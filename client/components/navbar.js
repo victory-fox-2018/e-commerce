@@ -9,16 +9,14 @@ Vue.component('navbar-comp', {
                     </button>
         
                     <div class="collapse navbar-collapse" id="theNavbar">
-                        <div id='app2' class="mx-auto">
-                            <ul class="navbar-nav" style="font-size: 20px">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#app1" onclick="showAll()">All Products</a>
-                                </li>
-                                <li class="nav-tem" v-for="category in categories">
-                                    <a class="nav-link" href="#app1" v-on:click="showByCategory(category.name)">{{ category.name }} Products</a>
-                                </li>
-                            </ul>
-                        </div>
+                        <ul class="navbar-nav mx-auto" style="font-size: 20px">
+                            <li class="nav-item">
+                                <a class="nav-link" href="#products" onclick="showAll()">All Products</a>
+                            </li>
+                            <li class="nav-tem" v-for="category in categories">
+                                <a class="nav-link" href="#products" v-on:click="showByCategory(category.name)">{{ category.name }} Products</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </nav>
@@ -34,8 +32,8 @@ Vue.component('navbar-comp', {
                 data: {category: category}
             })
             .then(result => {
-                app1.title = `${category} Products`
-                app1.products = result.data
+                app.title = `${category} Products`
+                app.products = result.data
             })
             .catch(err => {
                 console.log(err)

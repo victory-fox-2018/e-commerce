@@ -20,32 +20,32 @@ Vue.component('product-cards', {
     props: ['title', 'products'],
     methods: {
         addToCart: function (name, price) {
-            let i = app3.items.indexOf(name)
+            let i = app.items.indexOf(name)
             if (i === -1) {
-                app3.items.push(name)
-                app3.cart.push({
+                app.items.push(name)
+                app.cart.push({
                     name: name,
                     price: price,
                     count: 1,
                     total: price
                 })
-                app3.totalSum += price
+                app.totalSum += price
             } else {
-                app3.cart[i].count ++
-                app3.cart[i].total += price
-                app3.totalSum += price
+                app.cart[i].count ++
+                app.cart[i].total += price
+                app.totalSum += price
             }
             
-            localStorage.setItem('items', JSON.stringify(app3.items))
-            localStorage.setItem('cart', JSON.stringify(app3.cart))
-            localStorage.setItem('totalSum', app3.totalSum)
+            localStorage.setItem('items', JSON.stringify(app.items))
+            localStorage.setItem('cart', JSON.stringify(app.cart))
+            localStorage.setItem('totalSum', app.totalSum)
 
-            app3.cartColor = 'red'
+            app.cartColor = 'red'
 
             if (localStorage.getItem('jwtToken')) {
-                app3.checkOutBtn = true
+                app.checkOutBtn = true
             } else {
-                app3.cantCheckOutBtn = true
+                app.cantCheckOutBtn = true
             }
         }
     }

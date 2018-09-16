@@ -5,7 +5,7 @@ Vue.component('header-comp', {
             <div class="col-sm-12 col-md-10 text-center text-md-left my-sm-2" style="font-size: 30px; padding-left: 2.5vw">SuperDuperHyperMarket</div>
             <div class="col-sm-12 col-md-2 align-self-center text-center my-sm-2">
                 <a class="mx-3 logoInHead" data-toggle="modal" data-backdrop="false" data-target="#logModal" href="#"><i class="fas fa-sign-in-alt" style="font-size: 30px"></i></a>
-                    <a v-bind:style="{color: cartColor}" id='cartLogo' class="mx-3 logoInHead" data-toggle="modal" data-backdrop="false" data-target="#cartModal" title="Cart" href="#app1"><i class="fas fa-shopping-cart" style="font-size: 30px"></i></a>
+                    <a v-bind:style="{color: cartColor}" id='cartLogo' class="mx-3 logoInHead" data-toggle="modal" data-backdrop="false" data-target="#cartModal" title="Cart" href="#products"><i class="fas fa-shopping-cart" style="font-size: 30px"></i></a>
                 
                 <!-- LOG MODAL -->
                 <div class="modal fade" id="logModal" tabindex="-1" role="dialog" aria-labelledby="logModalLabel" aria-hidden="true">
@@ -92,9 +92,9 @@ Vue.component('header-comp', {
                 this.cart.splice(i, 1)
             }
             
-            localStorage.setItem('items', JSON.stringify(app3.items))
-            localStorage.setItem('cart', JSON.stringify(app3.cart))
-            localStorage.setItem('totalSum', app3.totalSum)
+            localStorage.setItem('items', JSON.stringify(app.items))
+            localStorage.setItem('cart', JSON.stringify(app.cart))
+            localStorage.setItem('totalSum', app.totalSum)
 
             if (this.items.length === 0) {
                 this.cartColor = 'grey'
