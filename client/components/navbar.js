@@ -11,7 +11,7 @@ Vue.component('navbar-comp', {
                     <div class="collapse navbar-collapse" id="theNavbar">
                         <ul class="navbar-nav mx-auto" style="font-size: 20px">
                             <li class="nav-item">
-                                <a class="nav-link" href="#products" onclick="showAll()">All Products</a>
+                                <a class="nav-link" href="#products" v-on:click="$parent.showAll()">All Products</a>
                             </li>
                             <li class="nav-tem" v-for="category in categories">
                                 <a class="nav-link" href="#products" v-on:click="showByCategory(category.name)">{{ category.name }} Products</a>

@@ -29,23 +29,23 @@ Vue.component('product-cards', {
                     count: 1,
                     total: price
                 })
-                app.totalSum += price
+                app.totalsum += price
             } else {
                 app.cart[i].count ++
                 app.cart[i].total += price
-                app.totalSum += price
+                app.totalsum += price
             }
             
             localStorage.setItem('items', JSON.stringify(app.items))
             localStorage.setItem('cart', JSON.stringify(app.cart))
-            localStorage.setItem('totalSum', app.totalSum)
+            localStorage.setItem('totalsum', app.totalsum)
 
-            app.cartColor = 'red'
+            app.cartcolor = 'red'
 
-            if (localStorage.getItem('jwtToken')) {
-                app.checkOutBtn = true
+            if (app.islogout == false) {
+                app.checkout = true
             } else {
-                app.cantCheckOutBtn = true
+                app.checkout = false
             }
         }
     }

@@ -14,31 +14,11 @@
         <title>SuperDuperHyperMarket</title>
     </head>
     <body>
-
-        <script>
-            window.fbAsyncInit = function() {
-                FB.init({
-                    appId            : 1370404409760808,
-                    autoLogAppEvents : true,
-                    xfbml            : true,
-                    version          : 'v3.1'
-                });
-            };
-        
-            (function(d, s, id){
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {return;}
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
-
         <div id="app">
             <div class="container-fluid bg-white fixed-top">
-                <header-comp v-bind:items='items' v-bind:cart='cart' v-bind:totalSum='totalSum' v-bind:notice='notice'
-                v-bind:title='title' v-bind:cartColor='cartColor' v-bind:isLogIn='isLogIn' v-bind:isLogOut='isLogOut'
-                v-bind:checkOutBtn='checkOutBtn' v-bind:cantCheckOut='cantCheckOutBtn'></header-comp>
+                <header-comp v-bind:items='items' v-bind:cart='cart' v-bind:totalsum='totalsum' v-bind:notice='notice'
+                v-bind:modaltitle='modaltitle' v-bind:cartcolor='cartcolor' v-bind:islogout='islogout'
+                v-bind:checkout='checkout'></header-comp>
                 <navbar-comp v-bind:categories='categories'></navbar-comp>
             </div>
             <carousel-comp></carousel-comp>
@@ -59,98 +39,74 @@
                     categories: [{}],
                     items: [],
                     cart: [],
-                    totalSum: 0,
+                    totalsum : 0,
                     notice: '',
-                    title: '',
-                    cartColor: 'grey',
-                    isLogIn: false,
-                    isLogOut: true,
-                    checkOutBtn: false,
-                    cantCheckOutBtn: true
+                    modaltitle: '',
+                    cartcolor: 'grey',
+                    islogout: true,
+                    checkout: false,
+                },
+                methods: {
+                    showNav: function () {
+                        $.ajax({
+                            url: 'http://e-commerce-server.ismailnagib.xyz/categories'
+                        })
+                        .then(result => {
+                            this.categories = result.data
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                    },
+
+                    showAll: function () {
+                        $.ajax({
+                            url: 'http://e-commerce-server.ismailnagib.xyz/products'
+                        })
+                        .then(result => {
+                            this.title = 'All Products'
+                            this.products = result.data
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                    },
+
+                    showLogOut: function () {
+                        $('#logLaterBtn').click()
+
+                        this.checkout = true
+                        this.islogout = false
+                        this.modaltitle = 'Log Out'
+                        
+                        if (localStorage.getItem('items')) {
+                            this.items = JSON.parse(localStorage.getItem('items'))
+                        }
+                        
+                        if (localStorage.getItem('cart')) {
+                            this.cart = JSON.parse(localStorage.getItem('cart'))
+                        }
+                        
+                        if (localStorage.getItem('totalsum')) {
+                            this.totalsum = Number(localStorage.getItem('totalsum'))
+                        }
+                        
+
+                        if (this.items.length !== 0) {
+                            this.cartcolor = 'red'
+                        }
+                    },
+
+                    showLogIn: function () {
+                        this.checkout = false
+                        this.islogout = true
+                        this.modaltitle = 'Log In'
+                    },
                 }
             })
             
-            showAll()
-            showNav()
-
-            function showNav() {
-                $.ajax({
-                    url: 'http://e-commerce-server.ismailnagib.xyz/categories'
-                })
-                .then(result => {
-                    app.categories = result.data
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-            }
-
-            function showAll() {
-                $.ajax({
-                    url: 'http://e-commerce-server.ismailnagib.xyz/products'
-                })
-                .then(result => {
-                    app.title = 'All Products'
-                    app.products = result.data
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-            }
-
-            function checkLoginState() {
-                FB.getLoginStatus(function(response) {
-                retrieveInfo(response);
-                });
-            }
-            
-            function retrieveInfo(response) {
-                let token = response.authResponse.accessToken
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://e-commerce-server.ismailnagib.xyz/users/loginfb',
-                    data: {accessToken: token}
-                })
-                .then(data => {
-                    localStorage.setItem('jwtToken', data.token)
-                    showLogOut()
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-            }
-
-            function logIn() {
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://e-commerce-server.ismailnagib.xyz/users/login',
-                    data: {email: $('#email').val(), password: $('#password').val()}
-                })
-                .then(data => {
-                    localStorage.setItem('jwtToken', data.token)
-                    app.notice = ''
-                    showLogOut()
-                })
-                .catch(err => {
-                    app.notice = err.responseJSON.message
-                })
-            }
-
-            function register() {
-                $.ajax({
-                    type: 'POST',
-                    url: 'http://e-commerce-server.ismailnagib.xyz/users/register',
-                    data: {email: $('#email').val(), password: $('#password').val()}
-                })
-                .then(data => {
-                    localStorage.setItem('jwtToken', data.token)
-                    app.notice = ''
-                    showLogOut()
-                })
-                .catch(err => {
-                    app.notice = err.responseJSON.message
-                })
-            }
+            app.showAll()
+            app.showNav()
             
             if (localStorage.getItem('jwtToken')) {
                 $.ajax({
@@ -160,59 +116,16 @@
                 })
                 .then(data => {
                     if (data.isLogin) {
-                        showLogOut()
+                        app.showLogOut()
                     } else {
-                        showLogIn()
+                        app.showLogIn()
                     }
                     })
                 .catch(err => {
-                console.log(err)
+                    console.log(err)
                 })
             } else {
-                showLogIn()
-            }
-
-            function showLogOut() {
-                $('#logLaterBtn').click()
-
-                app.isLogIn = true
-                app.checkOutBtn = true
-                app.isLogOut = false
-                app.cantCheckOutBtn = false
-                app.title = 'Log Out'
-                
-                if (localStorage.getItem('items')) {
-                    app.items = JSON.parse(localStorage.getItem('items'))
-                }
-                
-                if (localStorage.getItem('cart')) {
-                    app.cart = JSON.parse(localStorage.getItem('cart'))
-                }
-                
-                if (localStorage.getItem('totalSum')) {
-                    app.totalSum = Number(localStorage.getItem('totalSum'))
-                }
-                
-
-                if (app.items.length === 0) {
-                    app.checkOutBtn = false
-                } else {
-                    app.cartColor = 'red'
-                }
-            }
-
-            function showLogIn() {
-                app.isLogIn = false
-                app.checkOutBtn = false
-                app.isLogOut = true
-                app.cantCheckOutBtn = true
-                app.title = 'Log In'
-            }
-            
-            function logOut() {
-                localStorage.clear()
-                app.checkOut()
-                showLogIn()
+                app.showLogIn()
             }
         </script>
     </body>
