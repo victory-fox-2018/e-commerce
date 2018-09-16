@@ -1,6 +1,5 @@
 const ObjectId = require('mongodb').ObjectId
 const User = require('../models/userModel')
-const axios = require('axios')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
@@ -65,7 +64,7 @@ module.exports = {
         })
     },
 
-    checkLogin: function (req, res) {
+    login: function (req, res) {
         if (!req.body.email || !req.body.password) {
             res.status(500).json({message: 'You should input your email and password to log in.'})
         }
@@ -98,6 +97,23 @@ module.exports = {
     },
 
     register: function (req, res) {
+        let emailIsValid = false
+        let at = false
+        let dot = false
+        for (var i = 1; i < req.body.email.length; i++) {
+            if (req.body.email[i] === '@' && req.body.email[i+1]) {
+                at = true
+            } else if (req.body.email[i] === '.' && at && req.body.email[i-1] !== '@' && req.body.email[i+1]) {
+                dot = true
+            }
+        }
+        if (at && dot) {
+            emailIsValid = true
+        }
+        if (!emailIsValid) {
+            res.status(500).json({message: 'You should input a valid email.'})
+        }
+
         if (!req.body.email || !req.body.password) {
             res.status(500).json({message: 'You should input an email and a password to register.'})
         }
@@ -128,55 +144,6 @@ module.exports = {
         })
         .catch(err => {
             res.status(500).json({error: err.message})
-        })
-    },
-
-    checkLoginFB: function (req, res) {
-        axios({
-            method:'get',
-            url:`https://graph.facebook.com/me?fields=email,name&access_token=${req.body.accessToken}`,
-        })
-        .then(result => {
-            User.findOne({email: result.data.email}, (err, findResult) => {
-                if (err) {
-                    console.log(err)
-                } else {
-                    if(findResult) {
-                        jwt.sign({
-                            email: result.data.email,
-                        }, process.env.JWT_KEY, (err, token) => {
-                            if (err) {
-                                res.status(500).json({message: err.message})
-                            } else {
-                                res.status(201).json({token: token})
-                            }
-                        })
-                    } else {
-                        User.create({
-                            email: result.data.email,
-                            password: 'password' + result.data.id + '!@#$%^&*()',
-                            isUsingFacebook: 1
-                        }, (err) => {
-                            if (err) {
-                                res.status(500).json({message: err.message})
-                            } else {
-                                jwt.sign({
-                                    email: result.data.email,
-                                }, process.env.JWT_KEY, (err, token) => {
-                                    if (err) {
-                                        res.status(500).json({message: err.message})
-                                    } else {
-                                        res.status(201).json({token: token})
-                                    }
-                                })
-                            }
-                        })
-                    }
-                }
-            })
-        })
-        .catch(err => {
-            console.log(err)
         })
     },
 

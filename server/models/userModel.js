@@ -10,10 +10,6 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    isUsingFacebook: {
-        type: Number,
-        default: 0
-    }
 }, {
   timestamps: true
 });
