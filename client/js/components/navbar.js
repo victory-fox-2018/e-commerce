@@ -17,9 +17,11 @@ Vue.component('navbar', {
       cart: {
         modal: false,
         message: '',
-        data: []
+        data: [],
+        emptyMsg: false
       },
-      showLogout: false
+      showLogout: false,
+      showSnackbar: false
     }
   },
   methods: {
@@ -92,6 +94,12 @@ Vue.component('navbar', {
     openCart() {
       let cart = JSON.parse(localStorage.getItem('cart'));
 
+      if(!cart || cart.length === 0) {
+        this.cart.emptyMsg = true;
+      } else {
+        this.cart.emptyMsg = false;
+      }
+
       this.cart.message = '';
       this.cart.data = cart;
       this.cart.modal = true;
@@ -102,19 +110,33 @@ Vue.component('navbar', {
     },
 
     checkout() {
+      let self = this;
       let userId = localStorage.getItem('userId');
 
       if(!userId) {
         this.cart.message = 'you must login to checkout'
+      } else {
+        this.cart.message = '';
+        
+        axios({
+          method: 'POST',
+          url: `${baseurl}/cart/checkout`,
+          data: {
+            customerId: userId,
+            cart: this.cart.data
+          }
+        })
+        .then(response => {
+          localStorage.setItem('cart', JSON.stringify([]));
+          self.cart.modal = false;
+          self.showSnackbar = true;
+  
+          window.setTimeout(() => self.showSnackbar = false, 3000);
+        })
+        .catch(err => {
+          self.cart.message = err.response.data.message;
+        });
       }
-
-      let productId = this.cart.data.reduce((acc, product) => {
-        acc.push(product.id);
-        return acc;
-      }, []);
-
-      console.log(userId);
-      console.log(productId);
     },
 
     logout() {
@@ -216,6 +238,12 @@ Vue.component('navbar', {
             <article class="message is-danger" v-if="cart.message !== '' ">
               <div class="message-body">
                 {{ cart.message }}
+              </div>
+            </article>
+
+            <article class="message is-primary" v-if="cart.emptyMsg">
+              <div class="message-body">
+                No Products in Cart, <a href="javascript:void(0)" @click="closeCart" class="has-text-danger">Buy something?</a>
               </div>
             </article>
 
@@ -346,7 +374,7 @@ Vue.component('navbar', {
           </footer>
         </div>
       </div>
-
+      <div class="snackbar is-inverted" v-if="showSnackbar">Success checkout</div>
     </nav>
   `
 });
