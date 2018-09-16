@@ -21,10 +21,10 @@ const app = new Vue({
     },
     addToCart: function(item) {
       let inCart = false
-      for (let i = 0; i < this.parentCart.length; i++) {
+      for (var i = 0; i < this.parentCart.length; i++) {
         if (this.parentCart[i]._id === item._id) {
           inCart = true
-          this.parentCart[i].quantity += 1
+          var tempItem = this.parentCart[i]
           break;
         }
       }
@@ -32,6 +32,10 @@ const app = new Vue({
       if (!inCart) {
         item.quantity = 1
         this.parentCart.push(item)
+      } else {
+        this.parentCart.splice(i, 1)
+        tempItem.quantity += 1
+        this.parentCart.push(tempItem)
       }
     },
     deleteItem: function(itemId) {

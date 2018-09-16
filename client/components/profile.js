@@ -40,7 +40,7 @@ const profile = {
     </div>
   </div>
   `,
-  props: [ 'loginstatus' ],
+  props: [ 'newtransaction' ],
   data() {
     return {
       activeUser : function() {
@@ -64,10 +64,30 @@ const profile = {
       })
     }
   },
+  created() {
+    let self = this;
+    axios({
+      method: 'get',
+      url: 'http://localhost:3000/transactions',
+      headers: {
+        token: self.getToken()
+      }
+    })
+      .then(transactions => {
+        for (let i = 0; i < transactions.data.data.length; i++) {
+          if (transactions.data.data[i].user.email === localStorage.getItem('email')) {            
+            self.myTransactions.push(transactions.data.data[i])
+          }
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
   watch: {
-    loginstatus: function() {
-      if (this.loginstatus) {
-        let self = this;
+    newtransaction: function() {
+      this.myTransactions = []
+      let self = this;
         axios({
           method: 'get',
           url: 'http://localhost:3000/transactions',
@@ -77,8 +97,7 @@ const profile = {
         })
           .then(transactions => {
             for (let i = 0; i < transactions.data.data.length; i++) {
-              if (transactions.data.data[i].user.email === localStorage.getItem('email')) {
-                
+              if (transactions.data.data[i].user.email === localStorage.getItem('email')) {             
                 self.myTransactions.push(transactions.data.data[i])
               }
             }
@@ -86,7 +105,6 @@ const profile = {
           .catch(err => {
             console.log(err)
           })
-      }
     }
   }
 }

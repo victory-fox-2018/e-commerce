@@ -36,7 +36,7 @@ Vue.component('navbar', {
     <modalLogin v-on:is-login="changeIsLogin"></modalLogin>
     <modalRegister></modalRegister>
     <modalCart v-bind:cart="cart" v-on:delete-item="deleteItem" v-on:clear-cart="clearCart"></modalCart>
-    <modalProfile v-bind:loginstatus="isLogin"></modalProfile>
+    <modalProfile v-bind:newtransaction="newTransaction"></modalProfile>
   </div>
   `,
   props: [ 'parentcart' ],
@@ -51,6 +51,7 @@ Vue.component('navbar', {
         })
         return total
       },
+      newTransaction: false
     }
   },
   methods: {
@@ -75,6 +76,11 @@ Vue.component('navbar', {
       this.$emit('delete-item', itemId)
     },
     clearCart: function() {
+      if (this.newTransaction === true) {
+        this.newTransaction = false
+      } else {
+        this.newTransaction = true
+      }
       this.$emit('empty-cart')
     }
   },
