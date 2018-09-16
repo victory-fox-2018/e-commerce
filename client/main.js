@@ -3,10 +3,7 @@ const app = new Vue({
   data: {
     selectedCategory: '',
     allItems: false,
-    parentCart: [],
-    activeUser : function() {
-      return localStorage.getItem('user')
-    }
+    parentCart: []
   },
   methods: {
     filterCategory: function(category) {
@@ -40,6 +37,9 @@ const app = new Vue({
     deleteItem: function(itemId) {
       var index = this.parentCart.findIndex(e => e._id === itemId);
       this.parentCart.splice(index, 1)
+    },
+    emptyCart: function() {
+      this.parentCart = []
     }
   }
 })

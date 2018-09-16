@@ -19,12 +19,11 @@ Vue.component('navbar', {
         <ul class="navbar-nav ml-auto">
           <li class="nav-item pt-1 pr-2">
             <i class="nav-link fas fa-shopping-cart" data-toggle="modal" data-target="#exampleModal"></i> 
+            <label style="color: #809DB7;">{{ quantity() }}</label>
           </li>
-
-
           <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal" v-if="!isLogin">Login</a>
-            <a class="nav-link" href="#" data-toggle="modal" data-target="#profileModal" v-if="isLogin">Profile</a>
+            <a class="nav-link" href="#" data-toggle="modal" data-target="#profileModal" v-if="isLogin">My Transactions</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#" data-toggle="modal" data-target="#registerModal" v-if="!isLogin">Register</a>
@@ -36,22 +35,22 @@ Vue.component('navbar', {
 
     <modalLogin v-on:is-login="changeIsLogin"></modalLogin>
     <modalRegister></modalRegister>
-    <modalCart v-bind:cart="cart" v-on:delete-item="deleteItem"></modalCart>
-    
+    <modalCart v-bind:cart="cart" v-on:delete-item="deleteItem" v-on:clear-cart="clearCart"></modalCart>
+    <modalProfile v-bind:loginstatus="isLogin"></modalProfile>
   </div>
   `,
   props: [ 'parentcart' ],
   data() {
     return {
-      isLogin: false,
-      cart: []
-      // quantity: function () {
-      //   let total = 0;
-      //   this.cart.forEach(item => {
-      //     total += item.quantity
-      //   })
-      //   return total
-      // },
+      isLogin: '',
+      cart: [],
+      quantity: function () {
+        let total = 0;
+        this.parentcart.forEach(item => {
+          total += item.quantity
+        })
+        return total
+      },
     }
   },
   methods: {
@@ -74,13 +73,20 @@ Vue.component('navbar', {
     },
     deleteItem: function(itemId) {
       this.$emit('delete-item', itemId)
+    },
+    clearCart: function() {
+      this.$emit('empty-cart')
     }
   },
   components: {
     categoryList: category,
     modalLogin: login,
     modalRegister: register,
-    modalCart: cart
+    modalCart: cart,
+    modalProfile: profile
+  },
+  created() {
+    this.isLogin = this.getToken()
   },
   watch: {
     parentcart: function(newVal, oldVal) {
@@ -88,6 +94,3 @@ Vue.component('navbar', {
     }
   }
 })
-
-//<label style="color: #809DB7;">{{
- // quantity }}</label>

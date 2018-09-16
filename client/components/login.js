@@ -47,6 +47,7 @@ const login = {
           self.emailLogin = ''
           self.passwordLogin = ''
 
+          localStorage.setItem('email', data.data.email)
           localStorage.setItem('user', data.data.user)
           localStorage.setItem('token', data.data.token)
 

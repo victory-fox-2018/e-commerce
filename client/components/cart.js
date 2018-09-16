@@ -48,41 +48,44 @@ const cart = {
     }
   },
   methods: {
+    getToken: function() {
+      return localStorage.getItem('token')
+    },
     deleteFromCart: function (itemId) {
       this.$emit('delete-item', itemId)
     },
     checkout: function () {
-      if(this.cart.length) {
+      if(this.modalCart.length) {
         if(this.getToken()) {
-        let self = this
-        let arrCheckout = []
-        this.cart.forEach(item => {
-          for (let i = 0; i < item.quantity; i++) {
-            arrCheckout.push(item._id)
-          }
-        })
+          let self = this
+          let arrCheckout = []
+          this.modalCart.forEach(item => {
+            for (let i = 0; i < item.quantity; i++) {
+              arrCheckout.push(item._id)
+            }
+          })
 
-        axios({
-          method: 'post',
-          url: 'http://localhost:3000/transactions',
-          data: {
-            totalPrice: this.totalPrice,
-            items: arrCheckout
-          },
-          headers: {
-            token: self.getToken()
+          axios({
+            method: 'post',
+            url: 'http://localhost:3000/transactions',
+            data: {
+              totalPrice: this.totalPrice,
+              items: arrCheckout
+            },
+            headers: {
+              token: self.getToken()
+            }
+          })
+            .then(transaction => {
+              self.totalPrice = 0
+              this.$emit('clear-cart')
+            })
+            .catch(err => {
+              console.log(err)
+            })
+          } else {
+            console.log('you have not log in!')
           }
-        })
-          .then(transaction => {
-            self.cart = []
-            self.totalPrice = 0
-          })
-          .catch(err => {
-            console.log(err)
-          })
-        } else {
-          console.log('you have not log in!')
-        }
       } else {
         console.log('your cart is empty!')
       }   
