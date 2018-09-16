@@ -3,6 +3,7 @@ const app = new Vue({
   data: {
     selectedCategory: '',
     allItems: false,
+    parentCart: [],
     activeUser : function() {
       return localStorage.getItem('user')
     }
@@ -20,8 +21,25 @@ const app = new Vue({
     },
     clearCategory: function() {
       this.selectedCategory = ''
+    },
+    addToCart: function(item) {
+      let inCart = false
+      for (let i = 0; i < this.parentCart.length; i++) {
+        if (this.parentCart[i]._id === item._id) {
+          inCart = true
+          this.parentCart[i].quantity += 1
+          break;
+        }
+      }
+
+      if (!inCart) {
+        item.quantity = 1
+        this.parentCart.push(item)
+      }
+    },
+    deleteItem: function(itemId) {
+      var index = this.parentCart.findIndex(e => e._id === itemId);
+      this.parentCart.splice(index, 1)
     }
-  },
-  created() {
   }
 })

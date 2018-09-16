@@ -17,7 +17,9 @@ Vue.component('navbar', {
           <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
         </form>
         <ul class="navbar-nav ml-auto">
-          
+          <li class="nav-item pt-1 pr-2">
+            <i class="nav-link fas fa-shopping-cart" data-toggle="modal" data-target="#exampleModal"></i> 
+          </li>
 
 
           <li class="nav-item">
@@ -34,12 +36,15 @@ Vue.component('navbar', {
 
     <modalLogin v-on:is-login="changeIsLogin"></modalLogin>
     <modalRegister></modalRegister>
+    <modalCart v-bind:cart="cart" v-on:delete-item="deleteItem"></modalCart>
     
   </div>
   `,
+  props: [ 'parentcart' ],
   data() {
     return {
-      isLogin: false
+      isLogin: false,
+      cart: []
       // quantity: function () {
       //   let total = 0;
       //   this.cart.forEach(item => {
@@ -66,22 +71,23 @@ Vue.component('navbar', {
     },
     changeIsLogin: function() {
       this.isLogin = true
+    },
+    deleteItem: function(itemId) {
+      this.$emit('delete-item', itemId)
     }
   },
   components: {
     categoryList: category,
     modalLogin: login,
     modalRegister: register,
-    //modalCart: cart
+    modalCart: cart
   },
   watch: {
-    // isLogin: function(newVal, oldVal) {
-    //   console.log('masuk')
-    // }
+    parentcart: function(newVal, oldVal) {
+      this.cart = this.parentcart 
+    }
   }
 })
 
-{/* <li class="nav-item pt-1 pr-2">
-            <i class="nav-link fas fa-shopping-cart" data-toggle="modal" data-target="#exampleModal"></i> <label style="color: #809DB7;">{{
-              quantity() }}</label>
-          </li> */}
+//<label style="color: #809DB7;">{{
+ // quantity }}</label>

@@ -12,7 +12,7 @@ const cart = {
             </button>
           </div>
           <div class="modal-body">
-            <div class="row" v-for="item in cart" v-if="cart.length">
+            <div class="row" v-for="item in modalCart" v-if="cart.length">
               <div class="col-sm-2">
                 <img src="https://via.placeholder.com/82x72" alt="placeholder">
               </div>
@@ -25,7 +25,7 @@ const cart = {
                 </div>
               </div>
               <div class="col-sm-4">
-                <p class="text-right" style="color: red;">{{ item.price }}</p>
+                <p class="text-right" style="color: red;">Rp {{ item.price }}</p>
                 <p class="text-right text-muted">{{ item.quantity }} Pcs</p>
               </div>
             </div>
@@ -40,17 +40,16 @@ const cart = {
       </div>
     </div>
   `,
+  props: [ 'cart' ],
   data() {
     return {
-      cart: [],
+      modalCart: [],
       totalPrice: 0,
     }
   },
   methods: {
     deleteFromCart: function (itemId) {
-      var index = this.cart.findIndex(e => e._id === itemId);
-      this.totalPrice -= (this.cart[index].price * this.cart[index].quantity)
-      this.cart.splice(index, 1)
+      this.$emit('delete-item', itemId)
     },
     checkout: function () {
       if(this.cart.length) {
@@ -86,9 +85,20 @@ const cart = {
         }
       } else {
         console.log('your cart is empty!')
-      }
-      
-      
+      }   
     },
+    updateCart: function() {
+      this.modalCart = this.cart
+      let total = 0;
+      for (let i = 0; i < this.modalCart.length; i++) {
+        total += this.modalCart[i].quantity * this.modalCart[i].price
+      }
+      this.totalPrice = total
+    }
+  },
+  watch: {
+    cart: function(newVal, oldVal) {
+      this.updateCart()
+    }
   }
 }

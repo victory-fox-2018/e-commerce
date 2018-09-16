@@ -32,21 +32,7 @@ Vue.component('etalase-item', {
   },
   methods: {
     addToCart: function (item) {
-      let inCart = false
-      for (let i = 0; i < this.cart.length; i++) {
-        if (this.cart[i]._id === item._id) {
-          inCart = true
-          this.cart[i].quantity += 1
-          this.totalPrice += item.price
-          break;
-        }
-      }
-
-      if (!inCart) {
-        item.quantity = 1
-        this.totalPrice += item.price
-        this.cart.push(item)
-      }
+      this.$emit('add-cart', item)
     },
   },
   created() {
