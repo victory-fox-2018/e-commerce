@@ -169,17 +169,9 @@ Vue.component('navbar', {
   },
   template: `
     <nav class="navbar is-fixed-top is-primary" role="navigation" aria-label="main navigation">
-      <div class="container is-fullhd">
         <div class="navbar-brand">
           <a href="javascript:void(0)" class="navbar-item title">TutupLapak</a>
         </div>
-        <!-- 
-        <a href="javascript:void(0)" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a> 
-        -->
 
         <div class="navbar-start">
           <div class="navbar-item">
@@ -373,7 +365,7 @@ Vue.component('navbar', {
             <button class="button is-medium" @click="closeSignUp">Cancel</button>
           </footer>
         </div>
-      </div>
+        </div>
       <div class="snackbar is-inverted" v-if="showSnackbar">Success checkout</div>
     </nav>
   `
