@@ -2,13 +2,13 @@ const Item = require('../models/items')
 
 const createItem = function (req, res) {
     let { name, description, price, category } = req.body
-    let image = req.file.originalname
+    // let image = req.file.originalname
     Item.create({
         name: name,
         description: description,
         price: price,
         category: category,
-        image: req.file.originalname
+        image: req.body.image
     })
         .then(function (newItem) {
             res.status(200).json({

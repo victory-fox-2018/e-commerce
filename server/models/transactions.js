@@ -11,7 +11,7 @@ var transactionSchema = new Schema({
         type: Schema.Types.ObjectId
     }],
     totalPrice:{
-        type:Number,
+        type:String,
         required:[true, "total price required"]
     }
 }, {

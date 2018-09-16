@@ -1,10 +1,12 @@
-const Transaction = require('../models/transaction')
+const Transaction = require('../models/transactions')
 const User = require('../models/users')
 
 const addTransaction = function (req, res) {
 
     User.findOne({ email: req.user.email })
-        .then(function (user) {
+    
+    .then(function (user) {
+        console.log('masuuk find then');
             if (user) {
                 let listItem = []
                 req.body.itemList.forEach(element => {
@@ -14,7 +16,7 @@ const addTransaction = function (req, res) {
                 Transaction.create({
                     user: req.user.id,
                     itemList: listItem,
-                    total: req.body.total
+                    totalPrice: req.body.totalPrice
                 })
                     .then(function (newTransaction) {
                         res.status(200).json({
@@ -48,7 +50,7 @@ const getAllTransaction = function (req, res) {
     User.findById(req.user.id)
     .then(function (user) {
         if (user) {
-            Transaction.find({ userId = req.user.id })
+            Transaction.find({ user : req.user.id })
             .populate(['user', 'itemList'])
             .then(function (Transactions) {
                 res.status(200).json({
