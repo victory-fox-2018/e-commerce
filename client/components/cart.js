@@ -12,6 +12,12 @@ const cart = {
             </button>
           </div>
           <div class="modal-body">
+            <div class="alert alert-danger" role="alert" v-if="errorMsg">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ errorMsg }}</div>
+            <div class="alert alert-success" role="alert" v-if="successMsg">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ successMsg }}</div>
             <div class="row" v-for="item in modalCart" v-if="cart.length">
               <div class="col-sm-2">
                 <img src="https://via.placeholder.com/82x72" alt="placeholder">
@@ -45,6 +51,8 @@ const cart = {
     return {
       modalCart: [],
       totalPrice: 0,
+      errorMsg: '',
+      successMsg: ''
     }
   },
   methods: {
@@ -78,16 +86,17 @@ const cart = {
           })
             .then(transaction => {
               self.totalPrice = 0
+              this.successMsg = 'Transaction success! Thank you for shopping at Blanjapedia!'
               this.$emit('clear-cart')
             })
             .catch(err => {
               console.log(err)
             })
           } else {
-            console.log('you have not log in!')
+            this.errorMsg = 'You have not logged in!'
           }
       } else {
-        console.log('your cart is empty!')
+        this.errorMsg = 'Your cart is empty!'
       }   
     },
     updateCart: function() {

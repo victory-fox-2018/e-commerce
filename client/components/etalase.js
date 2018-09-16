@@ -23,7 +23,7 @@ Vue.component('etalase-item', {
       </div>
     </div>
   `,
-  props: [ 'selectedcategory', 'allitems' ],
+  props: [ 'selectedcategory', 'allitems', 'searchresults' ],
   data() {
     return {
       items: [],
@@ -48,6 +48,7 @@ Vue.component('etalase-item', {
             self.allItems.push(categories.data.data[i].items[j])
           }
         }
+        self.$emit('items-for-search', self.allItems)
       })
       .catch(err => {
         console.log(err)
@@ -67,6 +68,9 @@ Vue.component('etalase-item', {
     allitems: function(newVal, oldVal) {
       this.items = this.allItems
       this.$emit('clear-category')
+    },
+    searchresults: function(newVal, oldVal) {
+      this.items = newVal
     }
   }
 })

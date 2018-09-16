@@ -3,7 +3,9 @@ const app = new Vue({
   data: {
     selectedCategory: '',
     allItems: false,
-    parentCart: []
+    parentCart: [],
+    itemsForSearching: [],
+    searchResults: []
   },
   methods: {
     filterCategory: function(category) {
@@ -44,6 +46,12 @@ const app = new Vue({
     },
     emptyCart: function() {
       this.parentCart = []
+    },
+    itemsForSearch: function(items) {
+      this.itemsForSearching = items
+    },
+    goSearch: function(items) {
+      this.searchResults = items
     }
   }
 })

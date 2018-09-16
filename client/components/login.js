@@ -11,6 +11,12 @@ const login = {
             </button>
           </div>
           <div class="modal-body">
+            <div class="alert alert-danger" role="alert" v-if="errorMsg">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ errorMsg }}</div>
+            <div class="alert alert-success" role="alert" v-if="successMsg">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+            {{ successMsg }}</div>
             <div class="form-group">
               <input id="email" type="email" class="form-control" placeholder="Email" required="required" v-model="emailLogin">
             </div>
@@ -18,7 +24,7 @@ const login = {
               <input id="password" type="password" class="form-control" placeholder="Password" required="required" v-model="passwordLogin">
             </div>
             <div class="form-group">
-              <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" v-on:click="login()">Log in</button>
+              <button type="button" class="btn btn-primary btn-block" v-on:click="login()">Log in</button>
             </div>
             <p class="text-center">or login via </p>
           </div>
@@ -29,35 +35,43 @@ const login = {
   data() {
     return {
       emailLogin: '',
-      passwordLogin: ''
+      passwordLogin: '',
+      errorMsg: '',
+      successMsg: ''
     }
   },
   methods: {
     login: function() {
-      let self = this;
-      axios({
-        method: 'post',
-        url: 'http://localhost:3000/users/login',
-        data: {
-          email: this.emailLogin,
-          password: this.passwordLogin
-        }
-      })
-        .then(data => {
-          self.emailLogin = ''
-          self.passwordLogin = ''
-
-          localStorage.setItem('email', data.data.email)
-          localStorage.setItem('user', data.data.user)
-          localStorage.setItem('token', data.data.token)
-
-          self.$emit('is-login', true)
-
-          //window.location.reload()
+      if(this.emailLogin === '' || this.passwordLogin === '') {
+        this.errorMsg = 'please insert your email & password!'
+      } else {
+        let self = this;
+        axios({
+          method: 'post',
+          url: 'http://localhost:3000/users/login',
+          data: {
+            email: this.emailLogin,
+            password: this.passwordLogin
+          }
         })
-        .catch(err => {
-          console.log(err)
-        })
+          .then(data => {
+            self.emailLogin = ''
+            self.passwordLogin = ''
+            self.successMsg = 'Login success!'
+  
+            localStorage.setItem('email', data.data.email)
+            localStorage.setItem('user', data.data.user)
+            localStorage.setItem('token', data.data.token)
+  
+            self.$emit('is-login', true)
+  
+            //window.location.reload()
+          })
+          .catch(err => {
+            this.errorMsg = 'Invalid email or password!'
+          })
+      }
+
     }
   }
 }

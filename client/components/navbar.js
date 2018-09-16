@@ -3,7 +3,7 @@ Vue.component('navbar', {
   `
   <div>
     <nav class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top">
-      <a class="navbar-brand" href="#">Blanjapedia</a>
+      <a class="navbar-brand" href="index.html">Blanjapedia</a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive"
         aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -11,11 +11,7 @@ Vue.component('navbar', {
 
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <categoryList v-on:filter-category="filterCategory" v-on:all-items="selectAllItems"></categoryList>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" id="navBarSearchForm" type="search" placeholder="Search product..."
-            aria-label="Search">
-          <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <searchBarMain v-on:search-result="generateSearch" v-bind:itemsforsearch="allItems"></searchBarMain>
         <ul class="navbar-nav ml-auto">
           <li class="nav-item pt-1 pr-2">
             <i class="nav-link fas fa-shopping-cart" data-toggle="modal" data-target="#exampleModal"></i> 
@@ -39,7 +35,7 @@ Vue.component('navbar', {
     <modalProfile v-bind:newtransaction="newTransaction"></modalProfile>
   </div>
   `,
-  props: [ 'parentcart' ],
+  props: [ 'parentcart', 'searchitems' ],
   data() {
     return {
       isLogin: '',
@@ -51,7 +47,8 @@ Vue.component('navbar', {
         })
         return total
       },
-      newTransaction: false
+      newTransaction: false,
+      allItems: []
     }
   },
   methods: {
@@ -82,6 +79,9 @@ Vue.component('navbar', {
         this.newTransaction = true
       }
       this.$emit('empty-cart')
+    },
+    generateSearch: function(items) {
+      this.$emit('generate-search', items)
     }
   },
   components: {
@@ -89,7 +89,9 @@ Vue.component('navbar', {
     modalLogin: login,
     modalRegister: register,
     modalCart: cart,
-    modalProfile: profile
+    modalProfile: profile,
+    searchBarMain: searchbar
+
   },
   created() {
     this.isLogin = this.getToken()
@@ -97,6 +99,9 @@ Vue.component('navbar', {
   watch: {
     parentcart: function(newVal, oldVal) {
       this.cart = this.parentcart 
+    },
+    searchitems: function(newVal, oldVal) {
+      this.allItems = this.searchitems
     }
   }
 })
