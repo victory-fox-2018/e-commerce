@@ -8,7 +8,9 @@ Vue.component('categories', {
     }
   },
   methods: {
-
+    selectCategory(id) {
+      this.$emit('select-category', id);
+    }
   },
   created() {
     
@@ -38,7 +40,7 @@ Vue.component('categories', {
         <div class="columns" v-if="parentCategories.length !== 0 && !showEmptyMsg">
           <div class="column">
             <span v-for="category in parentCategories" >
-              <a class="button is-primary is-outlined is-rounded is-large" href="javascript:void(0)" style="margin-right: 10px">{{ category.name }}</a> 
+              <a class="button is-primary is-outlined is-rounded is-large" href="javascript:void(0)" style="margin-right: 10px" @click="selectCategory(category._id)">{{ category.name }}</a> 
             </span>
           </div>
         </div>

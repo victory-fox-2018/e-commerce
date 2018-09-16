@@ -4,11 +4,34 @@ Vue.component('products', {
     return {
       showLoader: true,
       showEmptyMsg: false,
-      parentProducts: []
+      showSnackbar: false,
+      parentProducts: [],
     }
   },
   methods: {
+    addToCart(id, name, price, seller, area) {
+      let self = this;
+      let product = {
+        id, name, price, seller, area
+      }
+      
+      if(!localStorage.getItem('cart')) {
+        localStorage.setItem('cart', JSON.stringify([]))
+        let cart = JSON.parse(localStorage.getItem('cart'))
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        this.showSnackbar = true;
+        window.setTimeout(() => self.showSnackbar = false, 3000);
+      } else {
+        let cart = JSON.parse(localStorage.getItem('cart'));
+        cart.push(product);
+        localStorage.setItem('cart', JSON.stringify(cart));
 
+        this.showSnackbar = true;
+        window.setTimeout(() => self.showSnackbar = false, 3000);
+      }
+    }
   },
   created() {
     
@@ -48,12 +71,13 @@ Vue.component('products', {
               <p><span class="fa fa-map-marker-alt"></span> <span>{{ product.area }}</span></p>
             </div>
             <div class="card-footer">
-              <a href="javascript:void(0)" class="button is-primary is-fullwidth">Add to Cart</a>
+              <a href="javascript:void(0)" class="button is-primary is-fullwidth" @click="addToCart(product._id, product.name, product.price, product.seller, product.area)">Add to Cart</a>
             </div>
           </div>     
         </div>
         
       </div>
+      <div class="snackbar" v-if="showSnackbar">Added to Cart</div>
     </section>
   `
 });

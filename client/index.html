@@ -10,7 +10,6 @@
   <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Baloo+Tammudu" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
-  <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.1/css/bulma.min.css"> -->
   <link rel="stylesheet" href="./css/custom.css">
   
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -33,7 +32,7 @@
       </div>
     </section>
 
-    <categories :categories="categories"></categories>
+    <categories :categories="categories" @select-category="selectCategory"></categories>
     <products :products="products"></products>
 
     <footer class="section has-background-grey">
