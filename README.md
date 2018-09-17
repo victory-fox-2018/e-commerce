@@ -1,7 +1,7 @@
 # e-commerce
 An E-commerce mockup website with Vue.js
 
-Access the website at ````http://ecommerce.renaldypratama.xyz```` or API at ````http://api.renaldypratama.xyz/````
+Access the website at http://ecommerce.renaldypratama.xyz or API at http://api.renaldypratama.xyz
 
 ### REST API
 List of user routes:
