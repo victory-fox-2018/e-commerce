@@ -16,6 +16,12 @@
   width: 150px
 }
 
+.sayhii {
+  color: white;
+  position: relative;
+  top: 4px;
+}
+
 #navbarResponsive ul li a {
   color: white;
 }

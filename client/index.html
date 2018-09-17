@@ -46,6 +46,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
+          <h5 v-if="isLogin" class="sayhii">Hii {{ whoisLogin }}</h5>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
               <a class="nav-link" v-if="!isLogin" @click="displayFormSignin()" href="JavaScript:Void(0)" data-toggle="modal" data-target="#signModal">Masuk</a>
@@ -105,7 +106,8 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-            <button type="button" class="btn btn-primary" @click="signin(email, password)">Masuk</button>
+            <button v-if="fSignin" type="button" class="btn btn-primary" @click="signin(email, password)">Masuk</button>
+            <button v-if="fSignup" type="button" class="btn btn-primary" @click="signup(name, email, password, phone)">Daftar</button>
           </div>
         </div>
       </div>
@@ -161,14 +163,37 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div  class="modal-footer">
+                  <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                    <button v-if="wishlist.length" type="button" class="btn btn-primary" @click="checkout(wishlist, totalPrice)">Bayar</button>
+                    <button v-if="wishlist.length" type="button" class="btn btn-primary" @click="checkout(wishlist, totalPrice)" data-toggle="modal" data-target="#modalBorong">Bayar</button>
                   </div>
                 </div>
               </div>
             </div>
-            <!-- <p v-if="wishlist.length" >{{ wishlist.length }}</p> -->
+
+            <!-- modal borongSuccess -->
+            <div v-if="borongSuccess" class="modal fade" id="modalBorong" tabindex="-1" role="dialog" aria-labelledby="modalBorong" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">
+                        <i class="far fa-smile-beam"></i>
+                      Berhasil ngeBorong
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    {{ notifBorong }}
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Borong Lagi</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </form>
         </ol>
 
@@ -177,17 +202,7 @@
       <!-- category -->
       <div class="row">
         <div class="col-lg-3">
-          <!-- <nav aria-label="breadcrumb" id="breadcrumb">
-                <ol class="breadcrumb">
-                  <li class="breadcrumb-item text-primary">P E N C A R I A N</li>
-                  <div class="search" id="bc-list">
-                      <input class="form-control mr-sm-2" type="search" placeholder="Pencarian" aria-label="Search" style="width: 175px">
-                    </div>
-                    <div id="bc-list">
-                      <button class="btn btn-outline-light my-2 my-sm-0" type="submit" style="width: 40px;"><i class="fas fa-search"></i></button>
-                    </div>
-                </ol>
-              </nav> -->
+
           <nav aria-label="breadcrumb" id="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item text-primary">K A T E G O R I</li>
@@ -284,52 +299,76 @@
         items: [],
         wishlist: [],
         totalPrice: 0,
-        idx: 0,
+        whoisLogin: localStorage.getItem('name'),
         itemPerCategory: [],
         isLogin: false,
         fSignin: false,
         fSignup: false,
+        borongSuccess: false,
+        notifBorong: '',
       },
       created: function () {
         let self = this;
+        let token = localStorage.getItem('token');
         axios({
           method: 'get',
-          url: 'http://35.240.147.226/items'
+          url: 'http://35.240.147.226/items',
+          token
         })
-          .then(result => {
-            let token = localStorage.getItem('token');
-            if (token) {
-              this.isLogin = true;
-            }
-            self.items = result.data.items;
-          })
-          .catch(err => {
+        .then(result => {
+          if (token) {
+            this.isLogin = true;
+          }
+          self.items = result.data.items;
+        })
+        .catch(err => {
 
-          });
+        });
 
         axios({
           method: 'get',
           url: 'http://35.240.147.226/categories'
         })
-          .then(result => {
-            self.categories = result.data.categories;
-          })
-          .catch(err => {
+        .then(result => {
+          self.categories = result.data.categories;
+        })
+        .catch(err => {
 
-          })
+        })
       },
       methods: {
         signin: function (email, password) {
+          let self = this;
           console.log(email, password);
-          axios.post('http://35.240.147.226/customers/signin', { email, password })
+          // axios.post('http://35.240.147.226/customers/signin', { email, password })
+          axios.post('http://localhost:3014/customers/signin', { email, password })
             .then(response => {
+              console.log(response.data.name);
+              self.whoisLogin = response.data.name;
+              
               window.location.replace('/');
               localStorage.setItem('token', response.data.token);
+              localStorage.setItem('name', response.data.name)
             })
             .catch(err => {
 
             })
 
+        },
+
+        signup: function (name, email, password, phone) {
+          // console.log(name, email, password);
+          axios
+            .post('http://localhost:3014/customers/signup', { name, email, password, phone })
+            .then(result => {
+              console.log(result.data.message);
+              window.location.replace('/')
+              
+            })
+            .catch(err => {
+              console.log();
+              
+            })
         },
 
         displayFormSignin: function () {
@@ -351,17 +390,18 @@
           let self = this;
           axios({
             method: 'get',
-            url: `http://35.240.147.226/items/${id}`
+            // url: `http://35.240.147.226/items/${id}`
+            url: `http://localhost:3014/items/${id}`
           })
-            .then(result => {
-              this.itemPerCategory = result.data.items;
-              this.items = result.data.items;
+          .then(result => {
+            this.itemPerCategory = result.data.items;
+            this.items = result.data.items;
 
-              // self.items = result.data.items;
-            })
-            .catch(err => {
+            // self.items = result.data.items;
+          })
+          .catch(err => {
 
-            });
+          });
         },
 
         addCart: function (item) {
@@ -375,30 +415,32 @@
         },
 
         checkout: function (wishlist, totalPrice) {
+          let self = this;
           let itemsId = [];
           wishlist.forEach(item => {
             // console.log(item._id);
             itemsId.push(item._id);
 
           })
-          console.log(itemsId);
-          console.log(totalPrice);
+          // console.log(itemsId);
+          // console.log(totalPrice);
 
           axios({
             method: 'post',
             url: 'http://localhost:3014/carts',
             // url: `http://35.240.147.226/carts`,
-            data: {
-              itemsId, totalPrice: this.totalPrice,
-              token: localStorage.getItem('token')
-            }
+            data: { itemsId, token: localStorage.getItem('token') }
           })
-            .then(result => {
+          .then(result => {
+            console.log(result.data.message);
+            this.notifBorong = result.data.message;
+            self.borongSuccess = true;
+            // window.location.replace('/');
+            
+          })
+          .catch(err => {
 
-            })
-            .catch(err => {
-
-            })
+          })
         }
 
       }

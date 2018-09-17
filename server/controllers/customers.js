@@ -4,28 +4,30 @@ const { encrypt } = require('../helpers/encrypt');
 
 module.exports = {
   signin: (req, res) => {
-    console.log(req.body);
+    
     Customer
       .findOne({
         email: req.body.email,
         password: encrypt(req.body.password)
       })
       .then(customer => {
+        
         if(customer) {
           const id = customer._id;
+          
           jwt.sign({
             id,
             name: customer.name,
             email: customer.email
           }, process.env.SECRET, (err, token) => {
-            // console.log(token);
+            
             res.status(200).json({
-              message: `Signin successfully`,
-              token,
+              message: `Berhail masuk`,
+              token, name: customer.name
             })
           })
         } else {
-          res.status(400).json({ message: 'User not found!' });
+          res.status(400).json({ message: 'Pengguna tidak tidak ditemukan' });
         }
       })
       .catch(err => {
@@ -36,18 +38,20 @@ module.exports = {
   },
 
   signup: (req, res) => {
-    const newItem = new Customer({
+    console.log(req.body);
+    
+    const newCustomer = new Customer({
       name: req.body.name,
       email: req.body.email,
       password: encrypt(req.body.password),
       phone: req.body.phone
     });
 
-    newItem
+    newCustomer
       .save()
       .then(Customer => {
         res.status(200).json({
-          message: `${Customer.name} has been insert into Customers`
+          message: `Selamat ${Customer.name}, sekarang kamu sudah terdaftar sebagai Customer Borong-borong `
         })
       })
       .catch(err => {
@@ -67,11 +71,11 @@ module.exports = {
       .then(updated => {
         if(updated.n) {
           res.status(200).json({
-            message: `Customer has been updated`
+            message: `Data Profilmu sudah diperbarui`
           })
         } else {
           res.status(400).json({
-            message: `Customer not found`
+            message: `Data tidak ditemukan`
           })
         }
       })
@@ -90,7 +94,7 @@ module.exports = {
           })
         } else {
           res.status(400).json({
-            message: `Customer not found`
+            message: `Data tidak ditemukan`
           })
         }
       })
