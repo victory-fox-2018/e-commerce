@@ -40,6 +40,22 @@ breadcrumb {
   width: 44px;
 }
 
+#content {
+  margin-top: 20px;
+}
+
+.nav-item .btn {
+  border: none;
+  width: 40px;
+}
+
+#navbarResponsive p {
+  color: white; 
+  display: inline-block; 
+  position: relative; 
+  right: 10px; 
+  font-weight: bold;
+}
 
 li.breadcrumb-item {
   font-weight: bold;
