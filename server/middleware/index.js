@@ -9,8 +9,11 @@ module.exports = {
         if (token) {
             jwt.verify(token, process.env.ACCESS_DATA, function (err, decoded) {
                 if(!err){
-                    req.userId = decoded.userId
-                    next()
+                    User.findById(decoded.userId)
+                    .then(function (user) {
+                        req.userId = decoded.userId
+                        next()
+                    })
                 }else {
                     res.status(401).json({
                         data : `alah keplek`
