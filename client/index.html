@@ -57,8 +57,7 @@
               </button>
             </li>
             <li>
-              <p v-if="wishlist.length" >{{
-                wishlist.length }}</p>
+              <p v-if="wishlist.length" >{{ wishlist.length }}</p>
             </li>
             <li class="nav-item">
               <a class="nav-link" v-if="isLogin" @click="signout()" href="JavaScript:Void(0)">Keluar</a>
@@ -124,13 +123,8 @@
             <div id="bc-list">
               <button class="btn btn-outline-light my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
             </div>
-            <!-- <div id="bc-list">
-              <button v-if="isLogin" class="btn btn-outline-light my-2 my-sm-0" type="button" data-toggle="modal" data-target=".bd-example-modal-lg">
-                <i class="fas fa-shopping-cart"></i>
-              </button>
-            </div> -->
 
-            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div id="checkoutModal" class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-md">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -165,14 +159,14 @@
                   </table>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-                    <button v-if="wishlist.length" type="button" class="btn btn-primary" @click="checkout(wishlist, totalPrice)" data-toggle="modal" data-target="#modalBorong">Bayar</button>
+                    <button v-if="wishlist.length" type="button" class="btn btn-primary" @click="checkout(wishlist, totalPrice)" data-toggle="modal" data-target="#modalBorong" menu-close="modal">Bayar</button>
                   </div>
                 </div>
               </div>
             </div>
 
             <!-- modal borongSuccess -->
-            <div v-if="borongSuccess" class="modal fade" id="modalBorong" tabindex="-1" role="dialog" aria-labelledby="modalBorong" aria-hidden="true">
+            <div class="modal fade" id="modalBorong" tabindex="-1" role="dialog" aria-labelledby="modalBorong" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -200,9 +194,8 @@
       </nav>
 
       <!-- category -->
-      <div class="row">
+      <div class="row" id="catitem-content">
         <div class="col-lg-3">
-
           <nav aria-label="breadcrumb" id="breadcrumb">
             <ol class="breadcrumb">
               <li class="breadcrumb-item text-primary">K A T E G O R I</li>
@@ -210,8 +203,8 @@
           </nav>
           <div class="category">
             <div class="list-group">
-              <a href="http://localhost:8080/" class="list-group-item">Semua Kategori</a>
-              <a href="#" class="list-group-item" v-for="category in categories" @click="filterByCategory(category._id)">{{
+              <a href="JavaScript:Void(0)" @click="allCategories()" class="list-group-item">Semua Kategori</a>
+              <a href="JavaScript:Void(0)" class="list-group-item" v-for="category in categories" @click="filterByCategory(category._id)">{{
                 category.name }}</a>
             </div>
           </div>
@@ -266,7 +259,11 @@
             </div>
           </div>
           <div v-else="items.length">
-            <h4>Item masih kosong</h4>
+            <!-- <h4>Item masih kosong</h4> -->
+            <center>
+              <img src="img/masihkosong.png" alt="item masih kosong">
+
+            </center>
           </div>
           <!-- /.row -->
         </div>
@@ -309,6 +306,7 @@
         fSignup: false,
         borongSuccess: false,
         notifBorong: '',
+        
       },
       created: function () {
         let self = this;
@@ -323,6 +321,7 @@
             this.isLogin = true;
           }
           self.items = result.data.items;
+                    
         })
         .catch(err => {
 
@@ -365,7 +364,7 @@
             .post('http://localhost:3014/customers/signup', { name, email, password, phone })
             .then(result => {
               console.log(result.data.message);
-              window.location.replace('/')
+              window.location.replace('/');
               
             })
             .catch(err => {
@@ -411,22 +410,22 @@
           this.wishlist.push(item)
           let price = item.price;
           for (let i = 0; i < this.wishlist.length - 1; i++) {
-            price += this.wishlist[i].price
+            price += this.wishlist[i].price;
           }
           this.totalPrice = price;
 
+        },
+
+        allCategories: function() {
+          window.location.replace('/')
         },
 
         checkout: function (wishlist, totalPrice) {
           let self = this;
           let itemsId = [];
           wishlist.forEach(item => {
-            // console.log(item._id);
             itemsId.push(item._id);
-
           })
-          // console.log(itemsId);
-          // console.log(totalPrice);
 
           axios({
             method: 'post',
@@ -438,12 +437,22 @@
             console.log(result.data.message);
             this.notifBorong = result.data.message;
             self.borongSuccess = true;
+            self.$refs.checkoutModal.hide();
+            self.$refs.modalBorong.show();
             // window.location.replace('/');
             
           })
           .catch(err => {
 
           })
+        },
+
+        showModal() {
+          this.$refs.checkoutModal.show();
+        },
+
+        hideModal() {
+          this.$refs.checkoutModal.hide();
         }
 
       }
@@ -451,6 +460,20 @@
     })
 
   </script>
+
+  <!-- <script>
+    export default {
+      methods: {
+        showModal() {
+          this.$refs.checkoutModal.show();
+        },
+
+        hideModal() {
+          this.$refs.checkoutModal.hide();
+        }
+      }
+    }
+  </script> -->
 </body>
 
 </html>

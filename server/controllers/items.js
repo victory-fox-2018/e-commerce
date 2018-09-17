@@ -89,6 +89,24 @@ module.exports = {
       res.status(500).json({message: err.message});
     })
     
+  },
+
+  search: (req, res) => {
+    console.log(req.params);
+    console.log(req.body);
+    Item
+    .find({
+      name: name.search(req.body.name)
+      })
+      .then(result => {
+        console.log(result);
+        
+      })
+      .catch(err => {
+        console.log(err);
+        
+      })
+    
   }
 
 };

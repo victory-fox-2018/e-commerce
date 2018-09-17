@@ -46,6 +46,10 @@ breadcrumb {
   width: 44px;
 }
 
+#catitem-content {
+  min-height: 900px;
+}
+
 #content {
   margin-top: 20px;
 }
