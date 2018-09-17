@@ -51,7 +51,8 @@ const getAllTransaction = function (req, res) {
     .then(function (user) {
         if (user) {
             Transaction.find({ user : req.user.id })
-            .populate(['user', 'itemList'])
+            .populate('user')
+            .populate('itemList')
             .then(function (Transactions) {
                 res.status(200).json({
                     message: "data found",
