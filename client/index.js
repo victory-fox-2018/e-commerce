@@ -24,6 +24,11 @@ var app = new Vue({
                 this.token = true  
             }
         },
+        isLogout:function(newLogout, oldLogout){
+            if(newLogout){
+                this.token = false
+            }
+        }
     },
     computed:{
         priceTag:function(){

@@ -10,10 +10,7 @@ Vue.component('nav-bar', {
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <input class="form-control" type="text" placeholder="Search item here">
-                        </li>
-
+                        
                         <li class="nav-item" v-if="token">
                             <div class="dropdown">
                                 <button class="btn btn-transaparent dropdown-toggle bg-transparent" type="button" id="dropdownMenuButton"
@@ -29,23 +26,21 @@ Vue.component('nav-bar', {
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">No</th>
-                                                        <th scope="col">Name</th>
-                                                        <th scope="col">Price</th>
-                                                        <th scope="col">Quantity</th>
+                                                        <th scope="col">List Item</th>
+                                                        <th scope="col">Total Price</th>
+                                                        <th scope="col">Date</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th scope="row">1</th>
-                                                        <td>Mark</td>
-                                                        <td>Otto</td>
-                                                        <td>@mdo</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <th scope="row">2</th>
-                                                        <td>Jacob</td>
-                                                        <td>Thornton</td>
-                                                        <td>@fat</td>
+                                                    <tr v-for="(trans, index) in transactions" :key="index">
+                                                        <td>{{index + 1}}</td>
+                                                        <td>
+                                                            <ul>
+                                                                <li v-for="(item, index) in trans.itemList" :key="index">{{item.name}}</li>
+                                                            </ul>
+                                                        </td>
+                                                        <td>{{ trans.totalPrice }}</td>
+                                                        <td>{{ trans.createdAt.slice(0,10) }}</td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -159,7 +154,7 @@ Vue.component('nav-bar', {
             </div>
         </nav>
     `,
-    props:["cartvalue"],
+    props:["cartvalue", "messages"],
     data: function(){
         return{
             token:false,
@@ -174,7 +169,9 @@ Vue.component('nav-bar', {
             item: [],
             cart: [],
             total: 0,
-            isLogin:''
+            isLogin:'',
+            isLogout:false,
+            transactions:[]
         }
     },
     methods: {
@@ -231,15 +228,14 @@ Vue.component('nav-bar', {
                 })
         },
         logout(){
-            // this.isLogout = localStorage.getItem("token")
+            console.log('masuuk logout');
+            
+            this.isLogout = true
             localStorage.clear()
-            this.token = false,
+            // this.token = false,
             this.isLogin = ''
         },
         createTransaction(){
-            console.log('---', this.cartvalue.countPrice);
-            console.log(typeof this.cartvalue.countPrice);
-            
             let self = this
             axios({
                 method:"POST",
@@ -253,27 +249,53 @@ Vue.component('nav-bar', {
                 }
             })
             .then(function(result){
-                console.log(result);
                 self.cartvalue.countCart = ''
+                self.cartvalue.countPrice = 0
+                self.cartvalue.cart = []
+                self.getTransaction()
             })
             .catch(function(err){
                 console.log(err.response)
             })
+        },
+        getTransaction(){
+            let self = this
+            axios({
+                method:"GET",
+                url:"http://localhost:3000/transactions",
+                headers:{
+                    token:localStorage.getItem("token")
+                }
+            })
+            .then(function({data}){
+                self.transactions = data.data
+                
+            })
+            .catch(function(err){
+                console.log(err);
+            })
         }
     },
     created() {
+        console.log(this.token,'token');
+        
         let checkToken = localStorage.getItem("token")
         if(checkToken){
             this.token = true
         }
+        this.getTransaction()
     },
     watch:{
         isLogin:function(newLogin, oldLogin){
             if(newLogin){
                 this.token = true
                 this.$emit('check-token',this.token)
-            }else if(oldLogin){
+            }
+        },
+        isLogout:function(newLogout, oldLogout){
+            if(newLogout){
                 this.token = false
+                this.$emit('check-token',this.token)
             }
         }
     }
