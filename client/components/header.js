@@ -98,25 +98,15 @@ Vue.component('header-comp', {
         },
 
         checkOut: function () {
-            $.ajax({
-                type: 'POST',
-                url: 'http://e-commerce-server.ismailnagib.xyz/users/checkout',
-                data: {jwtToken: localStorage.getItem('jwtToken'), cart: app.cart}
-            })
-            .then(() => {
-                app.items = [],
-                app.cart = [],
-                app.totalsum = 0
-    
-                localStorage.removeItem('items')
-                localStorage.removeItem('cart')
-                localStorage.removeItem('totalsum')
-    
-                app.cartcolor = 'grey'
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            app.items = [],
+            app.cart = [],
+            app.totalsum = 0
+
+            localStorage.removeItem('items')
+            localStorage.removeItem('cart')
+            localStorage.removeItem('totalsum')
+
+            app.cartcolor = 'grey'
         },
 
         logIn: function () {

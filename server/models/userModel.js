@@ -7,12 +7,9 @@ const userSchema = new Schema({
       required: true
     },
     password: {
-      type: String,
-      required: true
+        type: String,
+        required: true
     },
-    transaction: {
-      type: Array
-    }
 }, {
   timestamps: true
 });
