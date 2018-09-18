@@ -6,7 +6,7 @@ const categorySchema = new Schema ({
 
     category : String,
 
-    items : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Item'}]
+    itemId : [{ type : mongoose.Schema.Types.ObjectId, ref : 'Item'}]
 
 }, {timestamps : true})
 

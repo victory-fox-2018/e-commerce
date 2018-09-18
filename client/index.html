@@ -19,6 +19,8 @@
         #bodycenter {
         margin-top: 50px
     }
+
+  
     </style>
 
 </head>
@@ -40,7 +42,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="modal" data-target="#profileModal"><i class="fas fa-user"></i></i></a>
+                            <!-- <a class="nav-link" data-toggle="modal" data-target="#profileModal"><i class="fas fa-user"></i></i></a> -->
                         </li>
 
                         <li class="nav-item"  v-if="!isLogin">
@@ -51,7 +53,7 @@
                             <a class="nav-link" v-if="!isLogin" data-toggle="modal" data-target="#registerModal">Register</a>
                         </li>
 
-                        <li class="nav-item"  v-else="isLogin">
+                        <li class="nav-item" >
                             <a class="nav-link" id="logout" v-on:click="getLogout">Logout</a>
                         </li>
                     </ul>
@@ -76,7 +78,7 @@
                 <div class="col-lg-9 mt-5">
 
                     <div class="row col-4">
-                        <input class="form-control py-2" type="search" placeholder="Search...." id="search">
+                        <input class="form-control py-2" type="search" style="margin-top : -20px" placeholder="Search...." id="search">
                     </div>
 
                     <div class="row mt-2" id="listItem">
@@ -169,18 +171,18 @@
                 </div>
 
                 <!-- Modal Profile -->
-                <div class="modal fade" id="profileModal">
+                <!-- <div class="modal fade" id="profileModal">
                     <div class="modal-dialog">
-                        <div class="modal-content">
+                        <div class="modal-content"> -->
 
                             <!-- Modal Header -->
-                            <div class="modal-header">
+                            <!-- <div class="modal-header">
                                 <h4 class="modal-title"><i class="fas fa-user"></i> Profile</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
+                            </div> -->
 
                             <!-- Modal body -->
-                            <div class="modal-body">
+                            <!-- <div class="modal-body">
 
                                 <div class="container">
 
@@ -203,17 +205,17 @@
 
                                 </div>
 
-                            </div>
+                            </div> -->
 
                             <!-- Modal footer -->
-                            <div class="modal-footer">
+                            <!-- <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                             </div>
 
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Modal Item -->
                 <div class="modal fade" id="itemModal">

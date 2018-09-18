@@ -13,7 +13,8 @@ const itemSchema = new Schema({
     description : {
         type : String,
         required : `Please input item description`
-    }
+    },
+    tag : [String]
 })
 
 const Item = mongoose.model('Item', itemSchema)
