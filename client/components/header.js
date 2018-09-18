@@ -15,8 +15,8 @@ Vue.component('header-comp', {
                             </div>
                             <div class="modal-body">
                                 <div v-if='islogout'>
-                                    <input id='email' type="email" value="" placeholder="Email"><br><br>
-                                    <input id='password' type="password" value="" placeholder="Password"><br>
+                                    <input v-model='email' type="email" placeholder="Email"><br><br>
+                                    <input v-model='password' type="password" placeholder="Password"><br>
                                     <div style="color: red">{{ notice }}</div><br>
                                     <button class="btn btn-danger" v-on:click="logIn()">Log In</button><br><br>
                                     <button class="btn btn-danger" v-on:click="register()">Register</button><br><br>
@@ -76,6 +76,10 @@ Vue.component('header-comp', {
         `
     ,
     props: ['items', 'cart', 'totalsum', 'notice', 'modaltitle', 'cartcolor', 'islogout', 'checkout'],
+    data: {
+        email: '',
+        password: ''
+    },
     methods: {
         removeFromCart: function (name, price) {
             let i = app.items.indexOf(name)
@@ -123,7 +127,7 @@ Vue.component('header-comp', {
             $.ajax({
                 type: 'POST',
                 url: 'http://e-commerce-server.ismailnagib.xyz/users/login',
-                data: {email: $('#email').val(), password: $('#password').val()}
+                data: {email: this.email, password: this.password}
             })
             .then(data => {
                 localStorage.setItem('jwtToken', data.token)
@@ -139,7 +143,7 @@ Vue.component('header-comp', {
             $.ajax({
                 type: 'POST',
                 url: 'http://e-commerce-server.ismailnagib.xyz/users/register',
-                data: {email: $('#email').val(), password: $('#password').val()}
+                data: {email: this.email, password: this.password}
             })
             .then(data => {
                 localStorage.setItem('jwtToken', data.token)
