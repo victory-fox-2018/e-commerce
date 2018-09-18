@@ -4,8 +4,9 @@ Vue.component('header-comp', {
         <div class="row">
             <div class="col-sm-12 col-md-10 text-center text-md-left my-sm-2" style="font-size: 30px; padding-left: 2.5vw">SuperDuperHyperMarket</div>
             <div class="col-sm-12 col-md-2 align-self-center text-center my-sm-2">
-                <a class="mx-3 logoInHead" data-toggle="modal" data-backdrop="false" data-target="#logModal" href="#"><i class="fas fa-sign-in-alt" style="font-size: 30px"></i></a>
-                    <a v-bind:style="{color: cartcolor}" id='cartLogo' class="mx-3 logoInHead" data-toggle="modal" data-backdrop="false" data-target="#cartModal" title="Cart" href="#products"><i class="fas fa-shopping-cart" style="font-size: 30px"></i></a>
+                <a class="mx-3 logoInHead" data-toggle="modal" data-backdrop="false" data-target="#logModal" href="#"><i class="fas fa-sign-in-alt"></i></a>
+                <a class="mx-3 logoInHead" data-toggle="modal" data-backdrop="false" data-target="#historyModal" href="#"><i class="fas fa-history"></i></a>
+                <a v-bind:style="{color: cartcolor}" id='cartLogo' class="mx-3 logoInHead" data-toggle="modal" data-backdrop="false" data-target="#cartModal" title="Cart" href="#products"><i class="fas fa-shopping-cart"></i></a>
                 
                 <div class="modal fade" id="logModal" tabindex="-1" role="dialog" aria-labelledby="logModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
