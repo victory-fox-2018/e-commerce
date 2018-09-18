@@ -1,4 +1,5 @@
 const Item = require('../models/modelItem')
+const mongodb = require('mongodb')
 
 
 module.exports = {
@@ -8,8 +9,8 @@ module.exports = {
         Item.create({
             item: req.body.item,
             price: req.body.price,
-            category: req.body.category,
-            userId : req.body.userId
+            description: req.body.description,
+          
         })
             .then(itemData => {
                 res.status(201).json({
@@ -42,11 +43,12 @@ module.exports = {
     },
 
     updateItem: (req, res) => {
-        let where = { _id: req.params.id }
+        let where = { _id: new mongodb.ObjectId(req.params.id) }
         let value = {
             $set: {
                 item: req.body.item,
                 price: req.body.price,
+                description : req.body.description
             }
         }
         Item.update(where, value)
@@ -64,7 +66,7 @@ module.exports = {
     },
 
     deleteItem: (req, res) => {
-        let where = { _id: req.params.id }
+        let where = {  _id: new mongodb.ObjectId(req.params.id) }
 
         Item.deleteOne(where)
             .then(itemData => {

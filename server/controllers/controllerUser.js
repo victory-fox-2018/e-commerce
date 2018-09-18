@@ -30,18 +30,19 @@ module.exports = {
             email: req.body.email,
             password: req.body.password
         })
-            .then(function(userData) {
-                console.log( process.env.JWT_SECRET);
+            .then(function (userData) {
+                console.log(process.env.JWT_SECRET);
 
                 if (userData.length > 0) {
-                    jwt.sign({ email: userData[0].email },process.env.secretKey, (err, token) => {
+                    jwt.sign({ email: userData[0].email }, process.env.secretKey, (err, token) => {
                         if (err) res.status(500).json({ msg: err.status })
                         else {
                             console.log(token);
                             res.status(200).json({
                                 msg: 'login success',
                                 token: token,
-                                email: userData[0].email
+                                email: userData[0].email,
+                                username: userData[0].username,
                             })
                         }
                     })
@@ -91,6 +92,20 @@ module.exports = {
                 res.status(200).json({
                     msg: `data has been deleted`,
                     data: userData
+                })
+            })
+            .catch(err => {
+                res.status(500).json({
+                    error: err.message
+                })
+            })
+    },
+
+    findAllUser: (req, res) => {
+        User.find()
+            .then(dataUser => {
+                res.status(200).json({
+                    data: dataUser
                 })
             })
             .catch(err => {

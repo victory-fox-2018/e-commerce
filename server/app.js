@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const port = 3000
+const cors = require('cors')
+
 require('dotenv').config()
 
 const RouterUser = require('./routes/routeUser')
@@ -20,6 +22,7 @@ db.once('open', () => {
 
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
+app.use(cors())
 
 app.use('/users', RouterUser)
 app.use('/items', RouterItem)
