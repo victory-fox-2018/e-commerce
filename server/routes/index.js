@@ -1,11 +1,11 @@
 const router = require('express').Router()
-const { addUser, loginUser } = require('../controllers/userController')
+const { signupUser, signinUser } = require('../controllers/userController')
 const { addItem, allItem, filterItem } = require('../controllers/itemController')
 const { addCategory, allCategory } = require('../controllers/categoryController')
 
 // user
-router.post('/user/add', addUser)
-router.post('/user/login', loginUser)
+router.post('/user/signup', signupUser)
+router.post('/user/signin', signinUser)
 
 // item
 router.post('/item/add', addItem)

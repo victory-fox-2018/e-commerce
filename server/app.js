@@ -3,7 +3,6 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 
-
 const index = require('./routes/index')
 
 app.use(express.json())
