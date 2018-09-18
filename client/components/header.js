@@ -40,7 +40,7 @@ Vue.component('header-comp', {
                             </div>
                             <div class="modal-body">
                                 <div class="row mb-4" v-for="item in cart">
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         <div class="row">
                                             <div class="col-12 text-left"><strong>{{ item.name }}</strong></div>
                                         </div>
@@ -48,14 +48,21 @@ Vue.component('header-comp', {
                                             <div class="col-12 text-left">{{ item.count }}xRp{{ item.price }}</div>
                                         </div>
                                     </div>
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         <div class="row">
                                             <div class="col-12" style="visibility: hidden">placeholder</div>
                                             <div class="col-12 text-right"><strong>{{ item.total }}</strong></div>
                                         </div>
                                     </div>
-                                    <div class="col-2">
-                                        <button class="btn btn-danger" title="Remove from cart" v-on:click="removeFromCart(item.name, item.price)">-</button>
+                                    <div class="col-4">
+                                        <div class='row no-gutters'>
+                                            <div class="col-6">
+                                                <button class="btn btn-danger" title="Remove" v-on:click="removeFromCart(item.name, item.price)" style='width:100%'>-</button>
+                                            </div>
+                                            <div class="col-6">
+                                                <button class="btn btn-danger" title="Add" v-on:click="addFromCart(item.name, item.price)" style='width:100%'>+</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row mb-4">
@@ -99,6 +106,13 @@ Vue.component('header-comp', {
             if (app.items.length === 0) {
                 app.cartcolor = 'grey'
             }
+        },
+
+        addFromCart: function (name, price) {
+            let i = app.items.indexOf(name)
+            app.cart[i].count ++
+            app.cart[i].total += price
+            app.totalsum += price
         },
 
         checkOut: function () {
