@@ -5,8 +5,6 @@ const { becryptPassword } = require('../helpers/helper')
 
 module.exports = {
     signupUser: (req, res) => {
-        console.log(req.body);
-        
         User
             .create({
                 name: req.body.name,
@@ -65,8 +63,6 @@ module.exports = {
                 }
             })
             .catch(err => {
-                console.log(err);
-                
                 res.status(500).json({
                     msg: err
                 })

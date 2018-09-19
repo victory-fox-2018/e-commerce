@@ -97,5 +97,18 @@ module.exports = {
                     msg: err.message
                 })
             })
+    },
+    getItem: (req, res) => {
+        Item.findOne({
+            _id: req.params.id
+        })
+            .then(item => {
+                res.status(200).json(item)
+            })
+            .catch(err => {
+                res.status(500).json({
+                    msg: err.message
+                })
+            })
     }
 }
