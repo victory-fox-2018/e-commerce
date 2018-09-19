@@ -29,10 +29,12 @@ const app = new Vue({
                 }
             })
                 .then(response => {
+                    this.errors = []
                     this.success = `${response.data.msg}`
                 })
                 .catch(err => {
                     this.errors = []
+                    this.success = null
                     if(err.response.status == 400){
                         let error = err.response.data.errors
                         for(let i = 0 ; i < error.length ; i++){
@@ -54,6 +56,8 @@ const app = new Vue({
             })
             .then(response => {
                 localStorage.setItem("token", response.data.token);
+                this.errors = []
+                this.success = `${response.data.msg}`
                 // console.log(localStorage.getItem("token"));
             })
             .catch(err => {
@@ -68,7 +72,9 @@ const app = new Vue({
         },
         signinCheck() {
             this.errors = []
-            if(!this.email){
+            if(!this.email && !this.password){
+                this.errors.push('email and password is empty')
+            }else if(!this.email){
                 this.errors.push('email is empty')
             }else if(!this.password){
                 this.errors.push('password is empty')
@@ -115,23 +121,6 @@ const app = new Vue({
             })
                 .then(() => {
                     window.location = 'index.html'
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-        },
-        loginSubmit() {
-            axios({
-                method: 'POST',
-                url: 'http://localhost:3000/user/login',
-                data: {
-                    email: this.user.email,
-                    password: this.user.password
-                }
-            })
-                .then((response) => {
-                    localStorage.setItem('token', response.data.token)
-                    window.location = 'dashboard.html'
                 })
                 .catch(error => {
                     console.log(error);

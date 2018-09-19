@@ -1,9 +1,12 @@
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+const { becryptPassword } = require('../helpers/helper')
 
 module.exports = {
     signupUser: (req, res) => {
+        console.log(req.body);
+        
         User
             .create({
                 name: req.body.name,
@@ -11,7 +14,6 @@ module.exports = {
                 password: req.body.password
             })
             .then(user => {
-                console.log(user);
                 res.status(201).json({
                     msg : `register account success`,
                     data : user
@@ -41,13 +43,14 @@ module.exports = {
             })
             .then(user => {
                 if(user){
-                    if(user.password === req.body.password){
+                    if(becryptPassword(user.password, req.body.password)){
                         let token = jwt.sign({
                             id : user.id,
                             name : user.name,
                             email : user.email
                         }, config.JWT_SECRET)
                         res.status(200).json({
+                            msg : `login success`,
                             token
                         })
                     }else{

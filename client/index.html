@@ -63,13 +63,17 @@
                                             </form>
                                             <input class="btn btn-info w-100" type="submit" value="REGISTER" v-on:click="signup">
                                         </div>
-                                        <div class="modal-footer " v-if="errors">
+                                        <div class="modal-footer">
                                             <div class="col-sm-12 text-center">
-                                                <div class="alert alert-danger" v-for="error in errors">
-                                                    {{ error }}
+                                                <div v-if="errors">
+                                                    <div class="alert alert-danger" v-for="error in errors">
+                                                        {{ error }}
+                                                    </div>
                                                 </div>
-                                                <div class="alert alert-success" v-if="success">
-                                                    {{ success }}
+                                                <div v-if="success">
+                                                    <div class="alert alert-success">
+                                                        {{ success }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -102,11 +106,15 @@
                                         </div>
                                         <div class="modal-footer " v-if="errors">
                                             <div class="col-sm-12 text-center">
-                                                <div class="alert alert-danger" v-for="error in errors">
-                                                    {{ error }}
+                                                <div v-if="errors">
+                                                    <div class="alert alert-danger" v-for="error in errors">
+                                                        {{ error }}
+                                                    </div>
                                                 </div>
-                                                <div class="alert alert-success" v-if="success">
-                                                    {{ success }}
+                                                <div v-if="success">
+                                                    <div class="alert alert-success">
+                                                        {{ success }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
